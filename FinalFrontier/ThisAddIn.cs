@@ -126,10 +126,10 @@ namespace FinalFrontier
                     EnumerateFolders(childFolder);
                 }
             }
-            // TODO: replace static user with dynamic path
-            dt.Write(DictSenderName, "C:\\Users\\JunkerHolger\\dict-sender-name.bin");
-            dt.Write(DictSenderEmail, "C:\\Users\\JunkerHolger\\dict-sender-email.bin");
-            dt.Write(DictSenderCombo, "C:\\Users\\JunkerHolger\\dict-sender-combo.bin");
+            String userpath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            dt.Write(DictSenderName, userpath + "\\dict-sender-name.bin");
+            dt.Write(DictSenderEmail, userpath + "\\dict-sender-email.bin");
+            dt.Write(DictSenderCombo, userpath + "\\dict-sender-combo.bin");
         }
 
         void ExplorerWrapper_ViewSwitch()

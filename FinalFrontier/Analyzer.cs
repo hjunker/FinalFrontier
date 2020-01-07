@@ -89,9 +89,10 @@ namespace FinalFrontier
         {
             dt = new DictionaryTools();
             // TODO: get user path programmatically!
-            DictSenderName = dt.Read("C:\\Users\\JunkerHolger\\dict-sender-name.bin");
-            DictSenderEmail = dt.Read("C:\\Users\\JunkerHolger\\dict-sender-email.bin");
-            DictSenderCombo = dt.Read("C:\\Users\\JunkerHolger\\dict-sender-combo.bin");
+            String userpath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            DictSenderName = dt.Read(userpath + "\\dict-sender-name.bin");
+            DictSenderEmail = dt.Read(userpath + "\\dict-sender-email.bin");
+            DictSenderCombo = dt.Read(userpath + "\\dict-sender-combo.bin");
         }
 
 
@@ -155,11 +156,16 @@ namespace FinalFrontier
                 receivedBy = receivedByArray[0];
                 foreach (String entry in receivedByArray)
                 {
-                    // TODO
-                    String receivedDomain = getDomainFromString(entry);
-
-                    Debug.WriteLine(entry);
-                    Debug.WriteLine(receivedDomain);
+                    String receiveDomain = getReceiveFromString(entry);
+                    //Debug.WriteLine(entry);
+                    Debug.WriteLine(receiveDomain);
+                    foreach (String tld in badtlds)
+                    {
+                        if (receiveDomain.Contains(tld))
+                        {
+                            Debug.WriteLine("badTLD in MTA-Kette: " + tld);
+                        }
+                    }
                 }
                 
             }
@@ -168,16 +174,41 @@ namespace FinalFrontier
             
             int mailsize = mailItem.Size;
             //Debug.WriteLine("mailsize: " + mailsize);
-            
 
             String senderenvelope = GetSenderSMTPAddress(mailItem);
-            Debug.WriteLine("senderenvelope: " + senderenvelope);
-
+            
             // check for suspicious sender
             senderName = mailItem.SenderName;
             senderEmailAddress = mailItem.SenderEmailAddress;
 
-            Debug.WriteLine("senderheader: " + senderEmailAddress);
+            String senderDomainEnvelope = getDomainFromMail(senderenvelope);
+            String senderDomainHeader = getDomainFromMail(senderEmailAddress);
+
+            // TODO: the following checks do not yet trigger an alert!!!!
+
+            // check if senderEmail has different domain than senderEnvelope
+            if (senderDomainEnvelope != senderDomainHeader)
+            {
+                Debug.WriteLine("mismatch between sender domains of envelope and header");
+            }
+
+            // check if senderName contains email address with different domain than senderEnvelope
+            if ((senderName.Contains("@")) & (senderDomainEnvelope != getDomainFromMail(senderName)))
+            {
+                Debug.WriteLine("senderName contains email address with different domain than senderEnvelope");
+            }
+
+            // check if senderEnvelope has badTLD
+            foreach (String tld in badtlds)
+            {
+                if (senderDomainEnvelope.Contains(tld))
+                {
+                    Debug.WriteLine("badTLD in senderEnvelope: " + tld);
+                }
+            }
+
+            Debug.WriteLine("senderenvelope: " + senderenvelope + " - " + senderDomainEnvelope);
+            Debug.WriteLine("senderheader: " + senderEmailAddress + " - " + senderDomainHeader);
             Debug.WriteLine("sendername: " + senderName);
 
             // ---FREECHECK---
@@ -310,6 +341,37 @@ namespace FinalFrontier
             }
 
             return result + "<br/>Score: " + score;
+        }
+
+        private String getReceiveFromString(String inline)
+        {
+            String res = "";
+            try
+            {
+                int startpos = inline.IndexOf("from ") + 5;
+                int endpos = inline.Substring(startpos).IndexOf(" ");
+                res = inline.Substring(startpos, endpos);
+            }
+            catch (System.Exception ex)
+            {
+                Debug.Write(ex.StackTrace);
+            }
+            return res;
+        }
+
+        private String getDomainFromMail(String inval)
+        {
+            String res = "";
+            try
+            {
+                int startpos = inval.IndexOf("@") + 1;
+                res = inval.Substring(startpos);
+            }
+            catch (System.Exception ex)
+            {
+                Debug.Write(ex.StackTrace);
+            }
+            return res;
         }
 
         private string GetSenderSMTPAddress(Outlook.MailItem mail)
