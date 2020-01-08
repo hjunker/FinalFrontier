@@ -187,24 +187,6 @@
   <ItemGroup>
     <Compile Include="Analyzer.cs" />
     <Compile Include="DictionaryTools.cs" />
-    <Compile Include="FFAlert.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FFAlert.Designer.cs">
-      <DependentUpon>FFAlert.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ffinfo.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ffinfo.Designer.cs">
-      <DependentUpon>ffinfo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ffpopup.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ffpopup.Designer.cs">
-      <DependentUpon>ffpopup.cs</DependentUpon>
-    </Compile>
     <Compile Include="ffwelcome.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -214,15 +196,6 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <EmbeddedResource Include="FFAlert.resx">
-      <DependentUpon>FFAlert.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ffinfo.resx">
-      <DependentUpon>ffinfo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ffpopup.resx">
-      <DependentUpon>ffpopup.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ffwelcome.resx">
       <DependentUpon>ffwelcome.cs</DependentUpon>
     </EmbeddedResource>

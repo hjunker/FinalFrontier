@@ -171,19 +171,11 @@ namespace FinalFrontier
                                 lastConversationID = mailItem.ConversationID;
                                 Analyzer ana = new Analyzer();
                                 itemMessage = ana.getSummary(mailItem);
-                                //String envelopefrom = GetSenderSMTPAddress(mailItem);
-                                //Debug.WriteLine("envelopefrom: " + envelopefrom);
-                                //Form info = new ffinfo(ana);
-                                //info.ShowDialog();
-
-                                // THIS WAS THE OLD POPUP CONTAINING A BUNCH OF EVALUATION CRITERIA!
                                 
-
                                 if (ana.isSuspicious == true)
                                 {
-                                    Debug.WriteLine("ALERT SHALL BE TRIGGERED!!!");
-                                    Form popup = new FFAlert(ana);
-                                    popup.ShowDialog();
+                                    //Debug.WriteLine("ALERT SHALL BE TRIGGERED!!!");
+                                    MessageBox.Show(ana.alertContent, "Email könnte schadhaft sein!!!");
                                 }
 
                                 tvcntr++;

@@ -88,7 +88,6 @@ namespace FinalFrontier
         public Analyzer()
         {
             dt = new DictionaryTools();
-            // TODO: get user path programmatically!
             String userpath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             DictSenderName = dt.Read(userpath + "\\dict-sender-name.bin");
             DictSenderEmail = dt.Read(userpath + "\\dict-sender-email.bin");
@@ -267,6 +266,7 @@ namespace FinalFrontier
                 result += "senderEmail is whitelisted<br/>";
             }
 
+            // TODO: produce output / alert for the following checks with the dictionaries
             // evaluate history of senderName, senderEmailAddress and their combo
             if (DictSenderName.ContainsKey(senderName))
             {
