@@ -187,18 +187,9 @@
   <ItemGroup>
     <Compile Include="Analyzer.cs" />
     <Compile Include="DictionaryTools.cs" />
-    <Compile Include="ffwelcome.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ffwelcome.Designer.cs">
-      <DependentUpon>ffwelcome.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <EmbeddedResource Include="ffwelcome.resx">
-      <DependentUpon>ffwelcome.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
