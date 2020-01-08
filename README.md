@@ -1,6 +1,8 @@
 # FinalFrontier
 FinalFrontier is an Outlook Add-In to detect and prevent (spear-) phishing attacks.
 
+![Final Frontier Logo](./finalfrontierlogo_small.png)
+
 ## The threat: Emotet & Co
 Emotet has been the major threat for initial compromise. The attack always involves emails with malicious office documents with VBA as attachments or referred to with a link. With emotet using authentic emails for spear phishing, users are overwhelmed with recognizing such attacks.
 
