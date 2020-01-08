@@ -9,9 +9,11 @@ In my personal opinion, awareness does not work - typically companies spend a lo
 
 ## Detection mechanisms
 Three levels:
-* metadata, e.g. sender information
-* links
-* attachments
+* metadata, e.g. sender information and communication history
+* links, e.g. (imho) bad TLDs, link shorteners, ...
+* attachments, e.g. double extensions
+
+More features such as machine learning, deeper attachment inspection, etc. are on the way.
 
 ## Installation
 TODO
