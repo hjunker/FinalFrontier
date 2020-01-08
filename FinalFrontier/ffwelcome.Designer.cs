@@ -34,7 +34,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -57,9 +56,10 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(14, 62);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(691, 25);
+            this.label2.Size = new System.Drawing.Size(892, 25);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Dieses Add In detektiert Angriffe wie z.B. Spam, Phishing oder Spear Phishing.";
+            this.label2.Text = "Dieses Add In detektiert Angriffe wie z.B. Spam, Phishing oder Spear Phishing - i" +
+    "nsbesondere Emotet.";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // button1
@@ -74,16 +74,16 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(14, 368);
+            this.label3.Location = new System.Drawing.Point(50, 280);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(313, 25);
+            this.label3.Size = new System.Drawing.Size(209, 25);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Lernen der Historie aus Mailablage";
+            this.label3.Text = "Lernen der Mailhistorie";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(786, 368);
+            this.button2.Location = new System.Drawing.Point(794, 372);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(126, 32);
             this.button2.TabIndex = 5;
@@ -93,37 +93,28 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(26, 114);
+            this.label4.Location = new System.Drawing.Point(24, 117);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(666, 25);
+            this.label4.Size = new System.Drawing.Size(635, 25);
             this.label4.TabIndex = 6;
-            this.label4.Text = "Wenn Sie FinalFrontier mögen oder es Sie bereits erfolgreich geschützt hat:";
-            // 
-            // button3
-            // 
-            this.button3.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.142858F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(19, 149);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(791, 37);
-            this.button3.TabIndex = 7;
-            this.button3.Text = "Unterstützen Sie die Entwicklung von FinalFrontier als kostenlose Software";
-            this.button3.UseVisualStyleBackColor = false;
+            this.label4.Text = "Wenn FinalFrontier Sie geschützt hat, unterstützen Sie das Projekt unter";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(24, 207);
+            this.label5.Location = new System.Drawing.Point(50, 153);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(327, 25);
+            this.label5.Size = new System.Drawing.Size(489, 25);
             this.label5.TabIndex = 8;
-            this.label5.Text = "(c) by seculancer.de / Holger Junker";
+            this.label5.Text = "https://github.com/hjunker/FinalFrontier / seculancer.de";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.142858F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(19, 268);
+            this.label6.Location = new System.Drawing.Point(14, 202);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(189, 25);
             this.label6.TabIndex = 9;
@@ -132,7 +123,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(19, 307);
+            this.checkBox1.Location = new System.Drawing.Point(55, 239);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(445, 29);
             this.checkBox1.TabIndex = 10;
@@ -143,9 +134,9 @@
             // 
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 24;
-            this.listBox1.Location = new System.Drawing.Point(333, 368);
+            this.listBox1.Location = new System.Drawing.Point(265, 280);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(447, 52);
+            this.listBox1.Size = new System.Drawing.Size(515, 124);
             this.listBox1.TabIndex = 11;
             // 
             // ffwelcome
@@ -157,7 +148,6 @@
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.button3);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label3);
@@ -180,7 +170,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckBox checkBox1;

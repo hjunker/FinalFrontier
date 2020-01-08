@@ -45,8 +45,8 @@ namespace FinalFrontier
 
             // TODO: ansprechendes Start-Popup - nur bei ersten Start bzw. bei neu Lernen?!?!
             //MessageBox.Show("Welcome message of FinalFrontier", "FinalFrontier", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
-            //Form welcome = new ffwelcome(root);
-            //welcome.ShowDialog();
+            Form welcome = new ffwelcome(root);
+            welcome.ShowDialog();
 
             //MessageBox.Show("test:" + OptimalStringAlignmentDistance("google.de", "goooogel.de").ToArray().Length);
             

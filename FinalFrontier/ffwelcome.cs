@@ -36,15 +36,25 @@ namespace FinalFrontier
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void label3_Click(object sender, EventArgs e)
         {
-
+            MessageBox.Show("test");
         }
 
         private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
         {
 
         }
