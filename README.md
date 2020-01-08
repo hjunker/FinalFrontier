@@ -18,8 +18,8 @@ More features such as machine learning, deeper attachment inspection, etc. are o
 ## Installation
 TODO
 
-## Contact, full-fledged & customized versions
-Please refer to seculancer.de for contact information for a full-fledged and customized version.
+## Contact, supporting my development, full-fledged & customized versions
+Please refer to Twitter (DM): @HolgerJunker or WWW: seculancer.de
 
 The greatest help is to give feedback to me. Send me your feedback, ask questions or suggest features on GitHub, let me know about additions you have made to config and/or code. THX!
 
