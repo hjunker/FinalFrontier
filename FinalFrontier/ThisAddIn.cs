@@ -43,14 +43,12 @@ namespace FinalFrontier
 
             Outlook.Folder root = Application.Session.DefaultStore.GetRootFolder() as Outlook.Folder;
 
-            // TODO: ansprechendes Start-Popup - nur bei ersten Start bzw. bei neu Lernen?!?!
-            //MessageBox.Show("Welcome message of FinalFrontier", "FinalFrontier", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
-            Form welcome = new ffwelcome(root);
-            welcome.ShowDialog();
+            // TODO: ansprechendes Start-Popup - nur bei ersten Start bzw. bei neu Lernen?!?! Learning should not include the current inbox!
+            // alternatively: Create(Context)Menu - Item to trigger this for selected folder
+            //Form welcome = new ffwelcome(root);
+            //welcome.ShowDialog();
 
-            //MessageBox.Show("test:" + OptimalStringAlignmentDistance("google.de", "goooogel.de").ToArray().Length);
-            
-            currentExplorer = this.Application.ActiveExplorer();
+             currentExplorer = this.Application.ActiveExplorer();
             currentExplorer.SelectionChange += new Outlook
                 .ExplorerEvents_10_SelectionChangeEventHandler
                 (CurrentExplorer_Event);
@@ -60,10 +58,8 @@ namespace FinalFrontier
                 .ExplorerEvents_10_ViewSwitchEventHandler
                 (ExplorerWrapper_ViewSwitch);
                 */
-            Debug.WriteLine("Starting FinalFrontier");
-
-            // LEARN FROM FOLDER ARCHIVE
-            // TODO: Create (Context)Menu-Item to trigger this for selected folder
+            
+            // LEARN FROM FOLDERS
             EnumerateFolders(root);
 
             /*
@@ -84,7 +80,8 @@ namespace FinalFrontier
                 {
                     // Write the folder path.
                     Debug.WriteLine(childFolder.FolderPath);
-                    if (childFolder.FolderPath.EndsWith("Archive"))
+                    //if (childFolder.FolderPath.EndsWith("Archive"))
+                    try
                     {
                         // iterate through mails in this folder
                         Items mails = childFolder.Items;
@@ -122,6 +119,8 @@ namespace FinalFrontier
                             }
                         }
                     }
+                    catch (System.Exception ex)
+                    { }
                     // Call EnumerateFolders using childFolder.
                     EnumerateFolders(childFolder);
                 }
@@ -134,7 +133,6 @@ namespace FinalFrontier
 
         void ExplorerWrapper_ViewSwitch()
         {
-            Debug.WriteLine("ViewSwitch EVENT HANDLER ALIVE!!!");
         }
 
         private void CurrentExplorer_Event()
@@ -148,10 +146,7 @@ namespace FinalFrontier
                 if (this.Application.ActiveExplorer().Selection.Count > 0)
                 {
                     Object selObject = this.Application.ActiveExplorer().Selection[1];
-
-                    // TODO: PROCEED ONLY IF THE FOLLOWING HashCode EQUALS TO THE ONE SAVED BEFORE IN ADDIN's SETTINGS --> only trigger event once!
-                    //Debug.WriteLine("HASH CODE: " + selObject.GetHashCode().GetHashCode());
-
+                    
                     if (selObject is Outlook.MailItem)
                     {
                         Outlook.MailItem mailItem =
@@ -161,10 +156,6 @@ namespace FinalFrontier
                              */
                         try
                         {
-                            if (tvcntr % 5 == 0)
-                            {
-                                MessageBox.Show("Please visit seculancer.de for full version / license of FinalFrontier.", "This is an unlicensed evaluation version...");
-                            }
                             // this condition should prevent the popup from showing twice
                             if (mailItem.ConversationID != lastConversationID)
                             {
@@ -175,7 +166,8 @@ namespace FinalFrontier
                                 if (ana.isSuspicious == true)
                                 {
                                     //Debug.WriteLine("ALERT SHALL BE TRIGGERED!!!");
-                                    MessageBox.Show(ana.alertContent, "Email könnte schadhaft sein!!!");
+                                    //MessageBox.Show(ana.alertContent + " / " + ana.getSummary(mailItem), "Email könnte schadhaft sein!!!", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+                                    MessageBox.Show(ana.alertContent + " / " + ana.getSummary(mailItem), "Email könnte schadhaft sein!!!");
                                 }
 
                                 tvcntr++;

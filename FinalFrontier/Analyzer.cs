@@ -130,8 +130,6 @@ namespace FinalFrontier
                         }
                     }
 
-                    // TODO: check for lookalikes in links (similar domainnames for phishing)
-
                     // check for keywords in links
                     foreach (String key in keywords)
                     {
@@ -183,18 +181,18 @@ namespace FinalFrontier
             String senderDomainEnvelope = getDomainFromMail(senderenvelope);
             String senderDomainHeader = getDomainFromMail(senderEmailAddress);
 
-            // TODO: the following checks do not yet trigger an alert!!!!
-
             // check if senderEmail has different domain than senderEnvelope
             if (senderDomainEnvelope != senderDomainHeader)
             {
                 Debug.WriteLine("mismatch between sender domains of envelope and header");
+                isSuspicious = true;
             }
 
             // check if senderName contains email address with different domain than senderEnvelope
             if ((senderName.Contains("@")) & (senderDomainEnvelope != getDomainFromMail(senderName)))
             {
                 Debug.WriteLine("senderName contains email address with different domain than senderEnvelope");
+                isSuspicious = true;
             }
 
             // check if senderEnvelope has badTLD
@@ -203,14 +201,14 @@ namespace FinalFrontier
                 if (senderDomainEnvelope.Contains(tld))
                 {
                     Debug.WriteLine("badTLD in senderEnvelope: " + tld);
+                    isSuspicious = true;
                 }
             }
 
             Debug.WriteLine("senderenvelope: " + senderenvelope + " - " + senderDomainEnvelope);
             Debug.WriteLine("senderheader: " + senderEmailAddress + " - " + senderDomainHeader);
             Debug.WriteLine("sendername: " + senderName);
-
-            // ---FREECHECK---
+            
             if (senderEmailAddress != senderenvelope)
             {
                 isSuspicious = true;
@@ -236,7 +234,6 @@ namespace FinalFrontier
                     domainMismatch = true;
                     score -= 30;
                     result += "senderName contains email address with different domain than sender<br/>";
-                    // ---FREECHECK---
                     isSuspicious = true;
                     alertContent += "Die angezeigte Mailadresse entspricht vermutlich nicht dem tatsächlichen Absender";
                 }
@@ -248,7 +245,6 @@ namespace FinalFrontier
                 {
                     isBadTldSender = true;
                     score -= 40;
-                    // ---FREECHECK---
                     isSuspicious = true;
                     // TODO: .co als badTLD triggert auch bei .com!
                     alertContent += "Der Absender ist ggfs. nicht vertrauenswürdig (keine gängige Webadresse). ";
@@ -265,8 +261,7 @@ namespace FinalFrontier
                 isWhitelisted = true;
                 result += "senderEmail is whitelisted<br/>";
             }
-
-            // TODO: produce output / alert for the following checks with the dictionaries
+            
             // evaluate history of senderName, senderEmailAddress and their combo
             if (DictSenderName.ContainsKey(senderName))
             {
@@ -288,6 +283,7 @@ namespace FinalFrontier
             {
                 result += "SenderEmail never seen before.<br/>";
                 score -= 10;
+                isSuspicious = true;
             }
 
             if (DictSenderCombo.ContainsKey(senderCombo))
@@ -299,6 +295,7 @@ namespace FinalFrontier
             {
                 result += "SenderCombo never seen before.<br/>";
                 score -= 10;
+                isSuspicious = true;
             }
 
             //Debug.WriteLine("LOOKING FOR ATTACHMENTS");
