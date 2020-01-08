@@ -1,4 +1,4 @@
-# FinalFrontier
+# ![Final Frontier](./finalfrontierlogo_small.png)
 FinalFrontier is an Outlook Add-In to detect and prevent (spear-) phishing attacks.
 
 ![Final Frontier Logo](./finalfrontierlogo_small.png)
