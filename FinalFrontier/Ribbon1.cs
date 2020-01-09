@@ -60,14 +60,25 @@ namespace FinalFrontier
         #endregion
         public void onFFButtonClick(IRibbonControl control)
         {
+            MailItem selObject;
+            if (control.Context is Inspector)
+            {
+                var item = control.Context as Inspector;
+                selObject = item.CurrentItem as MailItem;
+            }
             /*Object owner = getApplication().ActiveExplorer();
             String controlId = control.getId();
             MessageBox.show(owner, "hello", "Button " + controlId + " clicked", null);
             */
             // TODO: THIS DOES NOT GIVE US THE MAIL ITEM!!!!!!!!
-            Explorer expl = control.Context as Explorer;
-            MailItem selObject = expl.Application.ActiveExplorer().Selection[1] as MailItem;
-            //MailItem selObject = (control.Context as Explorer) as MailItem;
+            else if (control.Context is Explorer)
+            {
+                Explorer expl = control.Context as Explorer;
+                selObject = expl.Application.ActiveExplorer().Selection[1] as MailItem;
+                //MailItem selObject = (control.Context as Explorer) as MailItem;
+            }
+            else
+                return;
             Analyzer ana = new Analyzer();
             String itemMessage = ana.getSummary(selObject);
             MessageBox.Show(itemMessage);
