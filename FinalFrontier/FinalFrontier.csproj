@@ -33,7 +33,7 @@
     <PublishUrl>c:\finalfrontier\</PublishUrl>
     <InstallUrl />
     <TargetCulture>de</TargetCulture>
-    <ApplicationVersion>1.0.0.1</ApplicationVersion>
+    <ApplicationVersion>1.0.0.3</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
@@ -202,6 +202,7 @@
     </Compile>
     <None Include="FinalFrontier_1_TemporaryKey.pfx" />
     <None Include="FinalFrontier_2_TemporaryKey.pfx" />
+    <None Include="FinalFrontier_3_TemporaryKey.pfx" />
     <None Include="FinalFrontier_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -243,10 +244,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>FinalFrontier_2_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>FinalFrontier_3_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>429AE101E922412F39C35DFF17AC95E634260DF2</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>CBB7C6088A1C512991EBAEC31A28A033E0CC5EB3</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

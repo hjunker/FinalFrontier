@@ -322,7 +322,8 @@ namespace FinalFrontier
         {
             foreach (String badtld in badtlds)
             {
-                if (instr.Contains(badtld))
+                //if (instr.Contains(badtld))
+                if (instr.EndsWith(badtld))
                 {
                     return true;
                 }
