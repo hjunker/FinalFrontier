@@ -79,7 +79,6 @@ namespace FinalFrontier
         private Microsoft.Office.Interop.Outlook.Attachments attachments;
         private int score;
         public bool isSuspicious;
-        public String alertContent;
         private const string HeaderRegex =
         @"^(?<header_key>[-A-Za-z0-9]+)(?<seperator>:[ \t]*)" +
             "(?<header_value>([^\r\n]|\r\n[ \t]+)*)(?<terminator>\r\n)";
@@ -100,7 +99,6 @@ namespace FinalFrontier
             score = 0;
             isSuspicious = false;
             string result = "";
-            alertContent = "";
             int linkcounter = 0;
 
             // check links within the message
@@ -198,8 +196,10 @@ namespace FinalFrontier
             if (senderEmailAddress != senderenvelope)
             {
                 isSuspicious = true;
-                alertContent += "Der Absender ist evtl. gefälscht. ";
+                result += "Der Absender ist evtl. gefälscht. ";
             }
+
+            // TODO: if senderName and SenderEmail are equal there should not be an alert!!!
 
             senderCombo = senderName + "/" + senderEmailAddress;
             //result = senderName + "/" + senderEmailAddress;
@@ -210,9 +210,8 @@ namespace FinalFrontier
                 senderNameContainsEmail = true;
                 score -= 20;
                 senderNameDomainPart = senderName.Substring(senderNameAtPos + 1);
-                result += "senderName contains email address<br/>";
                 isSuspicious = true;
-                alertContent += "Der Absender ist evtl. gefälscht (Name soll Mailadresse suggerieren).";
+                result += "Der Absender ist evtl. gefälscht (Name soll Mailadresse suggerieren).";
 
                 if ((senderEmailAddress.IndexOf(senderNameDomainPart) == -1) & (!senderEmailAddress.Equals("")))
                 {
@@ -221,7 +220,7 @@ namespace FinalFrontier
                     score -= 30;
                     result += "senderName contains email address with different domain than sender<br/>";
                     isSuspicious = true;
-                    alertContent += "Die angezeigte Mailadresse entspricht vermutlich nicht dem tatsächlichen Absender";
+                    result += "Die angezeigte Mailadresse entspricht vermutlich nicht dem tatsächlichen Absender";
                 }
             }
 
@@ -229,7 +228,7 @@ namespace FinalFrontier
             {
                 isSuspicious = true;
                 isBadTldSender = true;
-                alertContent += "Der Absender ist ggfs. nicht vertrauenswürdig (keine gängige Webadresse). ";
+                result += "Der Absender ist ggfs. nicht vertrauenswürdig (keine gängige Webadresse). ";
             }
 
             // check for domain in whitelist
@@ -245,35 +244,36 @@ namespace FinalFrontier
             // evaluate history of senderName, senderEmailAddress and their combo
             if (DictSenderName.ContainsKey(senderName))
             {
-                result += "SenderName seen before " + DictSenderName[senderName] + "x.<br/>";
+                //result += "SenderName seen before " + DictSenderName[senderName] + "x.<br/>";
                 score += DictSenderName[senderName];
             }
             else
             {
-                result += "SenderName never seen before.<br/>";
+                result += "Der Name (Freitext) des Absenders ist neu.";
+                isSuspicious = true;
                 score -= 10;
             }
 
             if (DictSenderEmail.ContainsKey(senderEmailAddress))
             {
-                result += "SenderEmail seen before " + DictSenderEmail[senderEmailAddress] + "x.<br/>";
+                //result += "SenderEmail seen before " + DictSenderEmail[senderEmailAddress] + "x.<br/>";
                 score += DictSenderEmail[senderEmailAddress];
             }
             else
             {
-                result += "SenderEmail never seen before.<br/>";
+                result += "Vermeintliche Emailadresse ist neu.";
                 score -= 10;
                 isSuspicious = true;
             }
 
             if (DictSenderCombo.ContainsKey(senderCombo))
             {
-                result += "SenderCombo seen before " + DictSenderCombo[senderCombo] + "x.<br/>";
+                //result += "SenderCombo seen before " + DictSenderCombo[senderCombo] + "x.<br/>";
                 score += DictSenderCombo[senderCombo];
             }
             else
             {
-                result += "SenderCombo never seen before.<br/>";
+                result += "Die Kombination von Absender (Freitext) und Emailadresse ist neu.";
                 score -= 10;
                 isSuspicious = true;
             }
@@ -315,7 +315,7 @@ namespace FinalFrontier
                 }
             }
 
-            return result + "<br/>Score: " + score;
+            return result;// + "<br/>Score: " + score;
         }
 
         private Boolean hasBadTld(String instr)
