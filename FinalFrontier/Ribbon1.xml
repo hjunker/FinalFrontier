@@ -15,6 +15,9 @@
       <menuSeparator id="FFSeparator" />
       <button id="FFButton" label="FinalFrontier Security Info" onAction="onFFButtonClick" />
     </contextMenu>
+    <contextMenu idMso="ContextMenuFolder">
+      <button id="FFFolderButton" label="FinalFrontier: Learn for mail history" onAction="onFFFolderButtonClick" />
+    </contextMenu>
   </contextMenus>
 </customUI>
 

@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using Office = Microsoft.Office.Core;
+using Outlook = Microsoft.Office.Interop.Outlook;
 
 // TODO:  Führen Sie diese Schritte aus, um das Element auf dem Menüband (XML) zu aktivieren:
 
@@ -83,7 +84,17 @@ namespace FinalFrontier
             String itemMessage = ana.getSummary(selObject);
             MessageBox.Show(itemMessage);
         }
-        
+
+        public void onFFFolderButtonClick(IRibbonControl control)
+        {
+            MessageBox.Show("TODO: TRIGGER LEARNING!");
+        }
+
+        public bool IsVisible(Office.IRibbonControl control)
+        {
+            //string foldername = ((Outlook.Folder)control.Context).Name;
+            return true;
+        }
 
         #region Hilfsprogramme
 
