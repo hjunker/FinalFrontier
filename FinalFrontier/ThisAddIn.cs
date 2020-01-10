@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using Outlook = Microsoft.Office.Interop.Outlook;
-using Office = Microsoft.Office.Core;
 using System.Windows.Forms;
 using Microsoft.Office.Interop.Outlook;
 using System.Diagnostics;
@@ -17,19 +15,15 @@ using System.Diagnostics;
 
 namespace FinalFrontier
 {
-
     public partial class ThisAddIn
     {
-        Outlook.Inspectors inspectors;
-        Outlook.Explorer currentExplorer = null;
-        private Dictionary<string, int> DictSenderName =
-            new Dictionary<string, int>();
-        private Dictionary<string, int> DictSenderEmail =
-            new Dictionary<string, int>();
-        private Dictionary<string, int> DictSenderCombo =
-            new Dictionary<string, int>();
+        Inspectors inspectors;
+        Explorer currentExplorer = null;
+        private Dictionary<string, int> DictSenderName = new Dictionary<string, int>();
+        private Dictionary<string, int> DictSenderEmail = new Dictionary<string, int>();
+        private Dictionary<string, int> DictSenderCombo = new Dictionary<string, int>();
         DictionaryTools dt = new DictionaryTools();
-        private String lastConversationID = "";
+        private string lastConversationID = "";
         private int tvcntr;
 
         protected override Microsoft.Office.Core.IRibbonExtensibility CreateRibbonExtensibilityObject()
@@ -37,27 +31,25 @@ namespace FinalFrontier
             return new Ribbon1();
         }
 
-        private void ThisAddIn_Startup(object sender, System.EventArgs e)
+        private void ThisAddIn_Startup(object sender, EventArgs e)
         {
             tvcntr = 0;
 
-            Outlook.Folder root = Application.Session.DefaultStore.GetRootFolder() as Outlook.Folder;
+            Folder root = Application.Session.DefaultStore.GetRootFolder() as Folder;
 
             // TODO: ansprechendes Start-Popup - nur bei ersten Start bzw. bei neu Lernen?!?! Learning should not include the current inbox!
             // alternatively: Create(Context)Menu - Item to trigger this for selected folder
             //Form welcome = new ffwelcome(root);
             //welcome.ShowDialog();
 
-             currentExplorer = this.Application.ActiveExplorer();
-            currentExplorer.SelectionChange += new Outlook
-                .ExplorerEvents_10_SelectionChangeEventHandler
-                (CurrentExplorer_Event);
+            currentExplorer = Application.ActiveExplorer();
+            currentExplorer.SelectionChange += new ExplorerEvents_10_SelectionChangeEventHandler(CurrentExplorer_Event);
                 
             /*
             currentExplorer.ViewSwitch += new Outlook
                 .ExplorerEvents_10_ViewSwitchEventHandler
                 (ExplorerWrapper_ViewSwitch);
-                */
+            */
             
             // LEARN FROM FOLDERS
             EnumerateFolders(root);
@@ -70,13 +62,12 @@ namespace FinalFrontier
             */
         }
 
-        private void EnumerateFolders(Outlook.Folder folder)
+        private void EnumerateFolders(Folder folder)
         {
-            Outlook.Folders childFolders =
-                folder.Folders;
+            Folders childFolders = folder.Folders;
             if (childFolders.Count > 0)
             {
-                foreach (Outlook.Folder childFolder in childFolders)
+                foreach (Folder childFolder in childFolders)
                 {
                     // Write the folder path.
                     Debug.WriteLine(childFolder.FolderPath);
@@ -85,9 +76,9 @@ namespace FinalFrontier
                     {
                         // iterate through mails in this folder
                         Items mails = childFolder.Items;
-                        foreach (Outlook.MailItem mail in mails)
+                        foreach (MailItem mail in mails)
                         {
-                            Outlook.MailItem thismail = (mail as Outlook.MailItem);
+                            MailItem thismail = (mail as MailItem);
                             string senderName = thismail.SenderName;
                             string senderEmailAddress = thismail.SenderEmailAddress;
                             string senderCombo = senderName + "/" + senderEmailAddress;
@@ -120,37 +111,37 @@ namespace FinalFrontier
                         }
                     }
                     catch (System.Exception ex)
-                    { }
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
                     // Call EnumerateFolders using childFolder.
                     EnumerateFolders(childFolder);
                 }
             }
-            String userpath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            string userpath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             dt.Write(DictSenderName, userpath + "\\dict-sender-name.bin");
             dt.Write(DictSenderEmail, userpath + "\\dict-sender-email.bin");
             dt.Write(DictSenderCombo, userpath + "\\dict-sender-combo.bin");
         }
 
-        void ExplorerWrapper_ViewSwitch()
+        /* void ExplorerWrapper_ViewSwitch()
         {
-        }
+        }*/
 
         private void CurrentExplorer_Event()
         {
-            Outlook.MAPIFolder selectedFolder =
-                this.Application.ActiveExplorer().CurrentFolder;
-            String expMessage = ""; // "Your current folder is " + selectedFolder.Name + ".\n";
-            String itemMessage = ""; // "Item is unknown.";
+            // Outlook.MAPIFolder selectedFolder = Application.ActiveExplorer().CurrentFolder;
+            string expMessage = ""; // "Your current folder is " + selectedFolder.Name + ".\n";
+            string itemMessage = ""; // "Item is unknown.";
             try
             {
-                if (this.Application.ActiveExplorer().Selection.Count > 0)
+                if (Application.ActiveExplorer().Selection.Count > 0)
                 {
-                    Object selObject = this.Application.ActiveExplorer().Selection[1];
+                    object selObject = Application.ActiveExplorer().Selection[1];
                     
-                    if (selObject is Outlook.MailItem)
+                    if (selObject is MailItem)
                     {
-                        Outlook.MailItem mailItem =
-                            (selObject as Outlook.MailItem);
+                        MailItem mailItem = selObject as MailItem;
                         /* itemMessage = "The item is an e-mail message." +
                              " The subject is " + mailItem.Subject + ".";
                              */
@@ -227,27 +218,21 @@ namespace FinalFrontier
         }
         
 
-        private string GetSenderSMTPAddress(Outlook.MailItem mail)
+        /* private string GetSenderSMTPAddress(MailItem mail)
         {
-            string PR_SMTP_ADDRESS =
-                @"http://schemas.microsoft.com/mapi/proptag/0x39FE001E";
+            string PR_SMTP_ADDRESS = @"http://schemas.microsoft.com/mapi/proptag/0x39FE001E";
             if (mail == null)
             {
                 throw new ArgumentNullException();
             }
             if (mail.SenderEmailType == "EX")
             {
-                Outlook.AddressEntry sender =
-                    mail.Sender;
+                AddressEntry sender = mail.Sender;
                 if (sender != null)
                 {
                     //Now we have an AddressEntry representing the Sender
-                    if (sender.AddressEntryUserType ==
-                        Outlook.OlAddressEntryUserType.
-                        olExchangeUserAddressEntry
-                        || sender.AddressEntryUserType ==
-                        Outlook.OlAddressEntryUserType.
-                        olExchangeRemoteUserAddressEntry)
+                    if (sender.AddressEntryUserType == OlAddressEntryUserType.olExchangeUserAddressEntry ||
+                        sender.AddressEntryUserType == OlAddressEntryUserType.olExchangeRemoteUserAddressEntry)
                     {
                         //Use the ExchangeUser object PrimarySMTPAddress
                         Outlook.ExchangeUser exchUser =
@@ -263,8 +248,7 @@ namespace FinalFrontier
                     }
                     else
                     {
-                        return sender.PropertyAccessor.GetProperty(
-                            PR_SMTP_ADDRESS) as string;
+                        return sender.PropertyAccessor.GetProperty(PR_SMTP_ADDRESS) as string;
                     }
                 }
                 else
@@ -276,11 +260,11 @@ namespace FinalFrontier
             {
                 return mail.SenderEmailAddress;
             }
-        }
+        }*/
 
-        void Inspectors_NewInspector(Microsoft.Office.Interop.Outlook.Inspector Inspector)
+        /* void Inspectors_NewInspector(Inspector Inspector)
         {
-            Outlook.MailItem mailItem = Inspector.CurrentItem as Outlook.MailItem;
+            MailItem mailItem = Inspector.CurrentItem as MailItem;
             if (mailItem != null)
             {
                 if (mailItem.EntryID == null)
@@ -290,9 +274,9 @@ namespace FinalFrontier
                 }
 
             }
-        }
+        }*/
 
-        private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
+        private void ThisAddIn_Shutdown(object sender, EventArgs e)
         {
             // Hinweis: Outlook löst dieses Ereignis nicht mehr aus. Wenn Code vorhanden ist, der 
             //    muss ausgeführt werden, wenn Outlook heruntergefahren wird. Weitere Informationen finden Sie unter https://go.microsoft.com/fwlink/?LinkId=506785.

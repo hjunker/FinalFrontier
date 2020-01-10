@@ -12,8 +12,6 @@ namespace FinalFrontier
     class DictionaryTools
     {
         // https://www.dotnetperls.com/dictionary-binary
-
-
         public void Write(Dictionary<string, int> dictionary, string file)
         {
             using (FileStream fs = File.OpenWrite(file))

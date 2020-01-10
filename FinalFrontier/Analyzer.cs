@@ -11,49 +11,15 @@ using System.Threading.Tasks;
 
 namespace FinalFrontier
 {
-    public static class MailItemExtensions
-    {
-        private const string HeaderRegex =
-            @"^(?<header_key>[-A-Za-z0-9]+)(?<seperator>:[ \t]*)" +
-                "(?<header_value>([^\r\n]|\r\n[ \t]+)*)(?<terminator>\r\n)";
-        private const string TransportMessageHeadersSchema =
-            "http://schemas.microsoft.com/mapi/proptag/0x007D001E";
-
-        public static string[] Headers(this MailItem mailItem, string name)
-        {
-            var headers = mailItem.HeaderLookup();
-            if (headers.Contains(name))
-                return headers[name].ToArray();
-            return new string[0];
-        }
-
-        public static ILookup<string, string> HeaderLookup(this MailItem mailItem)
-        {
-            var headerString = mailItem.HeaderString();
-            var headerMatches = Regex.Matches
-                (headerString, HeaderRegex, RegexOptions.Multiline).Cast<Match>();
-            return headerMatches.ToLookup(
-                h => h.Groups["header_key"].Value,
-                h => h.Groups["header_value"].Value);
-        }
-
-        public static string HeaderString(this MailItem mailItem)
-        {
-            return (string)mailItem.PropertyAccessor
-                .GetProperty(TransportMessageHeadersSchema);
-        }
-    }
-
-
     public class Analyzer
     {
         private string[] whitelist = { "gmail.com", "googlemail.com", "bsi.bund.de", "bund.de", "twitter.com" };
         private string[] linkshorteners = { "bit.ly", "goo.gl", "bit.do", "tinyurl.com", "is.gd", "cli.gs", "pic.gd", "DwarfURL.com", "ow.ly", "yfrog.com", "migre.me", "ff.im", "tiny.cc", "url4.eu", "tr.im", "twit.ac", "su.pr", "twurl.nl", "snipurl.com", "BudURL.com", "short.to", "ping.fm", "Digg.com", "post.ly", "Just.as", "bkite.com", "snipr.com", "flic.kr", "loopt.us", "doiop.com", "twitthis.com", "htxt.it", "AltURL.com", "RedirX.com", "DigBig.com", "short.ie", "u.mavrev.com", "kl.am", "wp.me", "u.nu", "rubyurl.com", "om.ly", "linkbee.com", "Yep.it", "posted.at", "xrl.us", "metamark.net", "sn.im", "hurl.ws", "eepurl.com", "idek.net", "urlpire.com", "chilp.it", "moourl.com", "snurl.com", "xr.com", "lin.cr", "EasyURI.com", "zz.gd", "ur1.ca", "URL.ie", "adjix.com", "twurl.cc", "s7y.us", "EasyURL.net", "atu.ca", "sp2.ro", "Profile.to", "ub0.cc", "minurl.fr", "cort.as", "fire.to", "2tu.us", "twiturl.de", "to.ly", "BurnURL.com", "nn.nf", "clck.ru", "notlong.com", "thrdl.es", "spedr.com", "vl.am", "miniurl.com", "virl.com", "PiURL.com", "1url.com", "gri.ms", "tr.my", "Sharein.com", "urlzen.com", "fon.gs", "Shrinkify.com", "ri.ms", "b23.ru", "Fly2.ws", "xrl.in", "Fhurl.com", "wipi.es", "korta.nu", "shortna.me", "fa.b", "WapURL.co.uk", "urlcut.com", "6url.com", "abbrr.com", "SimURL.com", "klck.me", "x.se", "2big.at", "url.co.uk", "ewerl.com", "inreply.to", "TightURL.com", "a.gg", "tinytw.it", "zi.pe", "riz.gd", "hex.io", "fwd4.me", "bacn.me", "shrt.st", "ln - s.ru", "tiny.pl", "o - x.fr", "StartURL.com", "jijr.com", "shorl.com", "icanhaz.com", "updating.me", "kissa.be", "hellotxt.com", "pnt.me", "nsfw.in", "xurl.jp", "yweb.com", "urlkiss.com", "QLNK.net", "w3t.org", "lt.tl", "twirl.at", "zipmyurl.com", "urlot.com", "a.nf", "hurl.me", "URLHawk.com", "Tnij.org", "4url.cc", "firsturl.de", "Hurl.it", "sturly.com", "shrinkster.com", "ln - s.net", "go2cut.com", "liip.to", "shw.me", "XeeURL.com", "liltext.com", "lnk.gd", "xzb.cc", "linkbun.ch", "href.in", "urlbrief.com", "2ya.com", "safe.mn", "shrunkin.com", "bloat.me", "krunchd.com", "minilien.com", "ShortLinks.co.uk", "qicute.com", "rb6.me", "urlx.ie", "pd.am", "go2.me", "tinyarro.ws", "tinyvid.io", "lurl.no", "ru.ly", "lru.jp", "rickroll.it", "togoto.us", "ClickMeter.com", "hugeurl.com", "tinyuri.ca", "shrten.com", "shorturl.com", "Quip - Art.com", "urlao.com", "a2a.me", "tcrn.ch", "goshrink.com", "DecentURL.com", "decenturl.com", "zi.ma", "1link.in", "sharetabs.com", "shoturl.us", "fff.to", "hover.com", "lnk.in", "jmp2.net", "dy.fi", "urlcover.com", "2pl.us", "tweetburner.com", "u6e.de", "xaddr.com", "gl.am", "dfl8.me", "go.9nl.com", "gurl.es", "C - O.IN", "TraceURL.com", "liurl.cn", "MyURL.in", "urlenco.de", "ne1.net", "buk.me", "rsmonkey.com", "cuturl.com", "turo.us", "sqrl.it", "iterasi.net", "tiny123.com", "EsyURL.com", "adf.ly", "urlx.org", "IsCool.net", "twitterpan.com", "GoWat.ch", "poprl.com", "njx.me", "shrinkify.info" };
-        private string[] lookalikes = { "google", "adobe", "microsoft", "twitter", "neobooks" };
+        // private string[] lookalikes = { "google", "adobe", "microsoft", "twitter", "neobooks" };
         private string[] badtlds = { ".biz", ".pro", ".name", ".coop", ".mobi", ".travel", ".xxx", ".post", ".to", ".ag", ".me", ".tel", ".bid", ".ru", ".cn", ".cc", ".tk", ".date", ".ar", ".au", ".bd", ".bg", ".br", "by", ".ca", ".cf", ".cl", ".cn", ".vb", ".cr", ".cz", ".hk", ".ht", ".tk", ".pw", ".xyz", ".id", ".in", ".my", ".pa", ".pt", ".sg", ".tw", ".tr", ".ua", ".vg", ".vn" };
         private string[] badextensions = { ".vb", ".vbe", ".vbs", ".wsh", ".wsf", ".jar", ".js", ".jse" };
         private string[] docextensions = { ".csv", ".doc", ".docx", ".gif", ".pdf", ".ppt", ".pptx", ".rtf", ".xls", ".xlsx" };
-        private string[] imgextensions = { ".bmp", ".gif", ".jpg", ".jpeg", ".png", ".tif", ".tiff" };
+        // private string[] imgextensions = { ".bmp", ".gif", ".jpg", ".jpeg", ".png", ".tif", ".tiff" };
         private string[] exeextensions = { ".cmd", ".cpl", ".exe", ".jar", ".js", ".jse", ".lnk", ".pif", ".scr", ".vbe", ".vbs", ".vb", ".wsf", ".wsh" };
         //string[] keywords = { "rechnung", "scan", "microsoft", "adobe", "update", "help", "support", "service", "hilfe", "google" };
         private string[] keywords = { "rechnung", "scan", "microsoft", "adobe", "update", "help", "support" };
@@ -76,10 +42,10 @@ namespace FinalFrontier
         private string senderEmailAddress;
         private string senderCombo;
         private HtmlNodeCollection links;
-        private Microsoft.Office.Interop.Outlook.Attachments attachments;
+        private Attachments attachments;
         private int score;
         public bool isSuspicious;
-        public String alertContent;
+        public string alertContent;
         private const string HeaderRegex =
         @"^(?<header_key>[-A-Za-z0-9]+)(?<seperator>:[ \t]*)" +
             "(?<header_value>([^\r\n]|\r\n[ \t]+)*)(?<terminator>\r\n)";
@@ -87,7 +53,7 @@ namespace FinalFrontier
         public Analyzer()
         {
             dt = new DictionaryTools();
-            String userpath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            string userpath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             DictSenderName = dt.Read(userpath + "\\dict-sender-name.bin");
             DictSenderEmail = dt.Read(userpath + "\\dict-sender-email.bin");
             DictSenderCombo = dt.Read(userpath + "\\dict-sender-combo.bin");
@@ -105,7 +71,7 @@ namespace FinalFrontier
 
             // check links within the message
             // TODO: what about non-html mails?
-            String MailHtmlBody = mailItem.HTMLBody;
+            string MailHtmlBody = mailItem.HTMLBody;
 
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(MailHtmlBody);
@@ -115,16 +81,19 @@ namespace FinalFrontier
                 foreach (HtmlNode node in links)
                 {
                     // check for link shorteners and redirects
-                    foreach (String shortener in linkshorteners)
+                    foreach (string shortener in linkshorteners)
                     {
-                        if (node.GetAttributeValue("href", null).IndexOf(shortener) > 0) hasLinksWithShorteners = true;
+                        if (node.GetAttributeValue("href", null).IndexOf(shortener) > 0)
+                        {
+                            hasLinksWithShorteners = true;
+                        }
                     }
 
                     // Check for unwanted TLDs (.date, ...)
                     hasBadTldsInLinks = hasBadTld(node.GetAttributeValue("href", null)); ;
 
                     // check for keywords in links
-                    foreach (String key in keywords)
+                    foreach (string key in keywords)
                     {
                         if (node.GetAttributeValue("href", null).Contains(key))
                         {
@@ -137,38 +106,35 @@ namespace FinalFrontier
             
             string[] receivedByArray = mailItem.Headers("Received");
             //Debug.WriteLine("receivedByArray length: " + receivedByArray.Length);
-            string receivedBy;
+            string receivedBy = "";
             
             if (receivedByArray.Length > 0)
             {
                 Debug.WriteLine("RECEIVE-LINES:");
                 receivedBy = receivedByArray[0];
-                foreach (String entry in receivedByArray)
+                foreach (string entry in receivedByArray)
                 {
-                    String receiveDomain = getReceiveFromString(entry);
+                    string receiveDomain = getReceiveFromString(entry);
                     //Debug.WriteLine(entry);
                     Debug.WriteLine(receiveDomain);
                     if (hasBadTld(receiveDomain) == true)
                     {
                         Debug.WriteLine("badTLD in MTA-Kette");
                     }
-                }
-                
+                }                
             }
-            else
-                receivedBy = "";
             
-            int mailsize = mailItem.Size;
+            //int mailsize = mailItem.Size;
             //Debug.WriteLine("mailsize: " + mailsize);
 
-            String senderenvelope = GetSenderSMTPAddress(mailItem);
+            string senderenvelope = GetSenderSMTPAddress(mailItem);
             
             // check for suspicious sender
             senderName = mailItem.SenderName;
             senderEmailAddress = mailItem.SenderEmailAddress;
 
-            String senderDomainEnvelope = getDomainFromMail(senderenvelope);
-            String senderDomainHeader = getDomainFromMail(senderEmailAddress);
+            string senderDomainEnvelope = getDomainFromMail(senderenvelope);
+            string senderDomainHeader = getDomainFromMail(senderEmailAddress);
 
             // check if senderEmail has different domain than senderEnvelope
             if (senderDomainEnvelope != senderDomainHeader)
@@ -210,7 +176,7 @@ namespace FinalFrontier
                 senderNameContainsEmail = true;
                 score -= 20;
                 senderNameDomainPart = senderName.Substring(senderNameAtPos + 1);
-                result += "senderName contains email address<br/>";
+                result += "senderName contains email address\n";
                 isSuspicious = true;
                 alertContent += "Der Absender ist evtl. gefälscht (Name soll Mailadresse suggerieren).";
 
@@ -219,7 +185,7 @@ namespace FinalFrontier
                     // senderName contains domain different to the one in senderEmailAddress
                     domainMismatch = true;
                     score -= 30;
-                    result += "senderName contains email address with different domain than sender<br/>";
+                    result += "senderName contains email address with different domain than sender\n";
                     isSuspicious = true;
                     alertContent += "Die angezeigte Mailadresse entspricht vermutlich nicht dem tatsächlichen Absender";
                 }
@@ -239,41 +205,41 @@ namespace FinalFrontier
             {
                 score += 80;
                 isWhitelisted = true;
-                result += "senderEmail is whitelisted<br/>";
+                result += "senderEmail is whitelisted\n";
             }
             
             // evaluate history of senderName, senderEmailAddress and their combo
             if (DictSenderName.ContainsKey(senderName))
             {
-                result += "SenderName seen before " + DictSenderName[senderName] + "x.<br/>";
+                result += "SenderName seen before " + DictSenderName[senderName] + "x.\n";
                 score += DictSenderName[senderName];
             }
             else
             {
-                result += "SenderName never seen before.<br/>";
+                result += "SenderName never seen before.\n";
                 score -= 10;
             }
 
             if (DictSenderEmail.ContainsKey(senderEmailAddress))
             {
-                result += "SenderEmail seen before " + DictSenderEmail[senderEmailAddress] + "x.<br/>";
+                result += "SenderEmail seen before " + DictSenderEmail[senderEmailAddress] + "x.\n";
                 score += DictSenderEmail[senderEmailAddress];
             }
             else
             {
-                result += "SenderEmail never seen before.<br/>";
+                result += "SenderEmail never seen before.\n";
                 score -= 10;
                 isSuspicious = true;
             }
 
             if (DictSenderCombo.ContainsKey(senderCombo))
             {
-                result += "SenderCombo seen before " + DictSenderCombo[senderCombo] + "x.<br/>";
+                result += "SenderCombo seen before " + DictSenderCombo[senderCombo] + "x.\n";
                 score += DictSenderCombo[senderCombo];
             }
             else
             {
-                result += "SenderCombo never seen before.<br/>";
+                result += "SenderCombo never seen before.\n";
                 score -= 10;
                 isSuspicious = true;
             }
@@ -286,9 +252,9 @@ namespace FinalFrontier
                 //Debug.WriteLine(attachment.FileName + " - " + attachment.Type + " - " + attachment.Size);
 
                 // check for double extensions using docextensions and exeextensions
-                foreach (String docext in docextensions)
+                foreach (string docext in docextensions)
                 {
-                    foreach (String exeext in exeextensions)
+                    foreach (string exeext in exeextensions)
                     {
                         if (attachment.FileName.EndsWith(docext + exeext))
                         {
@@ -298,7 +264,7 @@ namespace FinalFrontier
                 }
                 
                 // check for badextensions
-                foreach (String ext in badextensions)
+                foreach (string ext in badextensions)
                     {
                         if (attachment.FileName.EndsWith(ext))
                         {
@@ -306,7 +272,7 @@ namespace FinalFrontier
                         }
                     }
 
-                foreach (String key in keywords)
+                foreach (string key in keywords)
                 {
                     if (attachment.FileName.Contains(key))
                     {
@@ -315,12 +281,12 @@ namespace FinalFrontier
                 }
             }
 
-            return result + "<br/>Score: " + score;
+            return result + "\nScore: " + score;
         }
 
-        private Boolean hasBadTld(String instr)
+        private bool hasBadTld(string instr)
         {
-            foreach (String badtld in badtlds)
+            foreach (string badtld in badtlds)
             {
                 if (instr.Contains(badtld))
                 {
@@ -330,9 +296,9 @@ namespace FinalFrontier
             return false;
         }
 
-        private String getReceiveFromString(String inline)
+        private string getReceiveFromString(string inline)
         {
-            String res = "";
+            string res = "";
             try
             {
                 int startpos = inline.IndexOf("from ") + 5;
@@ -346,9 +312,9 @@ namespace FinalFrontier
             return res;
         }
 
-        private String getDomainFromMail(String inval)
+        private string getDomainFromMail(string inval)
         {
-            String res = "";
+            string res = "";
             try
             {
                 int startpos = inval.IndexOf("@") + 1;
@@ -361,9 +327,8 @@ namespace FinalFrontier
             return res;
         }
 
-        private string GetSenderSMTPAddress(Outlook.MailItem mail)
+        private string GetSenderSMTPAddress(MailItem mail)
         {
-
             string PR_SMTP_ADDRESS =
                 @"http://schemas.microsoft.com/mapi/proptag/0x39FE001E";
             if (mail == null)
@@ -372,21 +337,15 @@ namespace FinalFrontier
             }
             if (mail.SenderEmailType == "EX")
             {
-                Outlook.AddressEntry sender =
-                    mail.Sender;
+                AddressEntry sender = mail.Sender;
                 if (sender != null)
                 {
                     //Now we have an AddressEntry representing the Sender
-                    if (sender.AddressEntryUserType ==
-                        Outlook.OlAddressEntryUserType.
-                        olExchangeUserAddressEntry
-                        || sender.AddressEntryUserType ==
-                        Outlook.OlAddressEntryUserType.
-                        olExchangeRemoteUserAddressEntry)
+                    if (sender.AddressEntryUserType == OlAddressEntryUserType.olExchangeUserAddressEntry ||
+                        sender.AddressEntryUserType == OlAddressEntryUserType.olExchangeRemoteUserAddressEntry)
                     {
                         //Use the ExchangeUser object PrimarySMTPAddress
-                        Outlook.ExchangeUser exchUser =
-                            sender.GetExchangeUser();
+                        ExchangeUser exchUser = sender.GetExchangeUser();
                         if (exchUser != null)
                         {
                             return exchUser.PrimarySmtpAddress;
@@ -398,8 +357,7 @@ namespace FinalFrontier
                     }
                     else
                     {
-                        return sender.PropertyAccessor.GetProperty(
-                            PR_SMTP_ADDRESS) as string;
+                        return sender.PropertyAccessor.GetProperty(PR_SMTP_ADDRESS) as string;
                     }
                 }
                 else
@@ -412,6 +370,5 @@ namespace FinalFrontier
                 return mail.SenderEmailAddress;
             }
         }
-
     }
 }

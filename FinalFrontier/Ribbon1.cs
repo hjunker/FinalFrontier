@@ -32,7 +32,7 @@ using Office = Microsoft.Office.Core;
 namespace FinalFrontier
 {
     [ComVisible(true)]
-    public class Ribbon1 : Office.IRibbonExtensibility
+    public class Ribbon1 : IRibbonExtensibility
     {
         private Office.IRibbonUI ribbon;
 
@@ -52,9 +52,9 @@ namespace FinalFrontier
         #region Menübandrückrufe
         //Erstellen Sie hier Rückrufmethoden. Weitere Informationen zum Hinzufügen von Rückrufmethoden finden Sie unter https://go.microsoft.com/fwlink/?LinkID=271226.
 
-        public void Ribbon_Load(Office.IRibbonUI ribbonUI)
+        public void Ribbon_Load(IRibbonUI ribbonUI)
         {
-            this.ribbon = ribbonUI;
+            ribbon = ribbonUI;
         }
 
         #endregion
@@ -80,7 +80,7 @@ namespace FinalFrontier
             else
                 return;
             Analyzer ana = new Analyzer();
-            String itemMessage = ana.getSummary(selObject);
+            string itemMessage = ana.getSummary(selObject);
             MessageBox.Show(itemMessage);
         }
         

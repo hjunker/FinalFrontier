@@ -187,6 +187,7 @@
   <ItemGroup>
     <Compile Include="Analyzer.cs" />
     <Compile Include="DictionaryTools.cs" />
+    <Compile Include="MailItemExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
