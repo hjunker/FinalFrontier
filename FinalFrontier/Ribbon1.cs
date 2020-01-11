@@ -11,7 +11,10 @@ using System.Windows.Forms;
 using Office = Microsoft.Office.Core;
 using Outlook = Microsoft.Office.Interop.Outlook;
 
-// TODO: It is not helpful to have finalfrontier have an indicator or button in the add-in tab - we need some kind of clear and always-visible visual aid - but this may be out of bounds regarding to what is technically possible since MS does not want add-ins to change ui look & feel
+// TODO: It is not helpful to have finalfrontier have an indicator or button in the add-in tab
+// we need some kind of clear and always-visible visual aid
+// but this may be out of bounds regarding to what is technically possible since MS does not want add-ins to change ui look & feel
+// maybe this could be helpful: https://www.add-in-express.com/add-in-net/outlook-regions.php (e.g. lets you add custom navigation pane regions by using Forms)
 
 
 namespace FinalFrontier
