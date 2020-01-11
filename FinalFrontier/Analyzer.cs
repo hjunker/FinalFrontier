@@ -284,7 +284,6 @@ namespace FinalFrontier
             foreach (Attachment attachment in attachments)
             {
                 //Debug.WriteLine(attachment.FileName + " - " + attachment.Type + " - " + attachment.Size);
-
                 // check for double extensions using docextensions and exeextensions
                 foreach (String docext in docextensions)
                 {
