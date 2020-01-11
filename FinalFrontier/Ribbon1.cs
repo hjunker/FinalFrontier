@@ -11,23 +11,7 @@ using System.Windows.Forms;
 using Office = Microsoft.Office.Core;
 using Outlook = Microsoft.Office.Interop.Outlook;
 
-// TODO:  Führen Sie diese Schritte aus, um das Element auf dem Menüband (XML) zu aktivieren:
-
-// 1: Kopieren Sie folgenden Codeblock in die ThisAddin-, ThisWorkbook- oder ThisDocument-Klasse.
-
-//  protected override Microsoft.Office.Core.IRibbonExtensibility CreateRibbonExtensibilityObject()
-//  {
-//      return new Ribbon1();
-//  }
-
-// 2. Erstellen Sie Rückrufmethoden im Abschnitt "Menübandrückrufe" dieser Klasse, um Benutzeraktionen
-//    zu behandeln, z.B. das Klicken auf eine Schaltfläche. Hinweis: Wenn Sie dieses Menüband aus dem Menüband-Designer exportiert haben,
-//    verschieben Sie den Code aus den Ereignishandlern in die Rückrufmethoden, und ändern Sie den Code für die Verwendung mit dem
-//    Programmmodell für die Menübanderweiterung (RibbonX).
-
-// 3. Weisen Sie den Steuerelementtags in der Menüband-XML-Datei Attribute zu, um die entsprechenden Rückrufmethoden im Code anzugeben.  
-
-// Weitere Informationen erhalten Sie in der Menüband-XML-Dokumentation in der Hilfe zu Visual Studio-Tools für Office.
+// TODO: It is not helpful to have finalfrontier have an indicator or button in the add-in tab - we need some kind of clear and always-visible visual aid - but this may be out of bounds regarding to what is technically possible since MS does not want add-ins to change ui look & feel
 
 
 namespace FinalFrontier
@@ -71,7 +55,6 @@ namespace FinalFrontier
             String controlId = control.getId();
             MessageBox.show(owner, "hello", "Button " + controlId + " clicked", null);
             */
-            // TODO: THIS DOES NOT GIVE US THE MAIL ITEM!!!!!!!!
             else if (control.Context is Explorer)
             {
                 Explorer expl = control.Context as Explorer;
@@ -82,7 +65,10 @@ namespace FinalFrontier
                 return;
             Analyzer ana = new Analyzer();
             String itemMessage = ana.getSummary(selObject);
-            MessageBox.Show(itemMessage);
+            if (ana.isSuspicious == true)
+            {
+                MessageBox.Show(itemMessage, "FinalFrontier - Warnung: Email könnte schadhaft sein!!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
 
         public void onFFFolderButtonClick(IRibbonControl control)
