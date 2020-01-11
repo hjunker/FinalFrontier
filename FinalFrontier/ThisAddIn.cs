@@ -167,7 +167,7 @@ namespace FinalFrontier
                                 {
                                     //Debug.WriteLine("ALERT SHALL BE TRIGGERED!!!");
                                     //MessageBox.Show(ana.alertContent + " / " + ana.getSummary(mailItem), "Email könnte schadhaft sein!!!", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
-                                    MessageBox.Show(ana.getSummary(mailItem), "Warnung: Email könnte schadhaft sein!!!");
+                                    MessageBox.Show(ana.getSummary(mailItem), "FinalFrontier - Warnung: Email könnte schadhaft sein!!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 }
 
                                 tvcntr++;
