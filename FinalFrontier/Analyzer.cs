@@ -139,7 +139,7 @@ namespace FinalFrontier
             
             if (receivedByArray.Length > 0)
             {
-                Debug.WriteLine("RECEIVE-LINES:");
+                //Debug.WriteLine("RECEIVE-LINES:");
                 receivedBy = receivedByArray[0];
                 foreach (String entry in receivedByArray)
                 {
@@ -165,11 +165,13 @@ namespace FinalFrontier
             senderName = mailItem.SenderName;
             senderEmailAddress = mailItem.SenderEmailAddress;
 
-            String senderDomainEnvelope = getDomainFromMail(senderenvelope);
+            String senderDomainEnvelope = null;
+            if (senderenvelope!=null)
+                senderDomainEnvelope = getDomainFromMail(senderenvelope);
             String senderDomainHeader = getDomainFromMail(senderEmailAddress);
 
             // check if senderEmail has different domain than senderEnvelope
-            if (senderDomainEnvelope != senderDomainHeader)
+            if ((senderenvelope != null) & (senderDomainEnvelope != senderDomainHeader))
             {
                 Debug.WriteLine("mismatch between sender domains of envelope and header");
                 isSuspicious = true;
@@ -193,9 +195,10 @@ namespace FinalFrontier
             Debug.WriteLine("senderheader: " + senderEmailAddress + " - " + senderDomainHeader);
             Debug.WriteLine("sendername: " + senderName);
             
-            if (senderEmailAddress != senderenvelope)
+            if ((senderenvelope != null) & (senderenvelope!="") & (senderEmailAddress != senderenvelope))
             {
                 isSuspicious = true;
+                Debug.WriteLine("TESTTESTTEST");
                 result += "Der Absender ist evtl. gefälscht. ";
             }
 
@@ -409,7 +412,7 @@ namespace FinalFrontier
             }
             else
             {
-                return mail.SenderEmailAddress;
+                return null;// mail.SenderEmailAddress;
             }
         }
 
