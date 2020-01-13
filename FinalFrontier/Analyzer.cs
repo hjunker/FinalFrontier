@@ -165,9 +165,7 @@ namespace FinalFrontier
             senderName = mailItem.SenderName;
             senderEmailAddress = mailItem.SenderEmailAddress;
 
-            String senderDomainEnvelope = null;
-            if (senderenvelope!=null)
-                senderDomainEnvelope = getDomainFromMail(senderenvelope);
+            String senderDomainEnvelope = getDomainFromMail(senderenvelope);
             String senderDomainHeader = getDomainFromMail(senderEmailAddress);
 
             // check if senderEmail has different domain than senderEnvelope
@@ -354,6 +352,7 @@ namespace FinalFrontier
             String res = "";
             try
             {
+                // TODO: Null pointer exception!!!
                 int startpos = inval.IndexOf("@") + 1;
                 res = inval.Substring(startpos);
             }
