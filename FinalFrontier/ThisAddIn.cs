@@ -160,19 +160,10 @@ namespace FinalFrontier
                                 lastConversationID = mailItem.ConversationID;
                                 Analyzer ana = new Analyzer();
                                 ana.getSummary(mailItem);
-
-                                Debug.WriteLine("---CHECK RESULTS---");
-                                foreach (CheckResult cr in ana.CheckResults)
-                                {
-                                    Debug.WriteLine(cr.id + " / " + cr.ioc + " / " + cr.fragment + " / " + cr.score);
-                                }
                                 
-                                // TODO: eigentlich: wenn score > threshold!!!
-                                if (ana.CheckResults.Count > 0)
+                                if (ana.score < -20)
                                 {
-                                    //Debug.WriteLine("ALERT SHALL BE TRIGGERED!!!");
-                                    //MessageBox.Show(ana.alertContent + " / " + ana.getSummary(mailItem), "Email könnte schadhaft sein!!!", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
-                                    //MessageBox.Show(ana.getSummary(mailItem), "FinalFrontier - Warnung: Email könnte schadhaft sein!!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                    MessageBox.Show(ana.result, "FinalFrontier - Warnung: Email könnte schadhaft sein!!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 }
 
                                 tvcntr++;

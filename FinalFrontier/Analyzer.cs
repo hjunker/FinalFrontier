@@ -78,7 +78,7 @@ namespace FinalFrontier
         private Dictionary<string, int> DictSenderName;
         private Dictionary<string, int> DictSenderEmail;
         private Dictionary<string, int> DictSenderCombo;
-        
+        public String result;
         private string senderNameDomainPart = "";
         private bool domainMismatch = false;
         private bool isWhitelisted = false;
@@ -95,7 +95,7 @@ namespace FinalFrontier
         private string senderCombo;
         private HtmlNodeCollection links;
         private Microsoft.Office.Interop.Outlook.Attachments attachments;
-        private int score;
+        public int score;
         public bool isSuspicious;
         private const string HeaderRegex =
         @"^(?<header_key>[-A-Za-z0-9]+)(?<seperator>:[ \t]*)" +
@@ -131,9 +131,9 @@ namespace FinalFrontier
         {
             score = 0;
             isSuspicious = false;
-            string result = "";
             CheckResults = new List<CheckResult>();
             int linkcounter = 0;
+            result = "";
             
             String MailHtmlBody = mailItem.HTMLBody;
             
@@ -205,7 +205,6 @@ namespace FinalFrontier
             // TODO: if senderName and SenderEmail are equal there should not be an alert!!!
 
             senderCombo = senderName + "/" + senderEmailAddress;
-            //result = senderName + "/" + senderEmailAddress;
             int senderNameAtPos = senderName.IndexOf("@");
             if ((senderNameAtPos != -1) & (!senderEmailAddress.Equals("")))
             {
@@ -234,7 +233,7 @@ namespace FinalFrontier
             // evaluate history of senderName, senderEmailAddress and their combo
             if (DictSenderName.ContainsKey(senderName))
             {
-                //result += "SenderName seen before " + DictSenderName[senderName] + "x.<br/>";
+                CheckResults.Add(new CheckResult("Meta-NameNew", "Der Name (Freitext) des Absenders ist bekannt", senderName, -40));
                 score += DictSenderName[senderName];
             }
             else
@@ -244,21 +243,22 @@ namespace FinalFrontier
 
             if (DictSenderEmail.ContainsKey(senderEmailAddress))
             {
-                //result += "SenderEmail seen before " + DictSenderEmail[senderEmailAddress] + "x.<br/>";
-                score += DictSenderEmail[senderEmailAddress];
+                if (DictSenderEmail[senderEmailAddress] > 3)
+                {
+                    CheckResults.Add(new CheckResult("Meta-SenderAddressSeenBefore", "Die vermeintliche Emailadresse ist bekannt.", senderEmailAddress, -30));
+                }
             }
             else
             {
-                result += "Vermeintliche Emailadresse ist neu.";
-                score -= 10;
-                isSuspicious = true;
                 CheckResults.Add(new CheckResult("Meta-SenderNew", "Vermeintliche Emailadresse ist neu.", senderEmailAddress, -20));
             }
 
             if (DictSenderCombo.ContainsKey(senderCombo))
             {
-                //result += "SenderCombo seen before " + DictSenderCombo[senderCombo] + "x.<br/>";
-                score += DictSenderCombo[senderCombo];
+                if (DictSenderCombo[senderCombo] > 3)
+                {
+                    CheckResults.Add(new CheckResult("Meta-ComboSeenBefore", "Die Kombination von Absender (Freitext) und Emailadresse ist bekannt.", senderEmailAddress, 100));
+                }
             }
             else
             {
@@ -276,7 +276,14 @@ namespace FinalFrontier
                 checkKeywords("Attachment-Keyword", attachment.FileName);
             }
 
-
+            Debug.WriteLine("---CHECK RESULTS---");
+            foreach (CheckResult cr in CheckResults)
+            {
+                Debug.WriteLine(cr.id + " / " + cr.ioc + " / " + cr.fragment + " / " + cr.score);
+                result += cr.id + " / " + cr.ioc + " / " + cr.fragment + " / " + cr.score + Environment.NewLine;
+                score += cr.score;
+            }
+            result = "SCORE: " + score + Environment.NewLine + result;
 
             return CheckResults;
         }
