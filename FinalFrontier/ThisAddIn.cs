@@ -42,13 +42,11 @@ namespace FinalFrontier
             tvcntr = 0;
 
             Outlook.Folder root = Application.Session.DefaultStore.GetRootFolder() as Outlook.Folder;
-
-            // TODO: ansprechendes Start-Popup - nur bei ersten Start bzw. bei neu Lernen?!?! Learning should not include the current inbox!
-            // alternatively: Create(Context)Menu - Item to trigger this for selected folder
+            
             //Form welcome = new ffwelcome(root);
             //welcome.ShowDialog();
 
-             currentExplorer = this.Application.ActiveExplorer();
+            currentExplorer = this.Application.ActiveExplorer();
             currentExplorer.SelectionChange += new Outlook
                 .ExplorerEvents_10_SelectionChangeEventHandler
                 (CurrentExplorer_Event);
@@ -161,13 +159,20 @@ namespace FinalFrontier
                             {
                                 lastConversationID = mailItem.ConversationID;
                                 Analyzer ana = new Analyzer();
-                                itemMessage = ana.getSummary(mailItem);
+                                ana.getSummary(mailItem);
+
+                                Debug.WriteLine("---CHECK RESULTS---");
+                                foreach (CheckResult cr in ana.CheckResults)
+                                {
+                                    Debug.WriteLine(cr.id + " / " + cr.ioc + " / " + cr.fragment + " / " + cr.score);
+                                }
                                 
-                                if (ana.isSuspicious == true)
+                                // TODO: eigentlich: wenn score > threshold!!!
+                                if (ana.CheckResults.Count > 0)
                                 {
                                     //Debug.WriteLine("ALERT SHALL BE TRIGGERED!!!");
                                     //MessageBox.Show(ana.alertContent + " / " + ana.getSummary(mailItem), "Email könnte schadhaft sein!!!", MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
-                                    MessageBox.Show(ana.getSummary(mailItem), "FinalFrontier - Warnung: Email könnte schadhaft sein!!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                    //MessageBox.Show(ana.getSummary(mailItem), "FinalFrontier - Warnung: Email könnte schadhaft sein!!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                                 }
 
                                 tvcntr++;

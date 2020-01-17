@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Configuration;
 
+
 namespace FinalFrontier
 {
     public static class MailItemExtensions
@@ -45,18 +46,34 @@ namespace FinalFrontier
         }
     }
 
+    public class CheckResult
+    {
+        public String id;
+        public String fragment = "";
+        public String ioc = "";
+        public int score = 0;
+
+        public CheckResult(String id, String fragment, String ioc, int score)
+        {
+            this.id = id;
+            this.fragment = fragment;
+            this.ioc = ioc;
+            this.score = score;
+        }
+    }
+
 
     public class Analyzer
     {
-        private string[] whitelist = ConfigurationManager.AppSettings["whitelist"].Split(',');
-        private string[] linkshorteners = ConfigurationManager.AppSettings["linkshorteners"].Split(',');
-        private string[] lookalikes = ConfigurationManager.AppSettings["lookalikes"].Split(',');
-        private string[] badtlds = ConfigurationManager.AppSettings["badtlds"].Split(',');
-        private string[] badextensions = ConfigurationManager.AppSettings["badextensions"].Split(',');
-        private string[] docextensions = ConfigurationManager.AppSettings["docextensions"].Split(',');
-        private string[] imgextensions = ConfigurationManager.AppSettings["imgextensions"].Split(',');
-        private string[] exeextensions = ConfigurationManager.AppSettings["exeextensions"].Split(',');
-        private string[] keywords = ConfigurationManager.AppSettings["keywords"].Split(',');
+        private string[] whitelist;
+        private string[] linkshorteners;
+        private string[] lookalikes;
+        private string[] badtlds;
+        private string[] badextensions;
+        private string[] docextensions;
+        private string[] imgextensions;
+        private string[] exeextensions;
+        private string[] keywords;
         DictionaryTools dt;
         private Dictionary<string, int> DictSenderName;
         private Dictionary<string, int> DictSenderEmail;
@@ -72,6 +89,7 @@ namespace FinalFrontier
         private bool hasbadextensions = false;
         private bool hasdoubleextensions = false;
         private bool hasBadTldsInLinks = false;
+        public List<CheckResult> CheckResults;
         private string senderName;
         private string senderEmailAddress;
         private string senderCombo;
@@ -85,71 +103,67 @@ namespace FinalFrontier
 
         public Analyzer()
         {
+            try
+            {
+                whitelist = ConfigurationManager.AppSettings["whitelist"].Split(',');
+                linkshorteners = ConfigurationManager.AppSettings["linkshorteners"].Split(',');
+                lookalikes = ConfigurationManager.AppSettings["lookalikes"].Split(',');
+                badtlds = ConfigurationManager.AppSettings["badtlds"].Split(',');
+                badextensions = ConfigurationManager.AppSettings["badextensions"].Split(',');
+                docextensions = ConfigurationManager.AppSettings["docextensions"].Split(',');
+                imgextensions = ConfigurationManager.AppSettings["imgextensions"].Split(',');
+                exeextensions = ConfigurationManager.AppSettings["exeextensions"].Split(',');
+                keywords = ConfigurationManager.AppSettings["keywords"].Split(',');
+    }
+            catch (System.Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Could not read configuration file app.config");
+            }
+
             dt = new DictionaryTools();
             String userpath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             DictSenderName = dt.Read(userpath + "\\dict-sender-name.bin");
             DictSenderEmail = dt.Read(userpath + "\\dict-sender-email.bin");
             DictSenderCombo = dt.Read(userpath + "\\dict-sender-combo.bin");
         }
-
-
-        // TODO: teilweise fehlen noch die isSuspicious=1, Ausgabe muss noch konsolidiert werden (Mehrfachstrings, unterschiedliche Variablen)
-        public string getSummary(Microsoft.Office.Interop.Outlook.MailItem mailItem)
+        
+        public List<CheckResult> getSummary(Microsoft.Office.Interop.Outlook.MailItem mailItem)
         {
             score = 0;
             isSuspicious = false;
             string result = "";
+            CheckResults = new List<CheckResult>();
             int linkcounter = 0;
-
-            // check links within the message
-            // TODO: what about non-html mails?
+            
             String MailHtmlBody = mailItem.HTMLBody;
-
+            
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(MailHtmlBody);
-            links = doc.DocumentNode.SelectNodes("//a[@href]");//the parameter is use xpath see: https://www.w3schools.com/xml/xml_xpath.asp;
+            links = doc.DocumentNode.SelectNodes("//a[@href]");
             if (links != null)
             {
                 foreach (HtmlNode node in links)
                 {
-                    // check for link shorteners and redirects
-                    foreach (String shortener in linkshorteners)
-                    {
-                        if (node.GetAttributeValue("href", null).IndexOf(shortener) > 0) hasLinksWithShorteners = true;
-                    }
-
-                    // Check for unwanted TLDs (.date, ...)
-                    hasBadTldsInLinks = hasBadTld(node.GetAttributeValue("href", null)); ;
+                    checkLinkShorteners("Link-Shortener", node.GetAttributeValue("href", null));
+                    
+                    checkBadTld("Link-badTLD", node.GetAttributeValue("href", null));
 
                     // check for keywords in links
-                    foreach (String key in keywords)
-                    {
-                        if (node.GetAttributeValue("href", null).Contains(key))
-                        {
-                            Debug.WriteLine("Link contains keyword " + key + " - " + node.GetAttributeValue("href", null));
-                        }
-                    }
+                    checkKeywords("Link-Keyword", node.GetAttributeValue("href", null));
                 }
                 linkcounter = links.Count;
             }
             
             string[] receivedByArray = mailItem.Headers("Received");
-            //Debug.WriteLine("receivedByArray length: " + receivedByArray.Length);
             string receivedBy;
             
             if (receivedByArray.Length > 0)
             {
-                //Debug.WriteLine("RECEIVE-LINES:");
                 receivedBy = receivedByArray[0];
                 foreach (String entry in receivedByArray)
                 {
                     String receiveDomain = getReceiveFromString(entry);
-                    //Debug.WriteLine(entry);
-                    Debug.WriteLine(receiveDomain);
-                    if (hasBadTld(receiveDomain) == true)
-                    {
-                        Debug.WriteLine("badTLD in MTA-Kette");
-                    }
+                    checkBadTld("Receive-badTLD", receiveDomain);
                 }
                 
             }
@@ -157,7 +171,6 @@ namespace FinalFrontier
                 receivedBy = "";
             
             int mailsize = mailItem.Size;
-            //Debug.WriteLine("mailsize: " + mailsize);
 
             String senderenvelope = GetSenderSMTPAddress(mailItem);
             
@@ -165,39 +178,28 @@ namespace FinalFrontier
             senderName = mailItem.SenderName;
             senderEmailAddress = mailItem.SenderEmailAddress;
 
-            String senderDomainEnvelope = getDomainFromMail(senderenvelope);
+            String senderDomainEnvelope = "";
+            if (senderenvelope != null) senderDomainEnvelope = getDomainFromMail(senderenvelope);
             String senderDomainHeader = getDomainFromMail(senderEmailAddress);
 
             // check if senderEmail has different domain than senderEnvelope
             if ((senderenvelope != null) & (senderDomainEnvelope != senderDomainHeader))
             {
-                Debug.WriteLine("mismatch between sender domains of envelope and header");
-                isSuspicious = true;
+                CheckResults.Add(new CheckResult("Meta-SenderDomainMismatch", "mismatch between sender domains of envelope and header", senderDomainEnvelope + "/" + senderDomainHeader, -40));
             }
 
             // check if senderName contains email address with different domain than senderEnvelope
             if ((senderName.Contains("@")) & (senderDomainEnvelope != getDomainFromMail(senderName)))
             {
-                Debug.WriteLine("senderName contains email address with different domain than senderEnvelope");
-                isSuspicious = true;
+                CheckResults.Add(new CheckResult("Meta-SenderNameDomainMismatch", "senderName contains email address with different domain than senderEnvelope", senderDomainEnvelope + "/" + getDomainFromMail(senderName), -50));
             }
 
             // check if senderEnvelope has badTLD
-            if (hasBadTld(senderDomainEnvelope) == true)
-            {
-                Debug.WriteLine("badTLD in senderEnvelope");
-                isSuspicious = true;
-            }
-
-            Debug.WriteLine("senderenvelope: " + senderenvelope + " - " + senderDomainEnvelope);
-            Debug.WriteLine("senderheader: " + senderEmailAddress + " - " + senderDomainHeader);
-            Debug.WriteLine("sendername: " + senderName);
+            checkBadTld("SenderEnvelope-badTLD", senderDomainEnvelope);
             
             if ((senderenvelope != null) & (senderenvelope!="") & (senderEmailAddress != senderenvelope))
             {
-                isSuspicious = true;
-                Debug.WriteLine("TESTTESTTEST");
-                result += "Der Absender ist evtl. gefälscht. ";
+                CheckResults.Add(new CheckResult("Meta-SenderMismatch", "Der Absender ist evtl. gefälscht (Adresse Umschlag vs. Mail)", senderEmailAddress + "/" + senderenvelope, -50));
             }
 
             // TODO: if senderName and SenderEmail are equal there should not be an alert!!!
@@ -208,38 +210,25 @@ namespace FinalFrontier
             if ((senderNameAtPos != -1) & (!senderEmailAddress.Equals("")))
             {
                 // senderName contains mail address
-                senderNameContainsEmail = true;
-                score -= 20;
                 senderNameDomainPart = senderName.Substring(senderNameAtPos + 1);
-                isSuspicious = true;
-                result += "Der Absender ist evtl. gefälscht (Name soll Mailadresse suggerieren).";
+                CheckResults.Add(new CheckResult("Meta-SenderMismatch", "Der Absender ist evtl. gefälscht (Name soll Mailadresse suggerieren)", senderEmailAddress + "/" + senderenvelope, -20));
 
                 if ((senderEmailAddress.IndexOf(senderNameDomainPart) == -1) & (!senderEmailAddress.Equals("")))
                 {
                     // senderName contains domain different to the one in senderEmailAddress
                     domainMismatch = true;
-                    score -= 30;
-                    result += "senderName contains email address with different domain than sender<br/>";
-                    isSuspicious = true;
-                    result += "Die angezeigte Mailadresse entspricht vermutlich nicht dem tatsächlichen Absender";
+                    CheckResults.Add(new CheckResult("Meta-SenderPhishy", "Die angezeigte Mailadresse entspricht vermutlich nicht dem tatsächlichen Absender / senderName contains email address with different domain than sender", senderEmailAddress + " / " + senderNameDomainPart, -40));
                 }
             }
 
-            if (hasBadTld(senderEmailAddress) == true)
-            {
-                isSuspicious = true;
-                isBadTldSender = true;
-                result += "Der Absender ist ggfs. nicht vertrauenswürdig (keine gängige Webadresse). ";
-            }
+            checkBadTld("SenderHeader-badTLD", senderEmailAddress);
 
             // check for domain in whitelist
             int senderEmailAddressAtPos = senderEmailAddress.IndexOf("@");
             string senderEmailAddressDomainPart = senderEmailAddress.Substring(senderEmailAddressAtPos + 1);
             if ((whitelist.Contains(senderEmailAddressDomainPart)) & (domainMismatch == false))
             {
-                score += 80;
-                isWhitelisted = true;
-                result += "senderEmail is whitelisted<br/>";
+                CheckResults.Add(new CheckResult("Meta-SenderEmailWhitelisted", "Die angezeigte Mailadresse ist in der Whitelist", senderEmailAddress + " / " + senderNameDomainPart, 80));
             }
             
             // evaluate history of senderName, senderEmailAddress and their combo
@@ -250,9 +239,7 @@ namespace FinalFrontier
             }
             else
             {
-                result += "Der Name (Freitext) des Absenders ist neu.";
-                isSuspicious = true;
-                score -= 10;
+                CheckResults.Add(new CheckResult("Meta-NameNew", "Der Name (Freitext) des Absenders ist neu", senderName, -10));
             }
 
             if (DictSenderEmail.ContainsKey(senderEmailAddress))
@@ -265,6 +252,7 @@ namespace FinalFrontier
                 result += "Vermeintliche Emailadresse ist neu.";
                 score -= 10;
                 isSuspicious = true;
+                CheckResults.Add(new CheckResult("Meta-SenderNew", "Vermeintliche Emailadresse ist neu.", senderEmailAddress, -20));
             }
 
             if (DictSenderCombo.ContainsKey(senderCombo))
@@ -274,61 +262,82 @@ namespace FinalFrontier
             }
             else
             {
-                result += "Die Kombination von Absender (Freitext) und Emailadresse ist neu.";
-                score -= 10;
-                isSuspicious = true;
+                CheckResults.Add(new CheckResult("Meta-ComboNew", "Die Kombination von Absender (Freitext) und Emailadresse ist neu.", senderEmailAddress, -40));
             }
-
-            //Debug.WriteLine("LOOKING FOR ATTACHMENTS");
+            
             attachments = mailItem.Attachments;
-            Debug.WriteLine(attachments.Count + " attachments.");
+            //Debug.WriteLine(attachments.Count + " attachments.");
             foreach (Attachment attachment in attachments)
             {
-                //Debug.WriteLine(attachment.FileName + " - " + attachment.Type + " - " + attachment.Size);
-                // check for double extensions using docextensions and exeextensions
-                foreach (String docext in docextensions)
-                {
-                    foreach (String exeext in exeextensions)
-                    {
-                        if (attachment.FileName.EndsWith(docext + exeext))
-                        {
-                            hasdoubleextensions = true;
-                        }
-                    }
-                }
+                checkDoubleExtensions("Attachment-DoubleExtensions", attachment.FileName);
                 
-                // check for badextensions
-                foreach (String ext in badextensions)
-                    {
-                        if (attachment.FileName.EndsWith(ext))
-                        {
-                            hasbadextensions = true;
-                        }
-                    }
+                checkBadExtensions("Attachment-BadExtension", attachment.FileName);
 
-                foreach (String key in keywords)
-                {
-                    if (attachment.FileName.Contains(key))
-                    {
-                        Debug.WriteLine("filename contains keyword " + key + " - " + attachment.FileName);
-                    }
-                }
+                checkKeywords("Attachment-Keyword", attachment.FileName);
             }
 
-            return result;// + "<br/>Score: " + score;
+
+
+            return CheckResults;
         }
 
-        private Boolean hasBadTld(String instr)
+        private void checkBadTld(String id, String instr)
         {
+            if (instr == null) return;
             foreach (String badtld in badtlds)
             {
-                //if (instr.Contains(badtld))
                 if (instr.EndsWith(badtld))
                 {
-                    return true;
+                    CheckResults.Add(new CheckResult(id, badtld, instr, -20));
                 }
             }
-            return false;
+        }
+
+        private void checkBadExtensions(String id, String instr)
+        {
+            foreach (String ext in badextensions)
+            {
+                if (instr.EndsWith(ext))
+                {
+                    CheckResults.Add(new CheckResult(id, ext, instr, -20));
+                }
+            }
+        }
+
+        private void checkKeywords(String id, String instr)
+        {
+            foreach (String key in keywords)
+            {
+                if (instr.EndsWith(key))
+                {
+                    CheckResults.Add(new CheckResult(id, key, instr, -20));
+                }
+            }
+        }
+
+        private void checkLinkShorteners(String id, String instr)
+        {
+            foreach (String shortener in linkshorteners)
+            {
+                if (instr.IndexOf(shortener) > 0)
+                {
+                    CheckResults.Add(new CheckResult(id, shortener, instr, -20));
+                }
+            }
+        }
+
+        private void checkDoubleExtensions(String id, String instr)
+        {
+            foreach (String docext in docextensions)
+            {
+                foreach (String exeext in exeextensions)
+                {
+                    if (instr.EndsWith(docext + exeext))
+                    {
+                        CheckResults.Add(new CheckResult(id, docext + exeext, instr, -20));
+                    }
+                }
+            }
         }
 
         private String getReceiveFromString(String inline)
@@ -352,7 +361,6 @@ namespace FinalFrontier
             String res = "";
             try
             {
-                // TODO: Null pointer exception!!!
                 int startpos = inval.IndexOf("@") + 1;
                 res = inval.Substring(startpos);
             }

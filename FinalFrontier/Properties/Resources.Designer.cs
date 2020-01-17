@@ -63,6 +63,16 @@ namespace FinalFrontier.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap FAVPNG_warning_sign_vector_graphics_royalty_free_hazard_symbol_DmwixG6E {
+            get {
+                object obj = ResourceManager.GetObject("FAVPNG_warning-sign-vector-graphics-royalty-free-hazard-symbol_DmwixG6E", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icon_doc {
             get {
                 object obj = ResourceManager.GetObject("icon_doc", resourceCulture);

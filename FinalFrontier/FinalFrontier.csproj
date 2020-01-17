@@ -130,6 +130,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -188,9 +189,18 @@
   <ItemGroup>
     <Compile Include="Analyzer.cs" />
     <Compile Include="DictionaryTools.cs" />
+    <Compile Include="FFAlert.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FFAlert.Designer.cs">
+      <DependentUpon>FFAlert.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <EmbeddedResource Include="FFAlert.resx">
+      <DependentUpon>FFAlert.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -201,7 +211,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="FinalFrontier_1_TemporaryKey.pfx" />
     <None Include="FinalFrontier_2_TemporaryKey.pfx" />
     <None Include="FinalFrontier_3_TemporaryKey.pfx" />
@@ -234,6 +246,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Resources\FAVPNG_warning-sign-vector-graphics-royalty-free-hazard-symbol_DmwixG6E.png" />
     <Content Include="Resources\icon_doc.png" />
     <None Include="Resources\icon_id.png" />
     <Content Include="Resources\icon_link.png" />
