@@ -13,47 +13,14 @@ using System.Configuration;
 
 namespace FinalFrontier
 {
-    public static class MailItemExtensions
-    {
-        private const string HeaderRegex =
-            @"^(?<header_key>[-A-Za-z0-9]+)(?<seperator>:[ \t]*)" +
-                "(?<header_value>([^\r\n]|\r\n[ \t]+)*)(?<terminator>\r\n)";
-        private const string TransportMessageHeadersSchema =
-            "http://schemas.microsoft.com/mapi/proptag/0x007D001E";
-
-        public static string[] Headers(this MailItem mailItem, string name)
-        {
-            var headers = mailItem.HeaderLookup();
-            if (headers.Contains(name))
-                return headers[name].ToArray();
-            return new string[0];
-        }
-
-        public static ILookup<string, string> HeaderLookup(this MailItem mailItem)
-        {
-            var headerString = mailItem.HeaderString();
-            var headerMatches = Regex.Matches
-                (headerString, HeaderRegex, RegexOptions.Multiline).Cast<Match>();
-            return headerMatches.ToLookup(
-                h => h.Groups["header_key"].Value,
-                h => h.Groups["header_value"].Value);
-        }
-
-        public static string HeaderString(this MailItem mailItem)
-        {
-            return (string)mailItem.PropertyAccessor
-                .GetProperty(TransportMessageHeadersSchema);
-        }
-    }
-
     public class CheckResult
     {
-        public String id;
-        public String fragment = "";
-        public String ioc = "";
+        public string id;
+        public string fragment = "";
+        public string ioc = "";
         public int score = 0;
 
-        public CheckResult(String id, String fragment, String ioc, int score)
+        public CheckResult(string id, string fragment, string ioc, int score)
         {
             this.id = id;
             this.fragment = fragment;
@@ -61,7 +28,6 @@ namespace FinalFrontier
             this.score = score;
         }
     }
-
 
     public class Analyzer
     {
@@ -78,7 +44,7 @@ namespace FinalFrontier
         private Dictionary<string, int> DictSenderName;
         private Dictionary<string, int> DictSenderEmail;
         private Dictionary<string, int> DictSenderCombo;
-        public String result;
+        public string result;
         private string senderNameDomainPart = "";
         private bool domainMismatch = false;
         private bool isWhitelisted = false;
@@ -97,8 +63,7 @@ namespace FinalFrontier
         private Microsoft.Office.Interop.Outlook.Attachments attachments;
         public int score;
         public bool isSuspicious;
-        private const string HeaderRegex =
-        @"^(?<header_key>[-A-Za-z0-9]+)(?<seperator>:[ \t]*)" +
+        private const string HeaderRegex = @"^(?<header_key>[-A-Za-z0-9]+)(?<seperator>:[ \t]*)" +
             "(?<header_value>([^\r\n]|\r\n[ \t]+)*)(?<terminator>\r\n)";
 
         public Analyzer()
@@ -114,29 +79,29 @@ namespace FinalFrontier
                 imgextensions = ConfigurationManager.AppSettings["imgextensions"].Split(',');
                 exeextensions = ConfigurationManager.AppSettings["exeextensions"].Split(',');
                 keywords = ConfigurationManager.AppSettings["keywords"].Split(',');
-    }
-            catch (System.Exception ex)
+            }
+            catch (System.Exception)
             {
                 System.Windows.Forms.MessageBox.Show("Could not read configuration file app.config");
             }
 
             dt = new DictionaryTools();
-            String userpath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            string userpath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             DictSenderName = dt.Read(userpath + "\\dict-sender-name.bin");
             DictSenderEmail = dt.Read(userpath + "\\dict-sender-email.bin");
             DictSenderCombo = dt.Read(userpath + "\\dict-sender-combo.bin");
         }
-        
-        public List<CheckResult> getSummary(Microsoft.Office.Interop.Outlook.MailItem mailItem)
+
+        public List<CheckResult> getSummary(MailItem mailItem)
         {
             score = 0;
             isSuspicious = false;
             CheckResults = new List<CheckResult>();
             int linkcounter = 0;
             result = "";
-            
-            String MailHtmlBody = mailItem.HTMLBody;
-            
+
+            string MailHtmlBody = mailItem.HTMLBody;
+
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(MailHtmlBody);
             links = doc.DocumentNode.SelectNodes("//a[@href]");
@@ -145,7 +110,7 @@ namespace FinalFrontier
                 foreach (HtmlNode node in links)
                 {
                     checkLinkShorteners("Link-Shortener", node.GetAttributeValue("href", null));
-                    
+
                     checkBadTld("Link-badTLD", node.GetAttributeValue("href", null));
 
                     // check for keywords in links
@@ -153,34 +118,34 @@ namespace FinalFrontier
                 }
                 linkcounter = links.Count;
             }
-            
+
             string[] receivedByArray = mailItem.Headers("Received");
             string receivedBy;
-            
+
             if (receivedByArray.Length > 0)
             {
                 receivedBy = receivedByArray[0];
-                foreach (String entry in receivedByArray)
+                foreach (string entry in receivedByArray)
                 {
-                    String receiveDomain = getReceiveFromString(entry);
+                    string receiveDomain = getReceiveFromString(entry);
                     checkBadTld("Receive-badTLD", receiveDomain);
                 }
-                
+
             }
             else
                 receivedBy = "";
-            
+
             int mailsize = mailItem.Size;
 
-            String senderenvelope = GetSenderSMTPAddress(mailItem);
-            
+            string senderenvelope = GetSenderSMTPAddress(mailItem);
+
             // check for suspicious sender
             senderName = mailItem.SenderName;
             senderEmailAddress = mailItem.SenderEmailAddress;
 
-            String senderDomainEnvelope = "";
+            string senderDomainEnvelope = "";
             if (senderenvelope != null) senderDomainEnvelope = getDomainFromMail(senderenvelope);
-            String senderDomainHeader = getDomainFromMail(senderEmailAddress);
+            string senderDomainHeader = getDomainFromMail(senderEmailAddress);
 
             // check if senderEmail has different domain than senderEnvelope
             if ((senderenvelope != null) & (senderDomainEnvelope != senderDomainHeader))
@@ -196,8 +161,8 @@ namespace FinalFrontier
 
             // check if senderEnvelope has badTLD
             checkBadTld("SenderEnvelope-badTLD", senderDomainEnvelope);
-            
-            if ((senderenvelope != null) & (senderenvelope!="") & (senderEmailAddress != senderenvelope))
+
+            if ((senderenvelope != null) & (senderenvelope != "") & (senderEmailAddress != senderenvelope))
             {
                 CheckResults.Add(new CheckResult("Meta-SenderMismatch", "Der Absender ist evtl. gefälscht (Adresse Umschlag vs. Mail)", senderEmailAddress + "/" + senderenvelope, -50));
             }
@@ -229,7 +194,7 @@ namespace FinalFrontier
             {
                 CheckResults.Add(new CheckResult("Meta-SenderEmailWhitelisted", "Die angezeigte Mailadresse ist in der Whitelist", senderEmailAddress + " / " + senderNameDomainPart, 80));
             }
-            
+
             // evaluate history of senderName, senderEmailAddress and their combo
             if (DictSenderName.ContainsKey(senderName))
             {
@@ -264,13 +229,13 @@ namespace FinalFrontier
             {
                 CheckResults.Add(new CheckResult("Meta-ComboNew", "Die Kombination von Absender (Freitext) und Emailadresse ist neu.", senderEmailAddress, -40));
             }
-            
+
             attachments = mailItem.Attachments;
             //Debug.WriteLine(attachments.Count + " attachments.");
             foreach (Attachment attachment in attachments)
             {
                 checkDoubleExtensions("Attachment-DoubleExtensions", attachment.FileName);
-                
+
                 checkBadExtensions("Attachment-BadExtension", attachment.FileName);
 
                 checkKeywords("Attachment-Keyword", attachment.FileName);
@@ -288,10 +253,10 @@ namespace FinalFrontier
             return CheckResults;
         }
 
-        private void checkBadTld(String id, String instr)
+        private void checkBadTld(string id, string instr)
         {
             if (instr == null) return;
-            foreach (String badtld in badtlds)
+            foreach (string badtld in badtlds)
             {
                 if (instr.EndsWith(badtld))
                 {
@@ -300,9 +265,9 @@ namespace FinalFrontier
             }
         }
 
-        private void checkBadExtensions(String id, String instr)
+        private void checkBadExtensions(string id, string instr)
         {
-            foreach (String ext in badextensions)
+            foreach (string ext in badextensions)
             {
                 if (instr.EndsWith(ext))
                 {
@@ -311,9 +276,9 @@ namespace FinalFrontier
             }
         }
 
-        private void checkKeywords(String id, String instr)
+        private void checkKeywords(string id, string instr)
         {
-            foreach (String key in keywords)
+            foreach (string key in keywords)
             {
                 if (instr.EndsWith(key))
                 {
@@ -322,9 +287,9 @@ namespace FinalFrontier
             }
         }
 
-        private void checkLinkShorteners(String id, String instr)
+        private void checkLinkShorteners(string id, string instr)
         {
-            foreach (String shortener in linkshorteners)
+            foreach (string shortener in linkshorteners)
             {
                 if (instr.IndexOf(shortener) > 0)
                 {
@@ -333,11 +298,11 @@ namespace FinalFrontier
             }
         }
 
-        private void checkDoubleExtensions(String id, String instr)
+        private void checkDoubleExtensions(string id, string instr)
         {
-            foreach (String docext in docextensions)
+            foreach (string docext in docextensions)
             {
-                foreach (String exeext in exeextensions)
+                foreach (string exeext in exeextensions)
                 {
                     if (instr.EndsWith(docext + exeext))
                     {
@@ -347,9 +312,9 @@ namespace FinalFrontier
             }
         }
 
-        private String getReceiveFromString(String inline)
+        private string getReceiveFromString(string inline)
         {
-            String res = "";
+            string res = "";
             try
             {
                 int startpos = inline.IndexOf("from ") + 5;
@@ -363,9 +328,9 @@ namespace FinalFrontier
             return res;
         }
 
-        private String getDomainFromMail(String inval)
+        private string getDomainFromMail(string inval)
         {
-            String res = "";
+            string res = "";
             try
             {
                 int startpos = inval.IndexOf("@") + 1;
@@ -381,29 +346,22 @@ namespace FinalFrontier
         private string GetSenderSMTPAddress(Outlook.MailItem mail)
         {
 
-            string PR_SMTP_ADDRESS =
-                @"http://schemas.microsoft.com/mapi/proptag/0x39FE001E";
+            string PR_SMTP_ADDRESS = @"http://schemas.microsoft.com/mapi/proptag/0x39FE001E";
             if (mail == null)
             {
                 throw new ArgumentNullException();
             }
             if (mail.SenderEmailType == "EX")
             {
-                Outlook.AddressEntry sender =
-                    mail.Sender;
+                Outlook.AddressEntry sender = mail.Sender;
                 if (sender != null)
                 {
                     //Now we have an AddressEntry representing the Sender
-                    if (sender.AddressEntryUserType ==
-                        Outlook.OlAddressEntryUserType.
-                        olExchangeUserAddressEntry
-                        || sender.AddressEntryUserType ==
-                        Outlook.OlAddressEntryUserType.
-                        olExchangeRemoteUserAddressEntry)
+                    if (sender.AddressEntryUserType == OlAddressEntryUserType.olExchangeUserAddressEntry || 
+                        sender.AddressEntryUserType == OlAddressEntryUserType.olExchangeRemoteUserAddressEntry)
                     {
                         //Use the ExchangeUser object PrimarySMTPAddress
-                        Outlook.ExchangeUser exchUser =
-                            sender.GetExchangeUser();
+                        ExchangeUser exchUser = sender.GetExchangeUser();
                         if (exchUser != null)
                         {
                             return exchUser.PrimarySmtpAddress;
@@ -415,8 +373,7 @@ namespace FinalFrontier
                     }
                     else
                     {
-                        return sender.PropertyAccessor.GetProperty(
-                            PR_SMTP_ADDRESS) as string;
+                        return sender.PropertyAccessor.GetProperty(PR_SMTP_ADDRESS) as string;
                     }
                 }
                 else
@@ -429,6 +386,5 @@ namespace FinalFrontier
                 return null;// mail.SenderEmailAddress;
             }
         }
-
     }
 }

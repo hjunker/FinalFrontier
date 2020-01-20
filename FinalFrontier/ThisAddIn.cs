@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using Outlook = Microsoft.Office.Interop.Outlook;
-using Office = Microsoft.Office.Core;
-using System.Windows.Forms;
 using Microsoft.Office.Interop.Outlook;
+using System.Windows.Forms;
 using System.Diagnostics;
 
 // https://msdn.microsoft.com/en-us/library/cc668191.aspx
@@ -20,14 +18,11 @@ namespace FinalFrontier
 
     public partial class ThisAddIn
     {
-        Outlook.Inspectors inspectors;
-        Outlook.Explorer currentExplorer = null;
-        private Dictionary<string, int> DictSenderName =
-            new Dictionary<string, int>();
-        private Dictionary<string, int> DictSenderEmail =
-            new Dictionary<string, int>();
-        private Dictionary<string, int> DictSenderCombo =
-            new Dictionary<string, int>();
+        Inspectors inspectors;
+        Explorer currentExplorer = null;
+        private Dictionary<string, int> DictSenderName = new Dictionary<string, int>();
+        private Dictionary<string, int> DictSenderEmail = new Dictionary<string, int>();
+        private Dictionary<string, int> DictSenderCombo = new Dictionary<string, int>();
         DictionaryTools dt = new DictionaryTools();
         private String lastConversationID = "";
         private int tvcntr;
@@ -41,22 +36,20 @@ namespace FinalFrontier
         {
             tvcntr = 0;
 
-            Outlook.Folder root = Application.Session.DefaultStore.GetRootFolder() as Outlook.Folder;
-            
+            Folder root = Application.Session.DefaultStore.GetRootFolder() as Folder;
+
             //Form welcome = new ffwelcome(root);
             //welcome.ShowDialog();
 
             currentExplorer = this.Application.ActiveExplorer();
-            currentExplorer.SelectionChange += new Outlook
-                .ExplorerEvents_10_SelectionChangeEventHandler
-                (CurrentExplorer_Event);
-                
+            currentExplorer.SelectionChange += new ExplorerEvents_10_SelectionChangeEventHandler(CurrentExplorer_Event);
+
             /*
             currentExplorer.ViewSwitch += new Outlook
                 .ExplorerEvents_10_ViewSwitchEventHandler
                 (ExplorerWrapper_ViewSwitch);
                 */
-            
+
             // LEARN FROM FOLDERS
             EnumerateFolders(root);
 
@@ -68,13 +61,12 @@ namespace FinalFrontier
             */
         }
 
-        private void EnumerateFolders(Outlook.Folder folder)
+        private void EnumerateFolders(Folder folder)
         {
-            Outlook.Folders childFolders =
-                folder.Folders;
+            Folders childFolders = folder.Folders;
             if (childFolders.Count > 0)
             {
-                foreach (Outlook.Folder childFolder in childFolders)
+                foreach (Folder childFolder in childFolders)
                 {
                     // Write the folder path.
                     Debug.WriteLine(childFolder.FolderPath);
@@ -83,9 +75,9 @@ namespace FinalFrontier
                     {
                         // iterate through mails in this folder
                         Items mails = childFolder.Items;
-                        foreach (Outlook.MailItem mail in mails)
+                        foreach (MailItem mail in mails)
                         {
-                            Outlook.MailItem thismail = (mail as Outlook.MailItem);
+                            MailItem thismail = mail as MailItem;
                             string senderName = thismail.SenderName;
                             string senderEmailAddress = thismail.SenderEmailAddress;
                             string senderCombo = senderName + "/" + senderEmailAddress;
@@ -117,13 +109,13 @@ namespace FinalFrontier
                             }
                         }
                     }
-                    catch (System.Exception ex)
+                    catch (System.Exception)
                     { }
                     // Call EnumerateFolders using childFolder.
                     EnumerateFolders(childFolder);
                 }
             }
-            String userpath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            string userpath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             dt.Write(DictSenderName, userpath + "\\dict-sender-name.bin");
             dt.Write(DictSenderEmail, userpath + "\\dict-sender-email.bin");
             dt.Write(DictSenderCombo, userpath + "\\dict-sender-combo.bin");
@@ -133,25 +125,18 @@ namespace FinalFrontier
         {
         }
 
-        private void CurrentExplorer_Event()
+        public void CurrentExplorer_Event()
         {
-            Outlook.MAPIFolder selectedFolder =
-                this.Application.ActiveExplorer().CurrentFolder;
-            String expMessage = ""; // "Your current folder is " + selectedFolder.Name + ".\n";
-            String itemMessage = ""; // "Item is unknown.";
+            MAPIFolder selectedFolder = Application.ActiveExplorer().CurrentFolder;
+            string expMessage = ""; // "Your current folder is " + selectedFolder.Name + ".\n";
+            string itemMessage = ""; // "Item is unknown.";
             try
             {
-                if (this.Application.ActiveExplorer().Selection.Count > 0)
+                if (Application.ActiveExplorer().Selection.Count > 0)
                 {
-                    Object selObject = this.Application.ActiveExplorer().Selection[1];
-                    
-                    if (selObject is Outlook.MailItem)
+                    MailItem mailItem = Application.ActiveExplorer().Selection[1] as MailItem;
+                    if (mailItem != null)
                     {
-                        Outlook.MailItem mailItem =
-                            (selObject as Outlook.MailItem);
-                        /* itemMessage = "The item is an e-mail message." +
-                             " The subject is " + mailItem.Subject + ".";
-                             */
                         try
                         {
                             // this condition should prevent the popup from showing twice
@@ -160,7 +145,7 @@ namespace FinalFrontier
                                 lastConversationID = mailItem.ConversationID;
                                 Analyzer ana = new Analyzer();
                                 ana.getSummary(mailItem);
-                                
+
                                 if (ana.score < -20)
                                 {
                                     MessageBox.Show(ana.result, "FinalFrontier - Warnung: Email könnte schadhaft sein!!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -178,42 +163,43 @@ namespace FinalFrontier
                         //int endpos = mailItem.HTMLBody.IndexOf("</p>");
                         //if (!startpos.Equals(-1)) mailItem.HTMLBody = mailItem.HTMLBody.Remove(startpos, endpos-startpos);
                         //mailItem.HTMLBody = "<p class=\"finalfrontier\" style=\"background-color:red\"><b>FinalFrontier</b><br/>" + itemMessage + "</p>" + mailItem.HTMLBody;
-                        
+
 
                         //mailItem.Display(false);
                     }
-/*                    else if (selObject is Outlook.ContactItem)
-                    {
-                        Outlook.ContactItem contactItem =
-                            (selObject as Outlook.ContactItem);
-                        itemMessage = "The item is a contact." +
-                            " The full name is " + contactItem.Subject + ".";
-                        contactItem.Display(false);
-                    }
-                    else if (selObject is Outlook.AppointmentItem)
-                    {
-                        Outlook.AppointmentItem apptItem =
-                            (selObject as Outlook.AppointmentItem);
-                        itemMessage = "The item is an appointment." +
-                            " The subject is " + apptItem.Subject + ".";
-                    }
-                    else if (selObject is Outlook.TaskItem)
-                    {
-                        Outlook.TaskItem taskItem =
-                            (selObject as Outlook.TaskItem);
-                        itemMessage = "The item is a task. The body is "
-                            + taskItem.Body + ".";
-                    }
-                    else if (selObject is Outlook.MeetingItem)
-                    {
-                        Outlook.MeetingItem meetingItem =
-                            (selObject as Outlook.MeetingItem);
-                        itemMessage = "The item is a meeting item. " +
-                             "The subject is " + meetingItem.Subject + ".";
-                    }
-                    */
+                    /*                    else if (selObject is Outlook.ContactItem)
+                                        {
+                                            Outlook.ContactItem contactItem =
+                                                (selObject as Outlook.ContactItem);
+                                            itemMessage = "The item is a contact." +
+                                                " The full name is " + contactItem.Subject + ".";
+                                            contactItem.Display(false);
+                                        }
+                                        else if (selObject is Outlook.AppointmentItem)
+                                        {
+                                            Outlook.AppointmentItem apptItem =
+                                                (selObject as Outlook.AppointmentItem);
+                                            itemMessage = "The item is an appointment." +
+                                                " The subject is " + apptItem.Subject + ".";
+                                        }
+                                        else if (selObject is Outlook.TaskItem)
+                                        {
+                                            Outlook.TaskItem taskItem =
+                                                (selObject as Outlook.TaskItem);
+                                            itemMessage = "The item is a task. The body is "
+                                                + taskItem.Body + ".";
+                                        }
+                                        else if (selObject is Outlook.MeetingItem)
+                                        {
+                                            Outlook.MeetingItem meetingItem =
+                                                (selObject as Outlook.MeetingItem);
+                                            itemMessage = "The item is a meeting item. " +
+                                                 "The subject is " + meetingItem.Subject + ".";
+                                        }
+                                        */
+
+                    expMessage = expMessage + itemMessage;
                 }
-                expMessage = expMessage + itemMessage;
             }
             catch (System.Exception ex)
             {
@@ -221,33 +207,26 @@ namespace FinalFrontier
             }
             //MessageBox.Show(expMessage);
         }
-        
 
-        private string GetSenderSMTPAddress(Outlook.MailItem mail)
+
+        private string GetSenderSMTPAddress(MailItem mail)
         {
-            string PR_SMTP_ADDRESS =
-                @"http://schemas.microsoft.com/mapi/proptag/0x39FE001E";
+            string PR_SMTP_ADDRESS = @"http://schemas.microsoft.com/mapi/proptag/0x39FE001E";
             if (mail == null)
             {
                 throw new ArgumentNullException();
             }
             if (mail.SenderEmailType == "EX")
             {
-                Outlook.AddressEntry sender =
-                    mail.Sender;
+                AddressEntry sender = mail.Sender;
                 if (sender != null)
                 {
                     //Now we have an AddressEntry representing the Sender
-                    if (sender.AddressEntryUserType ==
-                        Outlook.OlAddressEntryUserType.
-                        olExchangeUserAddressEntry
-                        || sender.AddressEntryUserType ==
-                        Outlook.OlAddressEntryUserType.
-                        olExchangeRemoteUserAddressEntry)
+                    if (sender.AddressEntryUserType == OlAddressEntryUserType.olExchangeUserAddressEntry || 
+                        sender.AddressEntryUserType == OlAddressEntryUserType.olExchangeRemoteUserAddressEntry)
                     {
                         //Use the ExchangeUser object PrimarySMTPAddress
-                        Outlook.ExchangeUser exchUser =
-                            sender.GetExchangeUser();
+                        ExchangeUser exchUser = sender.GetExchangeUser();
                         if (exchUser != null)
                         {
                             return exchUser.PrimarySmtpAddress;
@@ -259,8 +238,7 @@ namespace FinalFrontier
                     }
                     else
                     {
-                        return sender.PropertyAccessor.GetProperty(
-                            PR_SMTP_ADDRESS) as string;
+                        return sender.PropertyAccessor.GetProperty(PR_SMTP_ADDRESS) as string;
                     }
                 }
                 else
@@ -274,9 +252,9 @@ namespace FinalFrontier
             }
         }
 
-        void Inspectors_NewInspector(Microsoft.Office.Interop.Outlook.Inspector Inspector)
+        void Inspectors_NewInspector(Inspector Inspector)
         {
-            Outlook.MailItem mailItem = Inspector.CurrentItem as Outlook.MailItem;
+            MailItem mailItem = Inspector.CurrentItem as MailItem;
             if (mailItem != null)
             {
                 if (mailItem.EntryID == null)
