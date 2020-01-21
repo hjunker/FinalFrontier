@@ -1,36 +1,15 @@
-﻿using HtmlAgilityPack;
-using Microsoft.Office.Interop.Outlook;
-using Outlook = Microsoft.Office.Interop.Outlook;
+﻿using Microsoft.Office.Interop.Outlook;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Configuration;
-using System.Security.Cryptography;
+using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
+using System.Linq;
+using System.Security.Cryptography;
+using Outlook = Microsoft.Office.Interop.Outlook;
 
 namespace FinalFrontier
 {
-    public class CheckResult
-    {
-        public string id;
-        public string fragment = "";
-        public string ioc = "";
-        public int score = 0;
-
-        public CheckResult(string id, string fragment, string ioc, int score)
-        {
-            this.id = id;
-            this.fragment = fragment;
-            this.ioc = ioc;
-            this.score = score;
-        }
-    }
-
     public class Analyzer
     {
         private string[] whitelist;
@@ -62,8 +41,7 @@ namespace FinalFrontier
         private string senderName;
         private string senderEmailAddress;
         private string senderCombo;
-        private HtmlNodeCollection links;
-        private Microsoft.Office.Interop.Outlook.Attachments attachments;
+        private Attachments attachments;
         public int score;
         public bool isSuspicious;
         private const string HeaderRegex = @"^(?<header_key>[-A-Za-z0-9]+)(?<seperator>:[ \t]*)" +
@@ -84,7 +62,7 @@ namespace FinalFrontier
                 keywords = ConfigurationManager.AppSettings["keywords"].Split(',');
                 badhashessha256 = ConfigurationManager.AppSettings["badhashessha256"].Split(',');
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
                 System.Windows.Forms.MessageBox.Show("Could not read configuration file app.config");
             }
@@ -100,28 +78,11 @@ namespace FinalFrontier
         {
             score = 0;
             isSuspicious = false;
-            CheckResults = new List<CheckResult>();
-            int linkcounter = 0;
+            CheckResults = new List<CheckResult>();            
+            BodyAnalyser bodyAnalyse = new BodyAnalyser();
             result = "";
 
-            string MailHtmlBody = mailItem.HTMLBody;
-
-            HtmlDocument doc = new HtmlDocument();
-            doc.LoadHtml(MailHtmlBody);
-            links = doc.DocumentNode.SelectNodes("//a[@href]");
-            if (links != null)
-            {
-                foreach (HtmlNode node in links)
-                {
-                    checkLinkShorteners("Link-Shortener", node.GetAttributeValue("href", null));
-
-                    checkBadTld("Link-badTLD", node.GetAttributeValue("href", null));
-
-                    // check for keywords in links
-                    checkKeywords("Link-Keyword", node.GetAttributeValue("href", null));
-                }
-                linkcounter = links.Count;
-            }
+            CheckResults.AddRange(bodyAnalyse.AnalyzeBody(mailItem.HTMLBody));
 
             string[] receivedByArray = mailItem.Headers("Received");
             string receivedBy;
@@ -138,8 +99,6 @@ namespace FinalFrontier
             }
             else
                 receivedBy = "";
-
-            int mailsize = mailItem.Size;
 
             string senderenvelope = GetSenderSMTPAddress(mailItem);
 
