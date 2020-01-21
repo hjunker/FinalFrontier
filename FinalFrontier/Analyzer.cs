@@ -9,7 +9,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Configuration;
-
+using System.Security.Cryptography;
+using System.IO;
+using System.IO.Compression;
 
 namespace FinalFrontier
 {
@@ -74,6 +76,7 @@ namespace FinalFrontier
         private string[] imgextensions;
         private string[] exeextensions;
         private string[] keywords;
+        private string[] badhashessha256;
         DictionaryTools dt;
         private Dictionary<string, int> DictSenderName;
         private Dictionary<string, int> DictSenderEmail;
@@ -114,7 +117,8 @@ namespace FinalFrontier
                 imgextensions = ConfigurationManager.AppSettings["imgextensions"].Split(',');
                 exeextensions = ConfigurationManager.AppSettings["exeextensions"].Split(',');
                 keywords = ConfigurationManager.AppSettings["keywords"].Split(',');
-    }
+                badhashessha256 = ConfigurationManager.AppSettings["badhashessha256"].Split(',');
+            }
             catch (System.Exception ex)
             {
                 System.Windows.Forms.MessageBox.Show("Could not read configuration file app.config");
@@ -264,7 +268,7 @@ namespace FinalFrontier
             {
                 CheckResults.Add(new CheckResult("Meta-ComboNew", "Die Kombination von Absender (Freitext) und Emailadresse ist neu.", senderEmailAddress, -40));
             }
-            
+
             attachments = mailItem.Attachments;
             //Debug.WriteLine(attachments.Count + " attachments.");
             foreach (Attachment attachment in attachments)
@@ -274,6 +278,8 @@ namespace FinalFrontier
                 checkBadExtensions("Attachment-BadExtension", attachment.FileName);
 
                 checkKeywords("Attachment-Keyword", attachment.FileName);
+
+                checkBadHashes("Attachment-FileHash", attachment);
             }
 
             Debug.WriteLine("---CHECK RESULTS---");
@@ -297,6 +303,25 @@ namespace FinalFrontier
                 {
                     CheckResults.Add(new CheckResult(id, badtld, instr, -20));
                 }
+            }
+        }
+
+        private void checkBadHashes(String id, Attachment testfile)
+        {
+            if (testfile == null) return;
+
+            String userpath = Environment.GetFolderPath(Environment.SpecialFolder.InternetCache);
+            testfile.SaveAsFile(userpath + "\\testfile");
+            FileStream stream = File.OpenRead(userpath + "\\testfile");
+            var sha = new SHA256Managed();
+            byte[] filehash = sha.ComputeHash(stream);
+            String filehashstr = BitConverter.ToString(filehash).Replace("-", String.Empty);
+            File.Delete(userpath + "\\testfile");
+            //Debug.WriteLine(filehashstr);
+
+            if (badhashessha256.Contains(filehashstr))
+            {
+                CheckResults.Add(new CheckResult(id, "sha256", filehashstr, -100));
             }
         }
 
