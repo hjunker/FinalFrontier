@@ -44,7 +44,7 @@ namespace FinalFrontier
             }
         }
 
-        public static List<CheckResult> checkLinkShorteners(string id, string instr)
+        public static List<CheckResult> CheckLinkShorteners(string id, string instr)
         {
             var results = new List<CheckResult>();
 
@@ -58,7 +58,7 @@ namespace FinalFrontier
             return results;
         }
 
-        public static List<CheckResult> checkBadTld(string id, string instr)
+        public static List<CheckResult> CheckBadTld(string id, string instr)
         {
             var result = new List<CheckResult>();
             if (instr == null)
@@ -73,7 +73,7 @@ namespace FinalFrontier
             return result;
         }
 
-        public static List<CheckResult> checkKeywords(string id, string instr)
+        public static List<CheckResult> CheckKeywords(string id, string instr)
         {
             var result = new List<CheckResult>();
             foreach (string key in keywords)
@@ -86,7 +86,7 @@ namespace FinalFrontier
             return result;
         }
 
-        public static List<CheckResult> checkDoubleExtensions(string id, string instr)
+        public static List<CheckResult> CheckDoubleExtensions(string id, string instr)
         {
             var result = new List<CheckResult>();
             foreach (string docext in docextensions)
@@ -102,7 +102,7 @@ namespace FinalFrontier
             return result;
         }
 
-        public static List<CheckResult> checkBadExtensions(String id, String instr)
+        public static List<CheckResult> CheckBadExtensions(string id, string instr)
         {
             var result = new List<CheckResult>();
             foreach (string ext in badextensions)
@@ -115,7 +115,7 @@ namespace FinalFrontier
             return result;
         }
 
-        public static List<CheckResult> checkBadHashes(string id, Attachment testfile)
+        public static List<CheckResult> CheckBadHashes(string id, Attachment testfile)
         {
             if (testfile == null) 
                 return null;
@@ -135,7 +135,7 @@ namespace FinalFrontier
             return result;
         }
         
-        public static string getDomainFromMail(string inval)
+        public static string GetDomainFromMail(string inval)
         {
             if (inval != null && inval.Contains("@"))
                 return inval.Substring(inval.IndexOf("@") + 1);
@@ -143,7 +143,7 @@ namespace FinalFrontier
                 return "";
          }
 
-        public static string getReceiveFromString(string inline)
+        public static string GetReceiveFromString(string inline)
         {
             if (inline.Contains("from "))
             {

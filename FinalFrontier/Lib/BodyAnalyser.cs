@@ -16,12 +16,12 @@ namespace FinalFrontier
             {
                 foreach (string link in links)
                 {
-                    result.AddRange(CheckMethods.checkLinkShorteners("Link-Shortener", link));
+                    result.AddRange(CheckMethods.CheckLinkShorteners("Link-Shortener", link));
 
-                    result.AddRange(CheckMethods.checkBadTld("Link-badTLD", link));
+                    result.AddRange(CheckMethods.CheckBadTld("Link-badTLD", link));
 
                     // check for keywords in links
-                    result.AddRange(CheckMethods.checkKeywords("Link-Keyword", link));
+                    result.AddRange(CheckMethods.CheckKeywords("Link-Keyword", link));
                 }
             }
             return result;

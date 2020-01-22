@@ -60,8 +60,8 @@ namespace FinalFrontier
 
             foreach (string entry in mailItem.Headers("Received"))
             {
-                string receiveDomain = CheckMethods.getReceiveFromString(entry);
-                CheckMethods.checkBadTld("Receive-badTLD", receiveDomain);
+                string receiveDomain = CheckMethods.GetReceiveFromString(entry);
+                CheckMethods.CheckBadTld("Receive-badTLD", receiveDomain);
             }
 
             string senderenvelope = GetSenderSMTPAddress(mailItem);
@@ -70,8 +70,8 @@ namespace FinalFrontier
             senderName = mailItem.SenderName;
             senderEmailAddress = mailItem.SenderEmailAddress;
 
-            string senderDomainEnvelope = CheckMethods.getDomainFromMail(senderenvelope);
-            string senderDomainHeader = CheckMethods.getDomainFromMail(senderEmailAddress);
+            string senderDomainEnvelope = CheckMethods.GetDomainFromMail(senderenvelope);
+            string senderDomainHeader = CheckMethods.GetDomainFromMail(senderEmailAddress);
 
             // check if senderEmail has different domain than senderEnvelope
             if ((senderenvelope != null) & (senderDomainEnvelope != senderDomainHeader))
@@ -80,14 +80,14 @@ namespace FinalFrontier
             }
 
             // check if senderName contains email address with different domain than senderEnvelope
-            if ((senderName.Contains("@")) & (senderDomainEnvelope != CheckMethods.getDomainFromMail(senderName)))
+            if ((senderName.Contains("@")) & (senderDomainEnvelope != CheckMethods.GetDomainFromMail(senderName)))
             {
                 CheckResults.Add(new CheckResult("Meta-SenderNameDomainMismatch", "senderName contains email address with different domain than senderEnvelope", 
-                    senderDomainEnvelope + "/" + CheckMethods.getDomainFromMail(senderName), -50));
+                    senderDomainEnvelope + "/" + CheckMethods.GetDomainFromMail(senderName), -50));
             }
 
             // check if senderEnvelope has badTLD
-            CheckMethods.checkBadTld("SenderEnvelope-badTLD", senderDomainEnvelope);
+            CheckMethods.CheckBadTld("SenderEnvelope-badTLD", senderDomainEnvelope);
 
             if ((senderenvelope != null) & (senderenvelope != "") & (senderEmailAddress != senderenvelope))
             {
@@ -112,7 +112,7 @@ namespace FinalFrontier
                 }
             }
 
-            CheckMethods.checkBadTld("SenderHeader-badTLD", senderEmailAddress);
+            CheckMethods.CheckBadTld("SenderHeader-badTLD", senderEmailAddress);
 
             CheckMethods.SenderWhitelist(senderEmailAddress, senderNameDomainPart);
 
@@ -155,13 +155,13 @@ namespace FinalFrontier
 
             foreach (Attachment attachment in attachments)
             {
-                CheckResults.AddRange(CheckMethods.checkDoubleExtensions("Attachment-DoubleExtensions", attachment.FileName));
+                CheckResults.AddRange(CheckMethods.CheckDoubleExtensions("Attachment-DoubleExtensions", attachment.FileName));
 
-                CheckResults.AddRange(CheckMethods.checkBadExtensions("Attachment-BadExtension", attachment.FileName));
+                CheckResults.AddRange(CheckMethods.CheckBadExtensions("Attachment-BadExtension", attachment.FileName));
 
-                CheckResults.AddRange(CheckMethods.checkKeywords("Attachment-Keyword", attachment.FileName));
+                CheckResults.AddRange(CheckMethods.CheckKeywords("Attachment-Keyword", attachment.FileName));
 
-                CheckResults.AddRange(CheckMethods.checkBadHashes("Attachment-FileHash", attachment));
+                CheckResults.AddRange(CheckMethods.CheckBadHashes("Attachment-FileHash", attachment));
             }
 
             Debug.WriteLine("---CHECK RESULTS---");
