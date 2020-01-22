@@ -147,8 +147,12 @@ namespace FinalFrontier
                                 ana.getSummary(mailItem);
 
                                 if (ana.Score < -20)
-                                {
-                                    MessageBox.Show(ana.Result, "FinalFrontier - Warnung: Email könnte schadhaft sein!!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                {             
+                                    // TODO: aufräumen
+                                    //MessageBox.Show(ana.Result, "FinalFrontier - Warnung: Email könnte schadhaft sein!!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                                    Alert scAlert = new Alert(ana.Score);
+                                    scAlert.Show();
                                 }
 
                                 tvcntr++;

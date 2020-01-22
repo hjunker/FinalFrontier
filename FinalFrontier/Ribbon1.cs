@@ -71,7 +71,11 @@ namespace FinalFrontier
             String itemMessage = "TODO: ANPASSUNG NACH REFACTORING - AUSGABE AUS LIST<> ERZEUGEN!!!";
             if (ana.isSuspicious == true)
             {
-                MessageBox.Show(itemMessage, "FinalFrontier - Warnung: Email könnte schadhaft sein!!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                // TODO: aufräumen
+                MessageBox.Show(ana.Result, "FinalFrontier - Warnung: Email könnte schadhaft sein!!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+                //Alert scAlert = new Alert(ana.Score);
+                //scAlert.Show();
             }
         }
 
