@@ -48,6 +48,8 @@ namespace FinalFrontier
 
         public List<CheckResult> getSummary(MailItem mailItem)
         {
+            
+            var currentUser = mailItem.UserProperties.Session.CurrentUser.Address;
             var CheckResults = new List<CheckResult>();            
             BodyAnalyser bodyAnalyse = new BodyAnalyser();
             
@@ -61,60 +63,22 @@ namespace FinalFrontier
             foreach (string entry in mailItem.Headers("Received"))
             {
                 string receiveDomain = CheckMethods.GetReceiveFromString(entry);
-                CheckMethods.CheckBadTld("Receive-badTLD", receiveDomain);
+                CheckResults.AddRange(CheckMethods.CheckBadTld("Receive-badTLD", receiveDomain));
             }
 
-            string senderenvelope = GetSenderSMTPAddress(mailItem);
+            CheckResults.AddRange(CheckMethods.CheckSender(mailItem.SenderName, mailItem.SenderEmailAddress, GetSenderSMTPAddress(mailItem)));
+
+            CheckResults.Add(CheckMethods.CheckRecipients(currentUser, mailItem.To?.Split(',').ToList(), mailItem.CC?.Split(',').ToList()));
 
             // check for suspicious sender
             senderName = mailItem.SenderName;
             senderEmailAddress = mailItem.SenderEmailAddress;
 
-            string senderDomainEnvelope = CheckMethods.GetDomainFromMail(senderenvelope);
-            string senderDomainHeader = CheckMethods.GetDomainFromMail(senderEmailAddress);
-
-            // check if senderEmail has different domain than senderEnvelope
-            if ((senderenvelope != null) & (senderDomainEnvelope != senderDomainHeader))
-            {
-                CheckResults.Add(new CheckResult("Meta-SenderDomainMismatch", "mismatch between sender domains of envelope and header", senderDomainEnvelope + "/" + senderDomainHeader, -40));
-            }
-
-            // check if senderName contains email address with different domain than senderEnvelope
-            if ((senderName.Contains("@")) & (senderDomainEnvelope != CheckMethods.GetDomainFromMail(senderName)))
-            {
-                CheckResults.Add(new CheckResult("Meta-SenderNameDomainMismatch", "senderName contains email address with different domain than senderEnvelope", 
-                    senderDomainEnvelope + "/" + CheckMethods.GetDomainFromMail(senderName), -50));
-            }
-
-            // check if senderEnvelope has badTLD
-            CheckMethods.CheckBadTld("SenderEnvelope-badTLD", senderDomainEnvelope);
-
-            if ((senderenvelope != null) & (senderenvelope != "") & (senderEmailAddress != senderenvelope))
-            {
-                CheckResults.Add(new CheckResult("Meta-SenderMismatch", "Der Absender ist evtl. gefälscht (Adresse Umschlag vs. Mail)", senderEmailAddress + "/" + senderenvelope, -50));
-            }
-
             // TODO: if senderName and SenderEmail are equal there should not be an alert!!!
 
             senderCombo = senderName + "/" + senderEmailAddress;
-            int senderNameAtPos = senderName.IndexOf("@");
-            if ((senderNameAtPos != -1) & (!senderEmailAddress.Equals("")))
-            {
-                // senderName contains mail address
-                senderNameDomainPart = senderName.Substring(senderNameAtPos + 1);
-                CheckResults.Add(new CheckResult("Meta-SenderMismatch", "Der Absender ist evtl. gefälscht (Name soll Mailadresse suggerieren)", senderEmailAddress + "/" + senderenvelope, -20));
 
-                if ((senderEmailAddress.IndexOf(senderNameDomainPart) == -1) && (!senderEmailAddress.Equals("")))
-                {
-                    // senderName contains domain different to the one in senderEmailAddress
-                    domainMismatch = true;
-                    CheckResults.Add(new CheckResult("Meta-SenderPhishy", "Die angezeigte Mailadresse entspricht vermutlich nicht dem tatsächlichen Absender / senderName contains email address with different domain than sender", senderEmailAddress + " / " + senderNameDomainPart, -40));
-                }
-            }
-
-            CheckMethods.CheckBadTld("SenderHeader-badTLD", senderEmailAddress);
-
-            CheckMethods.SenderWhitelist(senderEmailAddress, senderNameDomainPart);
+            CheckResults.Add(CheckMethods.SenderWhitelist(senderEmailAddress, senderNameDomainPart));
 
             // evaluate history of senderName, senderEmailAddress and their combo
             if (DictSenderName.ContainsKey(senderName))
@@ -165,6 +129,8 @@ namespace FinalFrontier
             }
 
             Debug.WriteLine("---CHECK RESULTS---");
+            // ToDo: Keine null Werte hinzufügen
+            CheckResults.RemoveAll(x => x == null);
             foreach (CheckResult cr in CheckResults)
             {
                 Debug.WriteLine(cr.id + " / " + cr.ioc + " / " + cr.fragment + " / " + cr.score);

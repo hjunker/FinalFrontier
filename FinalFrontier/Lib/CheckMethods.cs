@@ -44,6 +44,60 @@ namespace FinalFrontier
             }
         }
 
+        public static List<CheckResult> CheckSender(string senderName, string senderEmail, string senderEnvelope)
+        {
+            var results = new List<CheckResult>();
+
+            string senderDomainEnvelope = GetDomainFromMail(senderEnvelope);
+            string senderDomainHeader = GetDomainFromMail(senderEmail);
+            string senderDomain = GetDomainFromMail(senderName);
+
+            // check if senderEmail has different domain than senderEnvelope
+            if ((senderEnvelope != null) & (senderDomainEnvelope != senderDomainHeader))
+            {
+                results.Add(new CheckResult("Meta-SenderDomainMismatch", "mismatch between sender domains of envelope and header", senderDomainEnvelope + "/" + senderDomainHeader, -40));
+            }
+           
+            // check if senderName contains email address with different domain than senderEnvelope
+            if ((senderName.Contains("@")) & (senderDomainEnvelope != senderDomain))
+            {
+                results.Add(new CheckResult("Meta-SenderNameDomainMismatch", "senderName contains email address with different domain than senderEnvelope",                     senderDomainEnvelope + "/" + senderDomain, -50));
+            }
+
+            if (!string.IsNullOrEmpty(senderEnvelope) && (senderEmail!= senderEnvelope))
+            {
+                results.Add(new CheckResult("Meta-SenderMismatch", "Der Absender ist evtl. gefälscht (Adresse Umschlag vs. Mail)", senderEmail+ "/" + senderEnvelope, -50));
+            }
+
+            // check if senderEnvelope has badTLD
+            results.AddRange(CheckBadTld("SenderEnvelope-badTLD", senderDomainEnvelope));
+            results.AddRange(CheckBadTld("SenderHeader-badTLD", senderEmail));
+
+            int senderNameAtPos = senderName.IndexOf("@");
+            string senderNameDomainPart = senderName.Substring(senderNameAtPos + 1);
+            if ((senderNameAtPos != -1) && (!string.IsNullOrEmpty(senderEmail)))
+            {
+                // senderName contains mail address
+                results.Add(new CheckResult("Meta-SenderMismatch", "Der Absender ist evtl. gefälscht (Name soll Mailadresse suggerieren)", senderEmail+ "/" + senderEnvelope, -20));
+
+                if ((senderEmail.IndexOf(senderNameDomainPart) == -1) && string.IsNullOrEmpty(senderEmail))
+                {
+                    // senderName contains domain different to the one in senderEmailAddress
+                    results.Add(new CheckResult("Meta-SenderPhishy", "Die angezeigte Mailadresse entspricht vermutlich nicht dem tatsächlichen Absender / senderName contains email address with different domain than sender", senderEmail + " / " + senderNameDomainPart, -40));
+                }
+            }
+
+            return results;
+        }
+
+        public static CheckResult CheckRecipients(string mailAddress, List<string> recipients, List<string> ccRecipients)
+        {
+            if (recipients.Contains(mailAddress) || ccRecipients.Contains(mailAddress))
+                return null;
+
+            return new CheckResult("Address-NotContained", "Emfängermailadresse ist weder in den Empfängern noch im CC", mailAddress, -40);
+        }
+
         public static List<CheckResult> CheckLinkShorteners(string id, string instr)
         {
             var results = new List<CheckResult>();
@@ -160,7 +214,7 @@ namespace FinalFrontier
             // check for domain in whitelist
             int senderEmailAddressAtPos = senderEmailAddress.IndexOf("@");
             string senderEmailAddressDomainPart = senderEmailAddress.Substring(senderEmailAddressAtPos + 1);
-            if ((whitelist.Contains(senderEmailAddressDomainPart)) && ((senderEmailAddress.IndexOf(senderNameDomainPart) == -1) && (!senderEmailAddress.Equals("")) == false))
+            if (whitelist.Contains(senderEmailAddressDomainPart) && (senderEmailAddress.IndexOf(senderNameDomainPart) == -1) && !string.IsNullOrEmpty(senderEmailAddress))
             {
                 return new CheckResult("Meta-SenderEmailWhitelisted", "Die angezeigte Mailadresse ist in der Whitelist", senderEmailAddress + " / " + senderNameDomainPart, 80);
             }
