@@ -31,6 +31,8 @@ namespace FinalFrontier
         }
     }
 
+    
+
     public class Analyzer
     {
         private string[] whitelist;

@@ -221,6 +221,7 @@
     <None Include="FinalFrontier_1_TemporaryKey.pfx" />
     <None Include="FinalFrontier_2_TemporaryKey.pfx" />
     <None Include="FinalFrontier_3_TemporaryKey.pfx" />
+    <None Include="FinalFrontier_4_TemporaryKey.pfx" />
     <None Include="FinalFrontier_5_TemporaryKey.pfx" />
     <None Include="FinalFrontier_TemporaryKey.pfx" />
     <None Include="packages.config" />
@@ -264,10 +265,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>FinalFrontier_5_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>FinalFrontier_4_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>079C6DFDBA54622B351E90B41597DD6AFB2D1A9C</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>F5D45B82C524DF11FF0308888322DE54E6A61F77</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
