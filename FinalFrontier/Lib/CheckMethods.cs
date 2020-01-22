@@ -20,6 +20,9 @@ namespace FinalFrontier
         private static List<string> badextensions;
         private static List<string> badhashessha256;
         private static List<string> whitelist;
+        // Not Used
+        private static List<string> lookalikes;
+        private static List<string> imgextensions;
 
         static CheckMethods() {
             try
@@ -32,6 +35,8 @@ namespace FinalFrontier
                 badextensions = ConfigurationManager.AppSettings["badextensions"].Split(',').ToList();
                 badhashessha256 = ConfigurationManager.AppSettings["badhashessha256"].Split(',').ToList();
                 whitelist = ConfigurationManager.AppSettings["whitelist"].Split(',').ToList();
+                lookalikes = ConfigurationManager.AppSettings["lookalikes"].Split(',').ToList();
+                imgextensions = ConfigurationManager.AppSettings["imgextensions"].Split(',').ToList();
             }
             catch (System.Exception)
             {
@@ -148,7 +153,7 @@ namespace FinalFrontier
             }
             else
                 return "";
-   }
+        }
 
         public static CheckResult SenderWhitelist(string senderEmailAddress, string senderNameDomainPart)
         {

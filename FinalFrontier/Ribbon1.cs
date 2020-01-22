@@ -67,8 +67,9 @@ namespace FinalFrontier
             else
                 return;
             Analyzer ana = new Analyzer();
-            //String itemMessage = ana.getSummary(selObject);
-            String itemMessage = "TODO: ANPASSUNG NACH REFACTORING - AUSGABE AUS LIST<> ERZEUGEN!!!";
+            ana.getSummary(selObject);
+
+            string itemMessage = "TODO: ANPASSUNG NACH REFACTORING - AUSGABE AUS LIST<> ERZEUGEN!!!";
             if (ana.isSuspicious == true)
             {
                 MessageBox.Show(itemMessage, "FinalFrontier - Warnung: Email könnte schadhaft sein!!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);

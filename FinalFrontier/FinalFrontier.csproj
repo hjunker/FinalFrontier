@@ -268,7 +268,7 @@
     <ManifestKeyFile>FinalFrontier_4_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>F5D45B82C524DF11FF0308888322DE54E6A61F77</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>228C3E2DFAD433DC387EF585FF05306CBEF6E78C</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

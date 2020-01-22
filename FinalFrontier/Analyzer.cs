@@ -12,11 +12,6 @@ namespace FinalFrontier
 {
     public class Analyzer
     {
-        private string[] linkshorteners;
-        private string[] lookalikes;
-        private string[] badtlds;
-        private string[] imgextensions;
-        private string[] keywords;
         private DictionaryTools dt;
         private Dictionary<string, int> DictSenderName;
         private Dictionary<string, int> DictSenderEmail;
@@ -39,21 +34,11 @@ namespace FinalFrontier
         private const string HeaderRegex = @"^(?<header_key>[-A-Za-z0-9]+)(?<seperator>:[ \t]*)" +
             "(?<header_value>([^\r\n]|\r\n[ \t]+)*)(?<terminator>\r\n)";
 
+        public int Score { get; set; }
+        public string Result { get; set; }
+
         public Analyzer()
         {
-            try
-            {
-                linkshorteners = ConfigurationManager.AppSettings["linkshorteners"].Split(',');
-                lookalikes = ConfigurationManager.AppSettings["lookalikes"].Split(',');
-                badtlds = ConfigurationManager.AppSettings["badtlds"].Split(',');
-                imgextensions = ConfigurationManager.AppSettings["imgextensions"].Split(',');
-                keywords = ConfigurationManager.AppSettings["keywords"].Split(',');
-            }
-            catch (System.Exception)
-            {
-                System.Windows.Forms.MessageBox.Show("Could not read configuration file app.config");
-            }
-
             dt = new DictionaryTools();
             string userpath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             DictSenderName = dt.Read(userpath + "\\dict-sender-name.bin");
@@ -235,8 +220,5 @@ namespace FinalFrontier
                 return null;// mail.SenderEmailAddress;
             }
         }
-
-        public int Score { get; set; }
-        public string Result { get; set; }
     }
 }
