@@ -123,9 +123,6 @@
   -->
   <ItemGroup>
     <Reference Include="Accessibility" />
-    <Reference Include="HtmlAgilityPack, Version=1.11.17.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.11.17\lib\Net45\HtmlAgilityPack.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -191,6 +188,8 @@
   -->
   <ItemGroup>
     <Compile Include="Analyzer.cs" />
+    <Compile Include="Lib\CheckMethods.cs" />
+    <Compile Include="Lib\CheckResult.cs" />
     <Compile Include="DictionaryTools.cs" />
     <Compile Include="FFAlert.cs">
       <SubType>Form</SubType>
@@ -198,7 +197,8 @@
     <Compile Include="FFAlert.Designer.cs">
       <DependentUpon>FFAlert.cs</DependentUpon>
     </Compile>
-    <Compile Include="MailItemExtensions.cs" />
+    <Compile Include="Lib\BodyAnalyser.cs" />
+    <Compile Include="Lib\MailItemExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
