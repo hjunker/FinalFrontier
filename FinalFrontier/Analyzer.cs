@@ -139,6 +139,7 @@ namespace FinalFrontier
             }
 
             Score = score;
+            // TODO: better result for new message box
             Result = "SCORE: " + score + Environment.NewLine + result;
 
             return CheckResults;
