@@ -92,6 +92,8 @@ namespace FinalFrontier
 
         public static CheckResult CheckRecipients(string mailAddress, List<string> recipients, List<string> ccRecipients)
         {
+            if (ccRecipients == null)
+                return null;
             if (recipients.Contains(mailAddress) || ccRecipients.Contains(mailAddress))
                 return null;
 

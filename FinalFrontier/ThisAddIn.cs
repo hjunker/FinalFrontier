@@ -146,13 +146,11 @@ namespace FinalFrontier
                                 Analyzer ana = new Analyzer();
                                 ana.getSummary(mailItem);
 
-                                if (ana.Score < -20)
-                                {             
-                                    // TODO: aufräumen
-                                    //MessageBox.Show(ana.Result, "FinalFrontier - Warnung: Email könnte schadhaft sein!!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
-                                    Alert scAlert = new Alert(ana.Score);
-                                    scAlert.Show();
+                                if (ana.IsSuspicious)
+                                {
+                                    // TODO: Only show if Outlook is visible / has starten up
+                                    InfoScreen infoSc = new InfoScreen(ana.Score, ana.Result);
+                                    infoSc.Show();
                                 }
 
                                 tvcntr++;

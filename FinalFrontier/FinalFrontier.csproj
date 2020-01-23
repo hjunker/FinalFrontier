@@ -192,8 +192,8 @@
   -->
   <ItemGroup>
     <Compile Include="Analyzer.cs" />
-    <Compile Include="Lib\Alert.xaml.cs">
-      <DependentUpon>Alert.xaml</DependentUpon>
+    <Compile Include="Lib\InfoScreen.xaml.cs">
+      <DependentUpon>InfoScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Lib\CheckMethods.cs" />
     <Compile Include="Lib\CheckResult.cs" />
@@ -257,7 +257,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Lib\Alert.xaml">
+    <Page Include="Lib\InfoScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

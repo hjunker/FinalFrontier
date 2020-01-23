@@ -46,7 +46,7 @@ namespace FinalFrontier
         }
 
         #endregion
-        public void onFFButtonClick(IRibbonControl control)
+        public void OnSecInfoClick(IRibbonControl control)
         {
             MailItem selObject;
             if (control.Context is Inspector)
@@ -66,18 +66,39 @@ namespace FinalFrontier
             }
             else
                 return;
+            // TODO: Get the right instance of analyzer and dont calculate anymore
             Analyzer ana = new Analyzer();
             ana.getSummary(selObject);
 
             string itemMessage = "TODO: ANPASSUNG NACH REFACTORING - AUSGABE AUS LIST<> ERZEUGEN!!!";
-            if (ana.isSuspicious == true)
-            {
-                // TODO: aufräumen
-                MessageBox.Show(ana.Result, "FinalFrontier - Warnung: Email könnte schadhaft sein!!!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
-                //Alert scAlert = new Alert(ana.Score);
-                //scAlert.Show();
+            // Show the Info
+            InfoScreen infoSc = new InfoScreen(ana.Score, ana.Result);
+            infoSc.Show();
+        }
+
+        public void OnShowHeaderClick(IRibbonControl control)
+        {
+            MailItem selObject;
+            if (control.Context is Inspector)
+            {
+                var item = control.Context as Inspector;
+                selObject = item.CurrentItem as MailItem;
             }
+            else if (control.Context is Explorer)
+            {
+                Explorer expl = control.Context as Explorer;
+                selObject = expl.Application.ActiveExplorer().Selection[1] as MailItem;
+                //MailItem selObject = (control.Context as Explorer) as MailItem;
+            }
+            else
+                return;
+
+            // TODO: Get the header
+            
+            // Show the Info
+            //HeaderScreen headerSc = new HeaderScreen(ana.Header);
+            //headerSc.Show();
         }
 
         public void onFFFolderButtonClick(IRibbonControl control)
