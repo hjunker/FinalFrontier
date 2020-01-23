@@ -70,7 +70,7 @@ namespace FinalFrontier
             Action<CheckResult> add = x => { if (x != null) CheckResults.Add(x); };
             Action<List<CheckResult>> addRange = x => { if (x != null) CheckResults.AddRange(x); };
 
-            addRange(bodyAnalyse.AnalyzeBody(mailItem.HTMLBody))
+            addRange(bodyAnalyse.AnalyzeBody(mailItem.HTMLBody));
 
             foreach (string entry in mailItem.Headers("Received"))
             {
