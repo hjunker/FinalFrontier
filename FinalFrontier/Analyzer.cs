@@ -30,36 +30,44 @@ namespace FinalFrontier
         private string senderEmailAddress;
         private string senderCombo;
         private Attachments attachments;
-        public bool isSuspicious;
         private const string HeaderRegex = @"^(?<header_key>[-A-Za-z0-9]+)(?<seperator>:[ \t]*)" +
             "(?<header_value>([^\r\n]|\r\n[ \t]+)*)(?<terminator>\r\n)";
 
-        public int Score { get; set; }
-        public string Result { get; set; }
 
+        // Define public variables with the results from scoring
+        public bool IsSuspicious => Score <= int.Parse(ConfigurationManager.AppSettings["isSuspiciousScore"]);
+        public int Score { get; private set; }
+        public List<CheckResult> Result { get; private set; }
+
+        
+        // Constructors
         public Analyzer()
         {
+            // Get already known values
             dt = new DictionaryTools();
             string userpath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             DictSenderName = dt.Read(userpath + "\\dict-sender-name.bin");
             DictSenderEmail = dt.Read(userpath + "\\dict-sender-email.bin");
             DictSenderCombo = dt.Read(userpath + "\\dict-sender-combo.bin");
+
+            // Initialize default values for scoring
+            Score = 0;
+            Result = new List<CheckResult>();
         }
 
+        // TODO: Add Constructor with mailitem to save the result in the instance
+
+
+        // Calculating methods
         public List<CheckResult> getSummary(MailItem mailItem)
         {
             var currentUser = mailItem.UserProperties.Session.CurrentUser.Address;
             var CheckResults = new List<CheckResult>();
             CheckMethods checkMethods = new CheckMethods();
             BodyAnalyser bodyAnalyse = new BodyAnalyser();
-            
-            string result = string.Empty;
-            int score = 0;
 
             Action<CheckResult> add = x => { if (x != null) CheckResults.Add(x); };
             Action<List<CheckResult>> addRange = x => { if (x != null) CheckResults.AddRange(x); };
-
-            isSuspicious = false;
 
             addRange(bodyAnalyse.AnalyzeBody(mailItem.HTMLBody));
 
@@ -133,15 +141,12 @@ namespace FinalFrontier
 
             Debug.WriteLine("---CHECK RESULTS---");
             foreach (CheckResult cr in CheckResults)
-            {
-                Debug.WriteLine(cr.id + " / " + cr.ioc + " / " + cr.fragment + " / " + cr.score);
-                result += cr.id + " / " + cr.ioc + " / " + cr.fragment + " / " + cr.score + Environment.NewLine;
-                score += cr.score;
-            }
-
-            Score = score;
-            // TODO: better result for new message box
-            Result = "SCORE: " + score + Environment.NewLine + result;
+                Debug.WriteLine(cr);
+            Debug.WriteLine("---END CHECK RESULTS---");
+            
+            // Write instance variables for later use
+            Result = CheckResults;
+            Score = CheckResults.Sum(CheckResult => CheckResult.score);
 
             return CheckResults;
         }

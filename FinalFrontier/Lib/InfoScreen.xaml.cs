@@ -16,24 +16,26 @@ using System.Windows.Shapes;
 namespace FinalFrontier
 {
     /// <summary>
-    /// Interaktionslogik für Alert.xaml
+    /// Interaktionslogik für InfoScreen.xaml
     /// </summary>
-    public partial class Alert : Window
+    public partial class InfoScreen : Window
     {
-        public Alert(int score)
+        public InfoScreen(int score, List<CheckResult> result)
         {
             InitializeComponent();
+            this.DataContext = score;
             scoreLabel.Content = "Score: " + score.ToString();
+
         }
 
         private void Close(Object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void ShowHeader(Object sender, RoutedEventArgs e)
         {
-            // TODO
+            //TODO
             int a = 1;
         }
     }

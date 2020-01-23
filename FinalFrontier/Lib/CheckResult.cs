@@ -14,5 +14,10 @@
             this.ioc = ioc;
             this.score = score;
         }
+
+        public override string ToString()
+        {
+            return "Score: " + score + ", ID: " + id + ", FRAGMENT: " + fragment + ", IOC: " + ioc;
+        }
     }
 }
