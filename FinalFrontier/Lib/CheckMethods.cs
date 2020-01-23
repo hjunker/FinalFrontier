@@ -92,9 +92,7 @@ namespace FinalFrontier
 
         public static CheckResult CheckRecipients(string mailAddress, List<string> recipients, List<string> ccRecipients)
         {
-            if (ccRecipients == null)
-                return null;
-            if (recipients.Contains(mailAddress) || ccRecipients.Contains(mailAddress))
+            if (recipients.Contains(mailAddress) || (ccRecipients != null && ccRecipients.Contains(mailAddress)))
                 return null;
 
             return new CheckResult("Address-NotContained", "Emfängermailadresse ist weder in den Empfängern noch im CC", mailAddress, -40);
