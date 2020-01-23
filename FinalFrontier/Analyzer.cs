@@ -56,19 +56,22 @@ namespace FinalFrontier
             string result = string.Empty;
             int score = 0;
 
+            Action<CheckResult> add = x => { if (x != null) CheckResults.Add(x); };
+            Action<List<CheckResult>> addRange = x => { if (x != null) CheckResults.AddRange(x); };
+
             isSuspicious = false;
 
-            CheckResults.AddRange(bodyAnalyse.AnalyzeBody(mailItem.HTMLBody));
+            addRange(bodyAnalyse.AnalyzeBody(mailItem.HTMLBody));
 
             foreach (string entry in mailItem.Headers("Received"))
             {
                 string receiveDomain = CheckMethods.GetReceiveFromString(entry);
-                CheckResults.AddRange(CheckMethods.CheckBadTld("Receive-badTLD", receiveDomain));
+                addRange(CheckMethods.CheckBadTld("Receive-badTLD", receiveDomain));
             }
 
-            CheckResults.AddRange(CheckMethods.CheckSender(mailItem.SenderName, mailItem.SenderEmailAddress, GetSenderSMTPAddress(mailItem)));
+            addRange(CheckMethods.CheckSender(mailItem.SenderName, mailItem.SenderEmailAddress, GetSenderSMTPAddress(mailItem)));
 
-            CheckResults.Add(CheckMethods.CheckRecipients(currentUser, mailItem.To?.Split(',').ToList(), mailItem.CC?.Split(',').ToList()));
+            add(CheckMethods.CheckRecipients(currentUser, mailItem.To?.Split(',').ToList(), mailItem.CC?.Split(',').ToList()));
 
             // check for suspicious sender
             senderName = mailItem.SenderName;
@@ -78,59 +81,57 @@ namespace FinalFrontier
 
             senderCombo = senderName + "/" + senderEmailAddress;
 
-            CheckResults.Add(CheckMethods.SenderWhitelist(senderEmailAddress, senderNameDomainPart));
+            add(CheckMethods.SenderWhitelist(senderEmailAddress, senderNameDomainPart));
 
             // evaluate history of senderName, senderEmailAddress and their combo
             if (DictSenderName.ContainsKey(senderName))
             {
-                CheckResults.Add(new CheckResult("Meta-NameNew", "Der Name (Freitext) des Absenders ist bekannt", senderName, -40));
+                add(new CheckResult("Meta-NameNew", "Der Name (Freitext) des Absenders ist bekannt", senderName, -40));
                 score += DictSenderName[senderName];
             }
             else
             {
-                CheckResults.Add(new CheckResult("Meta-NameNew", "Der Name (Freitext) des Absenders ist neu", senderName, -10));
+                add(new CheckResult("Meta-NameNew", "Der Name (Freitext) des Absenders ist neu", senderName, -10));
             }
 
             if (DictSenderEmail.ContainsKey(senderEmailAddress))
             {
                 if (DictSenderEmail[senderEmailAddress] > 3)
                 {
-                    CheckResults.Add(new CheckResult("Meta-SenderAddressSeenBefore", "Die vermeintliche Emailadresse ist bekannt.", senderEmailAddress, -30));
+                    add(new CheckResult("Meta-SenderAddressSeenBefore", "Die vermeintliche Emailadresse ist bekannt.", senderEmailAddress, -30));
                 }
             }
             else
             {
-                CheckResults.Add(new CheckResult("Meta-SenderNew", "Vermeintliche Emailadresse ist neu.", senderEmailAddress, -20));
+                add(new CheckResult("Meta-SenderNew", "Vermeintliche Emailadresse ist neu.", senderEmailAddress, -20));
             }
 
             if (DictSenderCombo.ContainsKey(senderCombo))
             {
                 if (DictSenderCombo[senderCombo] > 3)
                 {
-                    CheckResults.Add(new CheckResult("Meta-ComboSeenBefore", "Die Kombination von Absender (Freitext) und Emailadresse ist bekannt.", senderEmailAddress, 100));
+                    add(new CheckResult("Meta-ComboSeenBefore", "Die Kombination von Absender (Freitext) und Emailadresse ist bekannt.", senderEmailAddress, 100));
                 }
             }
             else
             {
-                CheckResults.Add(new CheckResult("Meta-ComboNew", "Die Kombination von Absender (Freitext) und Emailadresse ist neu.", senderEmailAddress, -40));
+                add(new CheckResult("Meta-ComboNew", "Die Kombination von Absender (Freitext) und Emailadresse ist neu.", senderEmailAddress, -40));
             }
 
             attachments = mailItem.Attachments;
 
             foreach (Attachment attachment in attachments)
             {
-                CheckResults.AddRange(CheckMethods.CheckDoubleExtensions("Attachment-DoubleExtensions", attachment.FileName));
+                addRange(CheckMethods.CheckDoubleExtensions("Attachment-DoubleExtensions", attachment.FileName));
 
-                CheckResults.AddRange(CheckMethods.CheckBadExtensions("Attachment-BadExtension", attachment.FileName));
+                addRange(CheckMethods.CheckBadExtensions("Attachment-BadExtension", attachment.FileName));
 
-                CheckResults.AddRange(CheckMethods.CheckKeywords("Attachment-Keyword", attachment.FileName));
+                addRange(CheckMethods.CheckKeywords("Attachment-Keyword", attachment.FileName));
 
-                CheckResults.AddRange(CheckMethods.CheckBadHashes("Attachment-FileHash", attachment));
+                addRange(CheckMethods.CheckBadHashes("Attachment-FileHash", attachment));
             }
 
             Debug.WriteLine("---CHECK RESULTS---");
-            // ToDo: Keine null Werte hinzufügen
-            CheckResults.RemoveAll(x => x == null);
             foreach (CheckResult cr in CheckResults)
             {
                 Debug.WriteLine(cr.id + " / " + cr.ioc + " / " + cr.fragment + " / " + cr.score);
