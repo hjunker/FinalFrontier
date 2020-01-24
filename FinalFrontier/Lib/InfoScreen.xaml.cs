@@ -20,11 +20,24 @@ namespace FinalFrontier
     /// </summary>
     public partial class InfoScreen : Window
     {
-        public InfoScreen(int score, List<CheckResult> result)
+        public int Score {get; private set;}
+        public List<CheckResult> DetailedInfo { get; private set; }
+        public string Header { get; private set; }
+        
+        private double scoreHeight = 0;
+
+        public InfoScreen(Analyzer ana)
         {
+            Score = ana.Score;
+            DetailedInfo = ana.Result;
+            Header = ana.Header;
+            
             InitializeComponent();
-            this.DataContext = score;
-            scoreLabel.Content = "Score: " + score.ToString();
+            
+            ScoreLabel.Content = "Score: " + ana.Score.ToString();
+
+            ShowHeader();
+            ShowScore();
 
         }
 
@@ -33,10 +46,27 @@ namespace FinalFrontier
             Close();
         }
 
-        private void ShowHeader(Object sender, RoutedEventArgs e)
+        private void ShowScore(Object sender=null, RoutedEventArgs e=null)
         {
-            //TODO
-            int a = 1;
+            HeaderInfo.Height = MinHeight;
+            if (scoreHeight > 0)
+                ScoreInfo.Height = scoreHeight;
+
+            // Set the detailed list of iocs
+            if (scoreList.Items.Count < DetailedInfo.Count()) {
+                foreach (CheckResult cr in DetailedInfo)
+                    scoreList.Items.Add(new CheckResult(cr.id, cr.fragment, cr.ioc, cr.score));
+            }
+        }
+
+        private void ShowHeader(Object sender=null, RoutedEventArgs e=null)
+        {
+            scoreHeight = ScoreInfo.ActualHeight;
+            
+            ScoreInfo.Height = ScoreInfo.MinHeight;
+            HeaderInfo.MaxHeight = 500;
+
+            detailedHeader.Content = Header;
         }
     }
 }

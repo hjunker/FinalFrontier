@@ -2,10 +2,10 @@
 {
     public class CheckResult
     {
-        public string id;
-        public string fragment = "";
-        public string ioc = "";
-        public int score = 0;
+        public string id { get; private set; }
+        public string fragment { get; private set; }
+        public string ioc { get; private set; }
+        public int score { get; private set; }
 
         public CheckResult(string id, string fragment, string ioc, int score)
         {

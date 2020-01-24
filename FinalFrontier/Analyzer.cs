@@ -38,6 +38,7 @@ namespace FinalFrontier
         public bool IsSuspicious => Score <= int.Parse(ConfigurationManager.AppSettings["isSuspiciousScore"]);
         public int Score { get; private set; }
         public List<CheckResult> Result { get; private set; }
+        public string Header { get; private set; }
 
         
         // Constructors
@@ -53,6 +54,7 @@ namespace FinalFrontier
             // Initialize default values for scoring
             Score = 0;
             Result = new List<CheckResult>();
+            Header = "";
         }
 
         // TODO: Add Constructor with mailitem to save the result in the instance
@@ -60,9 +62,8 @@ namespace FinalFrontier
 
         // Calculating methods
         public List<CheckResult> getSummary(MailItem mailItem)
-        {            
+        {
             var CheckResults = new List<CheckResult>();
-            var score = 0;
 
             var currentUser = mailItem.UserProperties.Session.CurrentUser.Address;
             BodyAnalyser bodyAnalyse = new BodyAnalyser();
@@ -96,7 +97,9 @@ namespace FinalFrontier
             if (DictSenderName.ContainsKey(senderName))
             {
                 add(new CheckResult("Meta-NameNew", "Der Name (Freitext) des Absenders ist bekannt", senderName, -40));
-                score += DictSenderName[senderName];
+                
+                //TODO: really necessary?
+                //score += DictSenderName[senderName];
             }
             else
             {
@@ -144,8 +147,9 @@ namespace FinalFrontier
             foreach (CheckResult cr in CheckResults)
                 Debug.WriteLine(cr);
             Debug.WriteLine("---END CHECK RESULTS---");
-            
+
             // Write instance variables for later use
+            Header = mailItem.HeaderString();
             Result = CheckResults;
             Score = CheckResults.Sum(CheckResult => CheckResult.score);
 

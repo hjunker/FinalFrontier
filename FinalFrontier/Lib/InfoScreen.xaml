@@ -5,46 +5,88 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FinalFrontier"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             Height="450" Width="800"
              Title="FinalFrontier - Security Info">
-  <Window.Resources>
-    <Style x:Key="style1">
-      <Setter Property="Control.Margin" Value="10, 0, 10, 0" />
-    </Style>
-    <Style x:Key="button1">
-      <Setter Property="Control.Height" Value="25" />
-      <Setter Property="Control.Width" Value="100" />
-    <Setter Property="Control.Margin" Value="10, 5, 10, 5" />
-    </Style>
-  </Window.Resources>
+    <Window.Resources>
+        <Style x:Key="style1">
+            <Setter Property="Control.Margin" Value="10, 0, 5, 0" />
+        </Style>
+        <Style x:Key="button1">
+            <Setter Property="Control.Height" Value="25" />
+            <Setter Property="Control.Width" Value="100" />
+            <Setter Property="Control.Margin" Value="10, 5, 10, 5" />
+        </Style>
+        <Style x:Key="button2">
+            <Setter Property="Control.FontWeight" Value="Bold" />
+            <Setter Property="Control.HorizontalContentAlignment" Value="Left" />
+            <Setter Property="Control.FontSize" Value="18" />
+            <Setter Property="Control.Background" Value="#EEEEEE" />
+            <Setter Property="Control.BorderThickness" Value="0" />
+        </Style>
+    </Window.Resources>
 
   
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-      <RowDefinition />
-    </Grid.RowDefinitions>
-    <StackPanel Margin="10">
-        <Label FontSize="24" FontWeight="Bold">
-            Warnung!
-        </Label>
-        <Label FontSize="20">
-            Diese Mail könnte schadhaft sein.
-        </Label>
-    </StackPanel>
-  
-    <Grid Grid.Row ="1" Background="#EEEEEE" Margin="10">
-      <Label FontSize="18" FontWeight="Bold" Name="scoreLabel" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        
+        <StackPanel Margin="5">
+            <Label FontSize="24" FontWeight="Bold">
+                Warnung!
+            </Label>
+            <Label FontSize="20">
+                Diese Mail könnte schadhaft sein.
+            </Label>
+        </StackPanel>
+
+        <Grid Grid.Row ="1" Background="#EEEEEE" Margin="5" MinHeight="120">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid Name="ScoreInfo" MinHeight="26">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Button Click="ShowScore" Style="{StaticResource button2}" Name="ScoreLabel" />
+                <ListView Grid.Row="1" FontSize="16" Name="scoreList" Background="#EEEEEE" BorderThickness="0" Foreground="Black">
+                    <ListView.Resources>
+                        <Style TargetType="GridViewColumnHeader">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </Style>
+                    </ListView.Resources>
+
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn DisplayMemberBinding="{Binding score}" />
+                            <GridViewColumn DisplayMemberBinding="{Binding ioc}" />
+                            <GridViewColumn DisplayMemberBinding="{Binding fragment}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+ 
+            <Grid Name="HeaderInfo" MinHeight="26" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Button Click="ShowHeader" Style="{StaticResource button2}" Name="HeaderLabel" Content="Header-Information"/>
+                <Label Grid.Row="1" Name="detailedHeader" />
+            </Grid>
+        </Grid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5">
+            <Button Style="{StaticResource button1}" Click="Close">
+                Schließen
+            </Button>
+        </StackPanel>
     </Grid>
-    
-    <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10">
-      <Button Style="{StaticResource button1}" Click="ShowHeader">
-        Header anzeigen
-      </Button>
-      <Button Style="{StaticResource button1}" Click="Close">
-        Schließen
-      </Button>
-    </StackPanel>
-</Grid>
 </Window>

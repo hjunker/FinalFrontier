@@ -73,7 +73,7 @@ namespace FinalFrontier
             string itemMessage = "TODO: ANPASSUNG NACH REFACTORING - AUSGABE AUS LIST<> ERZEUGEN!!!";
 
             // Show the Info
-            InfoScreen infoSc = new InfoScreen(ana.Score, ana.Result);
+            InfoScreen infoSc = new InfoScreen(ana);
             infoSc.Show();
         }
 
@@ -97,8 +97,8 @@ namespace FinalFrontier
             // TODO: Get the header
             
             // Show the Info
-            //HeaderScreen headerSc = new HeaderScreen(ana.Header);
-            //headerSc.Show();
+            //InfoScreen infoSc = new InfoScreen(ana.Header);
+            //InfoScreen.Show();
         }
 
         public void onFFFolderButtonClick(IRibbonControl control)

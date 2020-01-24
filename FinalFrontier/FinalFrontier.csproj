@@ -198,20 +198,11 @@
     <Compile Include="Lib\CheckMethods.cs" />
     <Compile Include="Lib\CheckResult.cs" />
     <Compile Include="DictionaryTools.cs" />
-    <Compile Include="FFAlert.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FFAlert.Designer.cs">
-      <DependentUpon>FFAlert.cs</DependentUpon>
-    </Compile>
     <Compile Include="Lib\BodyAnalyser.cs" />
     <Compile Include="Lib\MailItemExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <EmbeddedResource Include="FFAlert.resx">
-      <DependentUpon>FFAlert.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
