@@ -10,21 +10,21 @@ using System.Security.Cryptography;
 
 namespace FinalFrontier
 {
-    public static class CheckMethods
+    public class CheckMethods
     {
-        private static List<string> linkshorteners;
-        private static List<string> badtlds;
-        private static List<string> keywords;
-        private static List<string> docextensions;
-        private static List<string> exeextensions;
-        private static List<string> badextensions;
-        private static List<string> badhashessha256;
-        private static List<string> whitelist;
+        private List<string> linkshorteners;
+        private List<string> badtlds;
+        private List<string> keywords;
+        private List<string> docextensions;
+        private List<string> exeextensions;
+        private List<string> badextensions;
+        private List<string> badhashessha256;
+        private List<string> whitelist;
         // Not Used
-        private static List<string> lookalikes;
-        private static List<string> imgextensions;
+        private List<string> lookalikes;
+        private List<string> imgextensions;
 
-        static CheckMethods() {
+        public CheckMethods() {
             try
             {
                 linkshorteners = ConfigurationManager.AppSettings["linkshorteners"].Split(',').ToList();
@@ -44,7 +44,7 @@ namespace FinalFrontier
             }
         }
 
-        public static List<CheckResult> CheckSender(string senderName, string senderEmail, string senderEnvelope)
+        public List<CheckResult> CheckSender(string senderName, string senderEmail, string senderEnvelope)
         {
             var results = new List<CheckResult>();
 
@@ -53,13 +53,13 @@ namespace FinalFrontier
             string senderDomain = GetDomainFromMail(senderName);
 
             // check if senderEmail has different domain than senderEnvelope
-            if ((senderEnvelope != null) & (senderDomainEnvelope != senderDomainHeader))
+            if ((senderEnvelope != null) && (senderDomainEnvelope != senderDomainHeader))
             {
                 results.Add(new CheckResult("Meta-SenderDomainMismatch", "mismatch between sender domains of envelope and header", senderDomainEnvelope + "/" + senderDomainHeader, -40));
             }
            
             // check if senderName contains email address with different domain than senderEnvelope
-            if ((senderName.Contains("@")) & (senderDomainEnvelope != senderDomain))
+            if (senderName.Contains("@") && (senderDomainEnvelope != senderDomain))
             {
                 results.Add(new CheckResult("Meta-SenderNameDomainMismatch", "senderName contains email address with different domain than senderEnvelope",                     senderDomainEnvelope + "/" + senderDomain, -50));
             }
@@ -70,8 +70,8 @@ namespace FinalFrontier
             }
 
             // check if senderEnvelope has badTLD
-            results.AddRange(CheckBadTld("SenderEnvelope-badTLD", senderDomainEnvelope));
-            results.AddRange(CheckBadTld("SenderHeader-badTLD", senderEmail));
+            results.Add(CheckBadTld("SenderEnvelope-badTLD", senderDomainEnvelope));
+            results.Add(CheckBadTld("SenderHeader-badTLD", senderEmail));
 
             int senderNameAtPos = senderName.IndexOf("@");
             string senderNameDomainPart = senderName.Substring(senderNameAtPos + 1);
@@ -90,7 +90,7 @@ namespace FinalFrontier
             return results;
         }
 
-        public static CheckResult CheckRecipients(string mailAddress, List<string> recipients, List<string> ccRecipients)
+        public CheckResult CheckRecipients(string mailAddress, List<string> recipients, List<string> ccRecipients)
         {
             if (recipients.Contains(mailAddress) || (ccRecipients != null && ccRecipients.Contains(mailAddress)))
                 return null;
@@ -98,7 +98,7 @@ namespace FinalFrontier
             return new CheckResult("Address-NotContained", "Emfängermailadresse ist weder in den Empfängern noch im CC", mailAddress, -40);
         }
 
-        public static List<CheckResult> CheckLinkShorteners(string id, string instr)
+        public List<CheckResult> CheckLinkShorteners(string id, string instr)
         {
             var results = new List<CheckResult>();
 
@@ -112,22 +112,20 @@ namespace FinalFrontier
             return results;
         }
 
-        public static List<CheckResult> CheckBadTld(string id, string instr)
+        public CheckResult CheckBadTld(string id, string instr)
         {
-            var result = new List<CheckResult>();
             if (instr == null)
                 return null;
+
             foreach (string badtld in badtlds)
             {
                 if (instr.EndsWith(badtld))
-                {
-                    result.Add(new CheckResult(id, badtld, instr, -20));
-                }
+                    return new CheckResult(id, badtld, instr, -20);
             }
-            return result;
+            return null;
         }
 
-        public static List<CheckResult> CheckKeywords(string id, string instr)
+        public List<CheckResult> CheckKeywords(string id, string instr)
         {
             var result = new List<CheckResult>();
             foreach (string key in keywords)
@@ -140,7 +138,7 @@ namespace FinalFrontier
             return result;
         }
 
-        public static List<CheckResult> CheckDoubleExtensions(string id, string instr)
+        public List<CheckResult> CheckDoubleExtensions(string id, string instr)
         {
             var result = new List<CheckResult>();
             foreach (string docext in docextensions)
@@ -156,7 +154,7 @@ namespace FinalFrontier
             return result;
         }
 
-        public static List<CheckResult> CheckBadExtensions(string id, string instr)
+        public List<CheckResult> CheckBadExtensions(string id, string instr)
         {
             var result = new List<CheckResult>();
             foreach (string ext in badextensions)
@@ -169,7 +167,7 @@ namespace FinalFrontier
             return result;
         }
 
-        public static List<CheckResult> CheckBadHashes(string id, Attachment testfile)
+        public List<CheckResult> CheckBadHashes(string id, Attachment testfile)
         {
             if (testfile == null) 
                 return null;
@@ -189,7 +187,7 @@ namespace FinalFrontier
             return result;
         }
         
-        public static string GetDomainFromMail(string inval)
+        public string GetDomainFromMail(string inval)
         {
             if (inval != null && inval.Contains("@"))
                 return inval.Substring(inval.IndexOf("@") + 1);
@@ -197,7 +195,7 @@ namespace FinalFrontier
                 return "";
          }
 
-        public static string GetReceiveFromString(string inline)
+        public string GetReceiveFromString(string inline)
         {
             if (inline.Contains("from "))
             {
@@ -209,7 +207,7 @@ namespace FinalFrontier
                 return "";
         }
 
-        public static CheckResult SenderWhitelist(string senderEmailAddress, string senderNameDomainPart)
+        public CheckResult SenderWhitelist(string senderEmailAddress, string senderNameDomainPart)
         {
             // check for domain in whitelist
             int senderEmailAddressAtPos = senderEmailAddress.IndexOf("@");

@@ -11,17 +11,18 @@ namespace FinalFrontier
         {
             List<CheckResult> result = new List<CheckResult>();
             var links = LinksFind(mailBody);
+            CheckMethods checkMethods = new CheckMethods();
 
             if (links.Count() > 0)
             {
                 foreach (string link in links)
                 {
-                    result.AddRange(CheckMethods.CheckLinkShorteners("Link-Shortener", link));
+                    result.AddRange(checkMethods.CheckLinkShorteners("Link-Shortener", link));
 
-                    result.AddRange(CheckMethods.CheckBadTld("Link-badTLD", link));
+                    result.Add(checkMethods.CheckBadTld("Link-badTLD", link));
 
                     // check for keywords in links
-                    result.AddRange(CheckMethods.CheckKeywords("Link-Keyword", link));
+                    result.AddRange(checkMethods.CheckKeywords("Link-Keyword", link));
                 }
             }
             return result;

@@ -63,9 +63,9 @@ namespace FinalFrontier
         // Calculating methods
         public List<CheckResult> getSummary(MailItem mailItem)
         {
-            var CheckResults = new List<CheckResult>();
-
             var currentUser = mailItem.UserProperties.Session.CurrentUser.Address;
+            var CheckResults = new List<CheckResult>();
+            CheckMethods checkMethods = new CheckMethods();
             BodyAnalyser bodyAnalyse = new BodyAnalyser();
 
             Action<CheckResult> add = x => { if (x != null) CheckResults.Add(x); };
@@ -75,13 +75,13 @@ namespace FinalFrontier
 
             foreach (string entry in mailItem.Headers("Received"))
             {
-                string receiveDomain = CheckMethods.GetReceiveFromString(entry);
-                addRange(CheckMethods.CheckBadTld("Receive-badTLD", receiveDomain));
+                string receiveDomain = checkMethods.GetReceiveFromString(entry);
+                add(checkMethods.CheckBadTld("Receive-badTLD", receiveDomain));
             }
 
-            addRange(CheckMethods.CheckSender(mailItem.SenderName, mailItem.SenderEmailAddress, GetSenderSMTPAddress(mailItem)));
+            addRange(checkMethods.CheckSender(mailItem.SenderName, mailItem.SenderEmailAddress, GetSenderSMTPAddress(mailItem)));
 
-            add(CheckMethods.CheckRecipients(currentUser, mailItem.To?.Split(',').ToList(), mailItem.CC?.Split(',').ToList()));
+            add(checkMethods.CheckRecipients(currentUser, mailItem.To?.Split(',').ToList(), mailItem.CC?.Split(',').ToList()));
 
             // check for suspicious sender
             senderName = mailItem.SenderName;
@@ -91,7 +91,7 @@ namespace FinalFrontier
 
             senderCombo = senderName + "/" + senderEmailAddress;
 
-            add(CheckMethods.SenderWhitelist(senderEmailAddress, senderNameDomainPart));
+            add(checkMethods.SenderWhitelist(senderEmailAddress, senderNameDomainPart));
 
             // evaluate history of senderName, senderEmailAddress and their combo
             if (DictSenderName.ContainsKey(senderName))
@@ -134,13 +134,13 @@ namespace FinalFrontier
 
             foreach (Attachment attachment in attachments)
             {
-                addRange(CheckMethods.CheckDoubleExtensions("Attachment-DoubleExtensions", attachment.FileName));
+                addRange(checkMethods.CheckDoubleExtensions("Attachment-DoubleExtensions", attachment.FileName));
 
-                addRange(CheckMethods.CheckBadExtensions("Attachment-BadExtension", attachment.FileName));
+                addRange(checkMethods.CheckBadExtensions("Attachment-BadExtension", attachment.FileName));
 
-                addRange(CheckMethods.CheckKeywords("Attachment-Keyword", attachment.FileName));
+                addRange(checkMethods.CheckKeywords("Attachment-Keyword", attachment.FileName));
 
-                addRange(CheckMethods.CheckBadHashes("Attachment-FileHash", attachment));
+                addRange(checkMethods.CheckBadHashes("Attachment-FileHash", attachment));
             }
 
             Debug.WriteLine("---CHECK RESULTS---");
@@ -156,7 +156,7 @@ namespace FinalFrontier
             return CheckResults;
         }
 
-        private string GetSenderSMTPAddress(Outlook.MailItem mail)
+        private string GetSenderSMTPAddress(MailItem mail)
         {
             string PR_SMTP_ADDRESS = @"http://schemas.microsoft.com/mapi/proptag/0x39FE001E";
             if (mail == null)

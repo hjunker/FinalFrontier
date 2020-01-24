@@ -215,6 +215,7 @@
     </Compile>
     <None Include="app.config">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="FinalFrontier_1_TemporaryKey.pfx" />
     <None Include="FinalFrontier_2_TemporaryKey.pfx" />
