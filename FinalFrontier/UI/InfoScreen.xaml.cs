@@ -21,10 +21,6 @@ namespace FinalFrontier
     public partial class InfoScreen : Window
     {
         // Initialize public variables used by the XAML-view
-        public int Score {get; private set;}
-        public List<CheckResult> DetailedInfo { get; private set; }
-        public string Header { get; private set; }
-
         public Analyzer Ana { get; private set; }
         
         // Initialize some instance variables
