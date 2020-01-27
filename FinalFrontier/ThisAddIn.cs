@@ -121,10 +121,6 @@ namespace FinalFrontier
             dt.Write(DictSenderCombo, userpath + "\\dict-sender-combo.bin");
         }
 
-        void ExplorerWrapper_ViewSwitch()
-        {
-        }
-
         public void CurrentExplorer_Event()
         {
             MAPIFolder selectedFolder = Application.ActiveExplorer().CurrentFolder;
@@ -208,64 +204,6 @@ namespace FinalFrontier
                 expMessage = ex.Message;
             }
             //MessageBox.Show(expMessage);
-        }
-
-
-        private string GetSenderSMTPAddress(MailItem mail)
-        {
-            string PR_SMTP_ADDRESS = @"http://schemas.microsoft.com/mapi/proptag/0x39FE001E";
-            if (mail == null)
-            {
-                throw new ArgumentNullException();
-            }
-            if (mail.SenderEmailType == "EX")
-            {
-                AddressEntry sender = mail.Sender;
-                if (sender != null)
-                {
-                    //Now we have an AddressEntry representing the Sender
-                    if (sender.AddressEntryUserType == OlAddressEntryUserType.olExchangeUserAddressEntry || 
-                        sender.AddressEntryUserType == OlAddressEntryUserType.olExchangeRemoteUserAddressEntry)
-                    {
-                        //Use the ExchangeUser object PrimarySMTPAddress
-                        ExchangeUser exchUser = sender.GetExchangeUser();
-                        if (exchUser != null)
-                        {
-                            return exchUser.PrimarySmtpAddress;
-                        }
-                        else
-                        {
-                            return null;
-                        }
-                    }
-                    else
-                    {
-                        return sender.PropertyAccessor.GetProperty(PR_SMTP_ADDRESS) as string;
-                    }
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            else
-            {
-                return mail.SenderEmailAddress;
-            }
-        }
-
-        void Inspectors_NewInspector(Inspector Inspector)
-        {
-            MailItem mailItem = Inspector.CurrentItem as MailItem;
-            if (mailItem != null)
-            {
-                if (mailItem.EntryID == null)
-                {
-                    mailItem.Subject = "This text was added by using code";
-                    mailItem.Body = "This text was added by using code";
-                }
-
-            }
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)

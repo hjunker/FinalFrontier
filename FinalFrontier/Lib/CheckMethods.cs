@@ -44,60 +44,6 @@ namespace FinalFrontier
             }
         }
 
-        public List<CheckResult> CheckSender(string senderName, string senderEmail, string senderEnvelope)
-        {
-            var results = new List<CheckResult>();
-
-            string senderDomainEnvelope = GetDomainFromMail(senderEnvelope);
-            string senderDomainHeader = GetDomainFromMail(senderEmail);
-            string senderDomain = GetDomainFromMail(senderName);
-
-            // check if senderEmail has different domain than senderEnvelope
-            if ((senderEnvelope != null) && (senderDomainEnvelope != senderDomainHeader))
-            {
-                results.Add(new CheckResult("Meta-SenderDomainMismatch", "mismatch between sender domains of envelope and header", senderDomainEnvelope + "/" + senderDomainHeader, -40));
-            }
-           
-            // check if senderName contains email address with different domain than senderEnvelope
-            if (senderName.Contains("@") && (senderDomainEnvelope != senderDomain))
-            {
-                results.Add(new CheckResult("Meta-SenderNameDomainMismatch", "senderName contains email address with different domain than senderEnvelope",                     senderDomainEnvelope + "/" + senderDomain, -50));
-            }
-
-            if (!string.IsNullOrEmpty(senderEnvelope) && (senderEmail!= senderEnvelope))
-            {
-                results.Add(new CheckResult("Meta-SenderMismatch", "Der Absender ist evtl. gefälscht (Adresse Umschlag vs. Mail)", senderEmail+ "/" + senderEnvelope, -50));
-            }
-
-            // check if senderEnvelope has badTLD
-            results.Add(CheckBadTld("SenderEnvelope-badTLD", senderDomainEnvelope));
-            results.Add(CheckBadTld("SenderHeader-badTLD", senderEmail));
-
-            int senderNameAtPos = senderName.IndexOf("@");
-            string senderNameDomainPart = senderName.Substring(senderNameAtPos + 1);
-            if ((senderNameAtPos != -1) && (!string.IsNullOrEmpty(senderEmail)))
-            {
-                // senderName contains mail address
-                results.Add(new CheckResult("Meta-SenderMismatch", "Der Absender ist evtl. gefälscht (Name soll Mailadresse suggerieren)", senderEmail+ "/" + senderEnvelope, -20));
-
-                if ((senderEmail.IndexOf(senderNameDomainPart) == -1) && string.IsNullOrEmpty(senderEmail))
-                {
-                    // senderName contains domain different to the one in senderEmailAddress
-                    results.Add(new CheckResult("Meta-SenderPhishy", "Die angezeigte Mailadresse entspricht vermutlich nicht dem tatsächlichen Absender / senderName contains email address with different domain than sender", senderEmail + " / " + senderNameDomainPart, -40));
-                }
-            }
-
-            return results;
-        }
-
-        public CheckResult CheckRecipients(string mailAddress, List<string> recipients, List<string> ccRecipients)
-        {
-            if (recipients.Contains(mailAddress) || (ccRecipients != null && ccRecipients.Contains(mailAddress)))
-                return null;
-
-            return new CheckResult("Address-NotContained", "Emfängermailadresse ist weder in den Empfängern noch im CC", mailAddress, -40);
-        }
-
         public List<CheckResult> CheckLinkShorteners(string id, string instr)
         {
             var results = new List<CheckResult>();
@@ -119,7 +65,7 @@ namespace FinalFrontier
 
             foreach (string badtld in badtlds)
             {
-                if (instr.EndsWith(badtld))
+                if (instr.EndsWith(badtld, StringComparison.CurrentCulture))
                     return new CheckResult(id, badtld, instr, -20);
             }
             return null;
@@ -218,6 +164,48 @@ namespace FinalFrontier
             }
             else
                 return null;
+        }
+
+        public string GetSenderSMTPAddress(MailItem mail)
+        {
+            string PR_SMTP_ADDRESS = @"http://schemas.microsoft.com/mapi/proptag/0x39FE001E";
+            if (mail == null)
+                throw new ArgumentNullException(nameof(mail));
+            
+            if (mail.SenderEmailType == "EX")
+            {
+                AddressEntry sender = mail.Sender;
+                if (sender != null)
+                {
+                    //Now we have an AddressEntry representing the Sender
+                    if (sender.AddressEntryUserType == OlAddressEntryUserType.olExchangeUserAddressEntry || 
+                        sender.AddressEntryUserType == OlAddressEntryUserType.olExchangeRemoteUserAddressEntry)
+                    {
+                        //Use the ExchangeUser object PrimarySMTPAddress
+                        ExchangeUser exchUser = sender.GetExchangeUser();
+                        if (exchUser != null)
+                        {
+                            return exchUser.PrimarySmtpAddress;
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
+                    else
+                    {
+                        return sender.PropertyAccessor.GetProperty(PR_SMTP_ADDRESS) as string;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;// mail.SenderEmailAddress;
+            }
         }
     }
 }
