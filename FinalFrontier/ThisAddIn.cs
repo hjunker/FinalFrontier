@@ -149,7 +149,7 @@ namespace FinalFrontier
                                 if (ana.IsSuspicious)
                                 {
                                     // TODO: Only show if Outlook is visible / has starten up
-                                    InfoScreen infoSc = new InfoScreen(ana.Score, ana.Result);
+                                    InfoScreen infoSc = new InfoScreen(ana);
                                     infoSc.Show();
                                 }
 
