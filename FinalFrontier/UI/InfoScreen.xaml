@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:FinalFrontier"
              mc:Ignorable="d" 
              Height="450" Width="800"
              Title="FinalFrontier - Security Info">
@@ -34,12 +33,8 @@
         </Grid.RowDefinitions>
         
         <StackPanel Margin="5">
-            <Label FontSize="24" FontWeight="Bold">
-                Warnung!
-            </Label>
-            <Label FontSize="20">
-                Diese Mail könnte schadhaft sein.
-            </Label>
+            <Label FontSize="24" FontWeight="Bold" Name="ShortInfo"/>
+            <Label FontSize="20" Name="LongInfo" />
         </StackPanel>
 
         <Grid Grid.Row ="1" Background="#EEEEEE" Margin="5" MinHeight="120">
@@ -79,7 +74,7 @@
                 </Grid.RowDefinitions>
 
                 <Button Click="ShowHeader" Style="{StaticResource button2}" Name="HeaderLabel" Content="Header-Information"/>
-                <Label Grid.Row="1" Name="detailedHeader" />
+                <Label Grid.Row="1" Name="detailedHeader" Height="100"/>
             </Grid>
         </Grid>
 

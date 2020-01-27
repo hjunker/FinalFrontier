@@ -145,7 +145,7 @@ namespace FinalFrontier
                                 if (analyzer.IsSuspicious)
                                 {
                                     // TODO: Only show if Outlook is visible / has starten up
-                                    InfoScreen infoSc = new InfoScreen(analyzer);
+                                    InfoScreen infoSc = new InfoScreen(analyzer, "score");
                                     infoSc.Show();
                                 }
 

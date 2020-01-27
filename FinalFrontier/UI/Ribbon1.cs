@@ -34,7 +34,7 @@ namespace FinalFrontier
 
         public string GetCustomUI(string ribbonID)
         {
-            return GetResourceText("FinalFrontier.Ribbon1.xml");
+            return GetResourceText("FinalFrontier.UI.Ribbon1.xml");
         }
 
         #endregion
@@ -71,10 +71,8 @@ namespace FinalFrontier
             // TODO: Get the right instance of analyzer and dont calculate anymore
             analyzer.getSummary(selObject);
 
-            string itemMessage = "TODO: ANPASSUNG NACH REFACTORING - AUSGABE AUS LIST<> ERZEUGEN!!!";
-
             // Show the Info
-            InfoScreen infoSc = new InfoScreen(analyzer);
+            InfoScreen infoSc = new InfoScreen(analyzer, "score");
             infoSc.Show();
         }
 
@@ -94,12 +92,20 @@ namespace FinalFrontier
             }
             else
                 return;
+            // TODO: Get the right instance of analyzer and dont calculate anymore
+            Analyzer ana = new Analyzer();
+            ana.getSummary(selObject);
 
-            // TODO: Get the header
-            
             // Show the Info
-            //InfoScreen infoSc = new InfoScreen(ana.Header);
-            //InfoScreen.Show();
+            InfoScreen infoSc = new InfoScreen(ana, "header");
+            infoSc.Show();
+        }
+
+        public void OnShowSettingsClick(IRibbonControl control)
+        {
+            // Show the Settings screen
+            SettingsScreen settingsSc = new SettingsScreen();
+            settingsSc.Show();
         }
 
         public void onFFFolderButtonClick(IRibbonControl control)
