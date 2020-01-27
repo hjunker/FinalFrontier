@@ -1,31 +1,49 @@
-﻿using System.Collections.Generic;
-using System.Configuration;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace FinalFrontier
 {
-    class BodyAnalyser
+    class BodyAnalyser : BaseAnalyse
     {
-        public List<CheckResult> AnalyzeBody(string mailBody)
-        {
-            List<CheckResult> result = new List<CheckResult>();
-            var links = LinksFind(mailBody);
-            CheckMethods checkMethods = new CheckMethods();
+        private int score;
+        public bool HasLink { get; set; }
 
-            if (links.Count() > 0)
+        public override int Score { get { return score; }  }
+
+        public override List<CheckResult> Analyze(object mailBody)
+        {
+            var results = new List<CheckResult>();
+            var checkMethods = new CheckMethods();
+
+            var links = LinksFind(mailBody as string);
+            Action<CheckResult> add = x => { if (x != null) results.Add(x); };
+            Action<List<CheckResult>> addRange = x =>
+            {
+                if (x != null)
+                {
+                    x.RemoveAll(y => y == null);
+                    results.AddRange(x);
+                }
+            };
+
+            if (links.Any())
             {
                 foreach (string link in links)
                 {
-                    result.AddRange(checkMethods.CheckLinkShorteners("Link-Shortener", link));
+                    addRange(checkMethods.CheckLinkShorteners("Link-Shortener", link));
 
-                    result.Add(checkMethods.CheckBadTld("Link-badTLD", link));
+                    add(checkMethods.CheckBadTld("Link-badTLD", link));
 
                     // check for keywords in links
-                    result.AddRange(checkMethods.CheckKeywords("Link-Keyword", link));
+                    addRange(checkMethods.CheckKeywords("Link-Keyword", link));
                 }
+
+                HasLink = true;
+                score = results.Sum(x => x.score);
             }
-            return result;
+            return results;
         }
 
         public List<string> LinksFind(string file)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Office.Interop.Outlook;
 using System.Linq;
+using System;
 using System.Text.RegularExpressions;
 
 namespace FinalFrontier
@@ -16,7 +17,7 @@ namespace FinalFrontier
             var headers = mailItem.HeaderLookup();
             if (headers.Contains(name))
                 return headers[name].ToArray();
-            return new string[0];
+            return Array.Empty<string>();
         }
 
         public static ILookup<string, string> HeaderLookup(this MailItem mailItem)
@@ -30,7 +31,7 @@ namespace FinalFrontier
 
         public static string HeaderString(this MailItem mailItem)
         {
-            return (string)mailItem.PropertyAccessor.GetProperty(TransportMessageHeadersSchema);
+            return (string)mailItem?.PropertyAccessor.GetProperty(TransportMessageHeadersSchema);
         }
     }
 }
