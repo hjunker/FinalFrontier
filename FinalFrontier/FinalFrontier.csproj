@@ -192,7 +192,7 @@
   -->
   <ItemGroup>
     <Compile Include="Analyzer.cs" />
-    <Compile Include="Lib\InfoScreen.xaml.cs">
+    <Compile Include="UI\InfoScreen.xaml.cs">
       <DependentUpon>InfoScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Lib\CheckMethods.cs" />
@@ -202,6 +202,9 @@
     <Compile Include="Lib\MailItemExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UI\SettingsScreen.xaml.cs">
+      <DependentUpon>SettingsScreen.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -231,7 +234,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Ribbon1.cs" />
+    <Compile Include="UI\Ribbon1.cs" />
     <Compile Include="ThisAddIn.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -244,12 +247,16 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Ribbon1.xml">
+    <EmbeddedResource Include="UI\Ribbon1.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Lib\InfoScreen.xaml">
+    <Page Include="UI\InfoScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\SettingsScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

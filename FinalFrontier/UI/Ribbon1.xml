@@ -6,6 +6,7 @@
 			<group id="ContentGroup" label="FinalFrontier">
 				<button id="textButton1" label="Security Info" screentip="Text" onAction="OnSecInfoClick" supertip="FinalFrontier Security Info"/>
         <button id="textButton2" label="Show Header" screentip="Text" onAction="OnShowHeaderClick" supertip="Show Mail Header"/>
+        <button id="textButton3" label="Settings" screentip="Text" onAction="OnShowSettingsClick" supertip="Customize FinalFrontier"/>
 			</group>
 		</tab>		
 		</tabs>
