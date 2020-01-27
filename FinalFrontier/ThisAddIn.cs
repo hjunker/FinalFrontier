@@ -26,10 +26,11 @@ namespace FinalFrontier
         DictionaryTools dt = new DictionaryTools();
         private String lastConversationID = "";
         private int tvcntr;
+        private Analyzer analyzer = new Analyzer();
 
         protected override Microsoft.Office.Core.IRibbonExtensibility CreateRibbonExtensibilityObject()
         {
-            return new Ribbon1();
+            return new Ribbon1(analyzer);
         }
 
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
@@ -139,13 +140,12 @@ namespace FinalFrontier
                             if (mailItem.ConversationID != lastConversationID)
                             {
                                 lastConversationID = mailItem.ConversationID;
-                                Analyzer ana = new Analyzer();
-                                ana.getSummary(mailItem);
+                                analyzer.getSummary(mailItem);
 
-                                if (ana.IsSuspicious)
+                                if (analyzer.IsSuspicious)
                                 {
                                     // TODO: Only show if Outlook is visible / has starten up
-                                    InfoScreen infoSc = new InfoScreen(ana);
+                                    InfoScreen infoSc = new InfoScreen(analyzer, "score");
                                     infoSc.Show();
                                 }
 
