@@ -23,9 +23,11 @@ namespace FinalFrontier
     public class Ribbon1 : Office.IRibbonExtensibility
     {
         private Office.IRibbonUI ribbon;
+        private Analyzer analyzer;
 
-        public Ribbon1()
+        public Ribbon1(Analyzer ana)
         {
+            analyzer = ana;
         }
 
         #region IRibbonExtensibility-Member
@@ -67,13 +69,12 @@ namespace FinalFrontier
             else
                 return;
             // TODO: Get the right instance of analyzer and dont calculate anymore
-            Analyzer ana = new Analyzer();
-            ana.getSummary(selObject);
+            analyzer.getSummary(selObject);
 
             string itemMessage = "TODO: ANPASSUNG NACH REFACTORING - AUSGABE AUS LIST<> ERZEUGEN!!!";
 
             // Show the Info
-            InfoScreen infoSc = new InfoScreen(ana);
+            InfoScreen infoSc = new InfoScreen(analyzer);
             infoSc.Show();
         }
 
