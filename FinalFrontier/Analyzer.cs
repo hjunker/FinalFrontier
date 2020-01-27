@@ -67,7 +67,14 @@ namespace FinalFrontier
             BodyAnalyser bodyAnalyse = new BodyAnalyser();
 
             Action<CheckResult> add = x => { if (x != null) CheckResults.Add(x); };
-            Action<List<CheckResult>> addRange = x => { if (x != null) CheckResults.AddRange(x); };
+            Action<List<CheckResult>> addRange = x =>
+            {
+                if (x != null)
+                {
+                    x.RemoveAll(y => y == null);
+                    CheckResults.AddRange(x);
+                }
+            };
 
             addRange(bodyAnalyse.AnalyzeBody(mailItem.HTMLBody));
 
@@ -95,7 +102,6 @@ namespace FinalFrontier
             if (DictSenderName.ContainsKey(senderName))
             {
                 add(new CheckResult("Meta-NameNew", "Der Name (Freitext) des Absenders ist bekannt", senderName, -40));
-                score += DictSenderName[senderName];
             }
             else
             {
@@ -143,7 +149,7 @@ namespace FinalFrontier
             foreach (CheckResult cr in CheckResults)
                 Debug.WriteLine(cr);
             Debug.WriteLine("---END CHECK RESULTS---");
-            
+
             // Write instance variables for later use
             Result = CheckResults;
             Score = CheckResults.Sum(CheckResult => CheckResult.score);
