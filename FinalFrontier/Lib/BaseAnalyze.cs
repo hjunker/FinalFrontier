@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FinalFrontier
 {
-    public abstract class BaseAnalyse
+    public abstract class BaseAnalyze
     {
         public abstract int Score { get; }
 

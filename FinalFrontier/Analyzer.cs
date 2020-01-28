@@ -43,7 +43,7 @@ namespace FinalFrontier
             }
             var CheckResults = new List<CheckResult>();
 
-            BodyAnalyser bodyAnalyse = new BodyAnalyser();
+            BodyAnalyzer bodyAnalyse = new BodyAnalyzer();
             AttachmentAnalyzer attachmentAnalyze = new AttachmentAnalyzer();
             MetaAnalyzer metaAnalyze = new MetaAnalyzer();
 

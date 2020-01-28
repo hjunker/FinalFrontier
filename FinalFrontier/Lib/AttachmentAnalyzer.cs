@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace FinalFrontier
 {
-    public class AttachmentAnalyzer : BaseAnalyse
+    public class AttachmentAnalyzer : BaseAnalyze
     {
         private int score;
         public override int Score { get { return score; } }

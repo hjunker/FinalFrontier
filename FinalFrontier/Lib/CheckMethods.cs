@@ -117,19 +117,29 @@ namespace FinalFrontier
         {
             if (testfile == null) 
                 return null;
-            var result = new List<CheckResult>();
 
-            string userpath = Environment.GetFolderPath(Environment.SpecialFolder.InternetCache);
-            testfile.SaveAsFile(userpath + "\\testfile");
-            FileStream stream = File.OpenRead(userpath + "\\testfile");
             var sha = new SHA256Managed();
-            byte[] filehash = sha.ComputeHash(stream);
-            string filehashstr = BitConverter.ToString(filehash).Replace("-", string.Empty);
-            File.Delete(userpath + "\\testfile");
+            var result = new List<CheckResult>();
+            var tmpPath = Path.GetTempPath() + Path.GetRandomFileName();
 
-            if (badhashessha256.Contains(filehashstr))            
-                result.Add(new CheckResult(id, "sha256", filehashstr, -100));
-            
+            try
+            {
+                testfile.SaveAsFile(tmpPath);
+
+                byte[] filehash = sha.ComputeHash(File.OpenRead(tmpPath));
+                string filehashstr = BitConverter.ToString(filehash).Replace("-", string.Empty);
+
+                if (badhashessha256.Contains(filehashstr))            
+                    result.Add(new CheckResult(id, "sha256", filehashstr, -100));
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                File.Delete(tmpPath);
+            }
             return result;
         }
         
