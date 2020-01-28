@@ -63,25 +63,13 @@ namespace FinalFrontier
             if (instr == null)
                 return null;
 
-            foreach (string badtld in badtlds)
-            {
-                if (instr.EndsWith(badtld, StringComparison.CurrentCulture))
-                    return new CheckResult(id, badtld, instr, -20);
-            }
-            return null;
+            return badtlds.Where(x => instr.EndsWith(x)).Select(y => new CheckResult(id, y, instr, -20)).FirstOrDefault();
         }
 
         public List<CheckResult> CheckKeywords(string id, string instr)
         {
-            var result = new List<CheckResult>();
-            foreach (string key in keywords)
-            {
-                if (instr.EndsWith(key))
-                {
-                    result.Add(new CheckResult(id, key, instr, -20));
-                }
-            }
-            return result;
+            return keywords.Where(x => instr.ToLower().Contains(x))
+                .Select(x => new CheckResult(id, x, instr, -20)).ToList();
         }
 
         public List<CheckResult> CheckDoubleExtensions(string id, string instr)

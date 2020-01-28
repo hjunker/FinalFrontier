@@ -25,9 +25,27 @@ namespace FinalFrontierUnitTest
         }
 
         [TestMethod]
-        public void CheckBadTld_withBadTld()
+        public void CheckLinkShorteners_withBadLink()
+        {
+            var result = checkMethods.CheckLinkShorteners("BadLinkShotenerTest", "https://x.se/ThisIsATest");
+
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void CheckBadTld_withBadTld_OrNull()
         {
             var result = checkMethods.CheckBadTld("BadTldTest", "test.date");
+            Assert.AreEqual("BadTldTest", result.id);
+
+            result = checkMethods.CheckBadTld("BadTldTest", null);
+            Assert.IsNull(result);
+        }
+
+        [TestMethod]
+        public void CheckKeywords_withBadKeyword()
+        {
+            var result = checkMethods.CheckKeywords("KeywordTest", "TestRechnungTest.dox");
 
             Assert.IsNotNull(result);
         }

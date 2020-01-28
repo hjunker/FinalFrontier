@@ -195,11 +195,11 @@
   <ItemGroup>
     <Compile Include="Analyzer.cs" />
     <Compile Include="Lib\AttachmentAnalyzer.cs" />
-    <Compile Include="Lib\BaseAnalyse.cs" />
+    <Compile Include="Lib\BaseAnalyze.cs" />
+    <Compile Include="Lib\BodyAnalyzer.cs" />
     <Compile Include="Lib\CheckMethods.cs" />
     <Compile Include="Lib\CheckResult.cs" />
     <Compile Include="DictionaryTools.cs" />
-    <Compile Include="Lib\BodyAnalyser.cs" />
     <Compile Include="Lib\MailItemExtensions.cs" />
     <Compile Include="Lib\MetaAnalyzer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -284,7 +284,7 @@
     </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>4B0D3E63D259EBF09F0C9F761213E08472F9C50B</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>079C6DFDBA54622B351E90B41597DD6AFB2D1A9C</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
