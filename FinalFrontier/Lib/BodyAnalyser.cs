@@ -53,7 +53,7 @@ namespace FinalFrontier
 
             // 1.
             // Find all matches in file.
-            MatchCollection m1 = Regex.Matches(file, @"(<a.*?>.*?</a>)", RegexOptions.Singleline);
+            MatchCollection m1 = Regex.Matches(file.ToLower(), @"(<a.*?>.*?</a>)", RegexOptions.Singleline);
 
             // 2.
             // Loop over each match.
