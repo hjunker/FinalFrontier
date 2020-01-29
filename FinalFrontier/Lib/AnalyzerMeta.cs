@@ -44,6 +44,7 @@ namespace FinalFrontier
             {
                 string receiveDomain = checkMethods.GetReceiveFromString(entry);
                 add(checkMethods.CheckBadTld("Receive-badTLD", receiveDomain));
+                addRange(checkMethods.CheckFreeMailers("Receive-Freemailer", entry));
             }
 
             addRange(CheckSender(senderName, senderEmailAddress, checkMethods.GetSenderSMTPAddress(mailItem)));
