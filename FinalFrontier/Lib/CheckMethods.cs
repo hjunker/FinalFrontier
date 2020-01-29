@@ -18,6 +18,7 @@ namespace FinalFrontier
         private List<string> exeextensions;
         private List<string> badextensions;
         private List<string> badhashessha256;
+        private List<string> freemailers;
         private List<string> whitelist;
         // Not Used
         private List<string> lookalikes;
@@ -33,6 +34,7 @@ namespace FinalFrontier
                 exeextensions = ConfigurationManager.AppSettings["exeextensions"].Split(',').ToList();
                 badextensions = ConfigurationManager.AppSettings["badextensions"].Split(',').ToList();
                 badhashessha256 = ConfigurationManager.AppSettings["badhashessha256"].Split(',').ToList();
+                freemailers = ConfigurationManager.AppSettings["freemailers"].Split(',').ToList();
                 whitelist = ConfigurationManager.AppSettings["whitelist"].Split(',').ToList();
                 lookalikes = ConfigurationManager.AppSettings["lookalikes"].Split(',').ToList();
                 imgextensions = ConfigurationManager.AppSettings["imgextensions"].Split(',').ToList();
@@ -52,6 +54,20 @@ namespace FinalFrontier
                 if (instr.IndexOf(shortener) > 0)
                 {
                     results.Add(new CheckResult(id, shortener, instr, -20));
+                }
+            }
+            return results;
+        }
+
+        public List<CheckResult> CheckFreeMailers(string id, string instr)
+        {
+            var results = new List<CheckResult>();
+
+            foreach (string freemailer in freemailers)
+            {
+                if (instr.IndexOf(freemailer) > 0)
+                {
+                    results.Add(new CheckResult(id, freemailer, instr, -20));
                 }
             }
             return results;
@@ -118,14 +134,16 @@ namespace FinalFrontier
 
                 if (badhashessha256.Contains(filehashstr))            
                     result.Add(new CheckResult(id, "sha256", filehashstr, -100));
+
+                File.Delete(tmpPath);
             }
             catch (System.Exception)
             {
-                throw;
+                //throw;
             }
             finally
             {
-                File.Delete(tmpPath);
+                //File.Delete(tmpPath);
             }
             return result;
         }

@@ -95,6 +95,8 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
     <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>FinalFrontier.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <!--
     This section defines properties that are set when the "Release" configuration is selected.
@@ -119,15 +121,13 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
     <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>FinalFrontier.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <!--
     This section specifies references for the project.
   -->
   <ItemGroup>
     <Reference Include="Accessibility" />
-    <Reference Include="Microsoft.Azure.Amqp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.Amqp.2.4.3\lib\net45\Microsoft.Azure.Amqp.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -136,28 +136,13 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.Net.WebSockets, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Net.WebSockets.4.0.0\lib\net46\System.Net.WebSockets.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.WebSockets.Client, Version=4.0.0.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Net.WebSockets.Client.4.0.2\lib\net46\System.Net.WebSockets.Client.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Runtime.Serialization.Primitives, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.Serialization.Primitives.4.1.1\lib\net46\System.Runtime.Serialization.Primitives.dll</HintPath>
-    </Reference>
     <Reference Include="System.Security" />
-    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.2.0\lib\net461\System.Security.Cryptography.Algorithms.dll</HintPath>
-    </Reference>
     <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.Encoding.4.0.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.Primitives.4.0.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.1.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
@@ -257,6 +242,8 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="FinalFrontier.ruleset" />
+    <None Include="FinalFrontier_11_TemporaryKey.pfx" />
     <None Include="FinalFrontier_1_TemporaryKey.pfx" />
     <None Include="FinalFrontier_2_TemporaryKey.pfx" />
     <None Include="FinalFrontier_3_TemporaryKey.pfx" />
@@ -320,11 +307,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>
-    </ManifestKeyFile>
+    <ManifestKeyFile>FinalFrontier_11_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>4B0D3E63D259EBF09F0C9F761213E08472F9C50B</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>C5AE8A2FC5A6B3E55A7D2088F624EDBBF32CC368</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

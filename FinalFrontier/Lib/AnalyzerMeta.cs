@@ -45,6 +45,7 @@ namespace FinalFrontier
             {
                 string receiveDomain = checkMethods.GetReceiveFromString(entry);
                 add(checkMethods.CheckBadTld("Receive-badTLD", receiveDomain));
+                addRange(checkMethods.CheckFreeMailers("Receive-Freemailer", entry));
             }
 
             addRange(CheckSender(senderName, senderEmailAddress, checkMethods.GetSenderSMTPAddress(mailItem)));
@@ -63,7 +64,7 @@ namespace FinalFrontier
 
             if (DictSenderEmail.ContainsKey(senderEmailAddress))
             {
-                if (DictSenderEmail[senderEmailAddress] > 3)
+                if (DictSenderEmail[senderEmailAddress] > 0)
                 {
                     add(new CheckResult("Meta-SenderAddressSeenBefore", "Die vermeintliche Emailadresse ist bekannt.", senderEmailAddress, -30));
                 }
@@ -75,7 +76,7 @@ namespace FinalFrontier
 
             if (DictSenderCombo.ContainsKey(senderCombo))
             {
-                if (DictSenderCombo[senderCombo] > 3)
+                if (DictSenderCombo[senderCombo] > 0)
                 {
                     add(new CheckResult("Meta-ComboSeenBefore", "Die Kombination von Absender (Freitext) und Emailadresse ist bekannt.", senderEmailAddress, 100));
                 }
@@ -96,6 +97,10 @@ namespace FinalFrontier
                 if (entry.Contains("''"))
                 {
                     add(new CheckResult("Meta-SuspiciousSender", "Die Angabe des Absenders enthält leere Hochkommata.", senderEmailAddress, -40));
+                }
+                if (entry.StartsWith("@"))
+                {
+                    add(new CheckResult("Meta-SuspiciousSender", "Die Mailadresse des Absenders ist fehlerhaft / verdächtig.", senderEmailAddress, -40));
                 }
             }
 
@@ -122,7 +127,7 @@ namespace FinalFrontier
             // check if senderName contains email address with different domain than senderEnvelope
             if (senderName.Contains("@") && (senderDomainEnvelope != senderDomain))
             {
-                results.Add(new CheckResult("Meta-SenderNameDomainMismatch", "senderName contains email address with different domain than senderEnvelope",                     senderDomainEnvelope + "/" + senderDomain, -50));
+                results.Add(new CheckResult("Meta-SenderNameDomainMismatch", "senderName contains email address with different domain than senderEnvelope", senderDomainEnvelope + "/" + senderDomain, -50));
             }
 
             if (!string.IsNullOrEmpty(senderEnvelope) && (senderEmail!= senderEnvelope))
@@ -139,7 +144,7 @@ namespace FinalFrontier
             if ((senderNameAtPos != -1) && (!string.IsNullOrEmpty(senderEmail)))
             {
                 // senderName contains mail address
-                results.Add(new CheckResult("Meta-SenderMismatch", "Der Absender ist evtl. gefälscht (Name soll Mailadresse suggerieren)", senderEmail+ "/" + senderEnvelope, -20));
+                results.Add(new CheckResult("Meta-SenderMismatch", "Der Absender ist evtl. gefälscht (Name soll Mailadresse suggerieren)", senderEmail+ "/" + senderEnvelope, -10));
 
                 if ((senderEmail.IndexOf(senderNameDomainPart, StringComparison.CurrentCultureIgnoreCase) == -1) && string.IsNullOrEmpty(senderEmail))
                 {
