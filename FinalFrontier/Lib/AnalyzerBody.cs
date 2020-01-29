@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace FinalFrontier
 {
-    class BodyAnalyzer : BaseAnalyze
+    class AnalyzerBody : AnalyzerBase
     {
         private int score;
         public bool HasLink { get; set; }

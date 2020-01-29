@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
 using Microsoft.Office.Interop.Outlook;
 using System.Windows.Forms;
 using System.Diagnostics;
@@ -26,11 +23,11 @@ namespace FinalFrontier
         DictionaryTools dt = new DictionaryTools();
         private String lastConversationID = "";
         private int tvcntr;
-        private Analyzer analyzer = new Analyzer();
+        private Scoring scoring = new Scoring();
 
         protected override Microsoft.Office.Core.IRibbonExtensibility CreateRibbonExtensibilityObject()
         {
-            return new Ribbon1(analyzer);
+            return new Ribbon1(scoring);
         }
 
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
@@ -39,8 +36,7 @@ namespace FinalFrontier
 
             Folder root = Application.Session.DefaultStore.GetRootFolder() as Folder;
 
-            //Form welcome = new ffwelcome(root);
-            //welcome.ShowDialog();
+            // TODO: Welcome screen
 
             currentExplorer = this.Application.ActiveExplorer();
             currentExplorer.SelectionChange += new ExplorerEvents_10_SelectionChangeEventHandler(CurrentExplorer_Event);
@@ -116,6 +112,7 @@ namespace FinalFrontier
                     EnumerateFolders(childFolder);
                 }
             }
+            // TODO: nicer user path from modelConfig
             string userpath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             dt.Write(DictSenderName, userpath + "\\dict-sender-name.bin");
             dt.Write(DictSenderEmail, userpath + "\\dict-sender-email.bin");
@@ -140,12 +137,15 @@ namespace FinalFrontier
                             if (mailItem.ConversationID != lastConversationID)
                             {
                                 lastConversationID = mailItem.ConversationID;
-                                analyzer.getSummary(mailItem);
-
-                                if (analyzer.IsSuspicious)
+                                
+                                // 
+                                var scoreResult = scoring.getSummary(mailItem);
+                                if (scoreResult.IsSuspicious)
                                 {
                                     // TODO: Only show if Outlook is visible / has starten up
-                                    InfoScreen infoSc = new InfoScreen(analyzer, "score");
+                                    VMInfoScreen.ShowScore(scoreResult);
+
+                                    InfoScreen infoSc = new InfoScreen(scoreResult, "score");
                                     infoSc.Show();
                                 }
 
