@@ -4,7 +4,7 @@ using System.Configuration;
 
 namespace FinalFrontier
 {
-    public class ModelScoring : VMBase
+    public class ModelScoring : ModelBase
     {
         // Initialize public variables with getter, setter
         public bool IsSuspicious => score <= int.Parse(ConfigurationManager.AppSettings["isSuspiciousScore"]);

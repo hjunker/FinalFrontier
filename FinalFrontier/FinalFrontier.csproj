@@ -232,10 +232,13 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModel\VMBase.cs" />
+    <Compile Include="Lib\ModelBase.cs" />
     <Compile Include="ViewModel\VMInfoScreen.cs" />
     <Compile Include="View\InfoScreen.xaml.cs">
       <DependentUpon>InfoScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\InfoScreen2.xaml.cs">
+      <DependentUpon>InfoScreen2.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SettingsScreen.xaml.cs">
       <DependentUpon>SettingsScreen.xaml</DependentUpon>
@@ -268,7 +271,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="View\Ribbon1.cs" />
+    <Compile Include="View\MainRibbon.cs" />
     <Compile Include="ThisAddIn.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -281,7 +284,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="View\Ribbon1.xml">
+    <EmbeddedResource Include="View\MainRibbon.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
@@ -290,7 +293,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\InfoScreen2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\SettingsScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Shared.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

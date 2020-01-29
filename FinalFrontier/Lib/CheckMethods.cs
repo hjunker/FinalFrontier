@@ -6,6 +6,7 @@ using Microsoft.Office.Interop.Outlook;
 using System.IO;
 using System.Security.Cryptography;
 
+
 namespace FinalFrontier
 {
     public class CheckMethods

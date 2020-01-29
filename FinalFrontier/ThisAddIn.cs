@@ -27,7 +27,7 @@ namespace FinalFrontier
 
         protected override Microsoft.Office.Core.IRibbonExtensibility CreateRibbonExtensibilityObject()
         {
-            return new Ribbon1(scoring);
+            return new MainRibbon(scoring);
         }
 
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
@@ -144,9 +144,6 @@ namespace FinalFrontier
                                 {
                                     // TODO: Only show if Outlook is visible / has starten up
                                     VMInfoScreen.ShowScore(scoreResult);
-
-                                    InfoScreen infoSc = new InfoScreen(scoreResult, "score");
-                                    infoSc.Show();
                                 }
 
                                 tvcntr++;

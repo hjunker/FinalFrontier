@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 //namespace FinalFrontier
 //{
-//    public sealed class ModelConfiguration : VMBase
+//    public sealed class ModelConfiguration : ModelBase
 //    {
 //        private static ModelConfiguration instance = null;
 
