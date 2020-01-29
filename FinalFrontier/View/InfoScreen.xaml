@@ -37,9 +37,9 @@
             <Label FontSize="20" Name="LongInfo" />
         </StackPanel>
 
-        <Grid Grid.Row ="1" Background="#EEEEEE" Margin="5" MinHeight="120">
+        <Grid Grid.Row ="1" Name="MainInfo" Background="#EEEEEE" Margin="5" MinHeight="120">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 

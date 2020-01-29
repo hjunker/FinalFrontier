@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using Microsoft.Office.Interop.Outlook;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Security.Cryptography;
 

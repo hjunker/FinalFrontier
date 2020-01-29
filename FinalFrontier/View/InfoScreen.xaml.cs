@@ -21,19 +21,19 @@ namespace FinalFrontier
     public partial class InfoScreen : Window
     {
         // Initialize public variables used by the XAML-view
-        public Analyzer Ana { get; private set; }
+        public ModelScoring Ana { get; private set; }
         
         // Initialize some instance variables
         private double scoreHeight = 0;
         private double headerHeight = 0;
 
-        public InfoScreen(Analyzer ana, string showItem="")
+        public InfoScreen(ModelScoring ana, string showItem="")
         {
             Ana = ana;
 
             // Set the basic view
             InitializeComponent();
-            ScoreLabel.Content = "Score: " + Ana.Score.ToString();
+            ScoreLabel.Content = "Score: " + ana.Score.ToString();
 
             // Initialize the specific view fields
             if (showItem.Normalize().Equals("score") || showItem.Equals(""))
@@ -63,10 +63,10 @@ namespace FinalFrontier
             }
 
             // Set the detailed list of iocs
-            if (scoreList.Items.Count < Ana.Result.Count()) {
-                foreach (CheckResult cr in Ana.Result)
+            if (scoreList.Items.Count < Ana.DetailedScoreInfo.Count()) {
+                foreach (CheckResult cr in Ana.DetailedScoreInfo)
                     scoreList.Items.Add(new CheckResult(cr.id, cr.fragment, cr.ioc, cr.score));
-            } else if (Ana.Result.Count() == 0)
+            } else if (Ana.DetailedScoreInfo.Count() == 0)
                 scoreList.Items.Add(new CheckResult ("", "E-Mail vermutlich nicht schadhaft.", "Keine IOCs gefunden.", 0));
 
             // Update the heights of the windows

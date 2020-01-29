@@ -17,7 +17,7 @@
 
         public override string ToString()
         {
-            return "Score: " + score + ", ID: " + id + ", FRAGMENT: " + fragment + ", IOC: " + ioc;
+            return "Score: " + score + ", ID: " + id + ", in FRAGMENT: " + fragment + ", konkreter IOC: " + ioc;
         }
     }
 }
