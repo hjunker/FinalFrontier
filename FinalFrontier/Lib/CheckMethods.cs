@@ -117,14 +117,16 @@ namespace FinalFrontier
 
                 if (badhashessha256.Contains(filehashstr))            
                     result.Add(new CheckResult(id, "sha256", filehashstr, -100));
+
+                File.Delete(tmpPath);
             }
             catch (System.Exception)
             {
-                throw;
+                //throw;
             }
             finally
             {
-                File.Delete(tmpPath);
+                //File.Delete(tmpPath);
             }
             return result;
         }

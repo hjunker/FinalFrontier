@@ -15,7 +15,6 @@ namespace FinalFrontier
 
     public partial class ThisAddIn
     {
-        Inspectors inspectors;
         Explorer currentExplorer = null;
         private Dictionary<string, int> DictSenderName = new Dictionary<string, int>();
         private Dictionary<string, int> DictSenderEmail = new Dictionary<string, int>();
