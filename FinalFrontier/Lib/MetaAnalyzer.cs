@@ -86,6 +86,18 @@ namespace FinalFrontier
 
             //add(checkMethods.SenderWhitelist(senderEmailAddress, senderNameDomainPart));
 
+            foreach (string entry in mailItem.Headers("From"))
+            {
+                if (entry.Contains("\"\""))
+                {
+                    add(new CheckResult("Meta-SuspiciousSender", "Die Angabe des Absenders enthält leere Hochkommata.", senderEmailAddress, -40));
+                }
+                if (entry.Contains("''"))
+                {
+                    add(new CheckResult("Meta-SuspiciousSender", "Die Angabe des Absenders enthält leere Hochkommata.", senderEmailAddress, -40));
+                }
+            }
+
             score = results.Sum(x => x.score);
 
             return results;
