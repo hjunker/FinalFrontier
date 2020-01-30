@@ -110,7 +110,9 @@ namespace FinalFrontier
 
         public void onFFFolderButtonClick(IRibbonControl control)
         {
-            MessageBox.Show("TODO: TRIGGER LEARNING!");
+            FinalFrontierLearnLib.Learn learn = new FinalFrontierLearnLib.Learn();
+            learn.LearnFolder(((Folder)control.Context));
+            //MessageBox.Show("TODO: TRIGGER LEARNING!");
         }
 
         public bool IsVisible(Office.IRibbonControl control)

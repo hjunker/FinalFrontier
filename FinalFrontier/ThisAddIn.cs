@@ -4,6 +4,7 @@ using Microsoft.Office.Interop.Outlook;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 // https://msdn.microsoft.com/en-us/library/cc668191.aspx
 // https://msdn.microsoft.com/en-us/library/microsoft.office.interop.outlook.mailitem_members.aspx
@@ -48,83 +49,71 @@ namespace FinalFrontier
                 */
 
             // LEARN FROM FOLDERS
-            EnumerateFolders(root);
-
-            /*
-            foreach (KeyValuePair<string, int> pair in DictSenderName)
-            {
-                Debug.WriteLine("{0}, {1}", pair.Key, pair.Value);
-            }
-            */
+            FinalFrontierLearnLib.Learn learn = new FinalFrontierLearnLib.Learn();
+            learn.LearnFolders(Application.Session.DefaultStore.GetRootFolder() as Folder);
+            //EnumerateFolders(root);
         }
 
-        private void EnumerateFolders(Folder folder)
-        {
-            Folders childFolders = folder.Folders;
-            if (childFolders.Count > 0)
-            {
-                foreach (Folder childFolder in childFolders)
-                {
-                    // Write the folder path.
-                    Debug.WriteLine(childFolder.FolderPath);
-                    //if (childFolder.FolderPath.EndsWith("Archive"))
-                    try
-                    {
-                        // iterate through mails in this folder
-                        Items mails = childFolder.Items;
-                        foreach (object mail in childFolder.Items)
-                        {
-                            if (mail is MailItem)
-                            {
-                                var mailItem = mail as MailItem;
-                                string senderName = mailItem.SenderName;
-                                string senderEmailAddress = mailItem.SenderEmailAddress;
-                                string senderCombo = senderName + "/" + senderEmailAddress;
-                                //Debug.WriteLine("\""  + senderName + "\" <" + senderEmailAddress + ">");
-                                // if new then add; else update the three Dictionaries
-                                if (DictSenderName.ContainsKey(senderName))
-                                {
-                                    DictSenderName[senderName] = DictSenderName[senderName] + 1;
-                                }
-                                else
-                                {
-                                    DictSenderName.Add(senderName, 1);
-                                }
-                                if (senderEmailAddress is null)
-                                    continue;
-                                if (DictSenderEmail.ContainsKey(senderEmailAddress))
-                                {
-                                    DictSenderEmail[senderEmailAddress] = DictSenderEmail[senderEmailAddress] + 1;
-                                }
-                                else
-                                {
-                                    DictSenderEmail.Add(senderEmailAddress, 1);
-                                }
-                                if (DictSenderCombo.ContainsKey(senderCombo))
-                                {
-                                    DictSenderCombo[senderCombo] = DictSenderCombo[senderCombo] + 1;
-                                }
-                                else
-                                {
-                                    DictSenderCombo.Add(senderCombo, 1);
-                                }
-                            }
-                        }
-                    }
-                    catch (System.Exception ex)
-                    {
-                        // throw;
-                    }
-                    // Call EnumerateFolders using childFolder.
-                    EnumerateFolders(childFolder);
-                }
-            }
-            // TODO: nicer user path from modelConfig
-            string userpath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            dt.Write(DictSenderName, userpath + "\\dict-sender-name.bin");
-            dt.Write(DictSenderEmail, userpath + "\\dict-sender-email.bin");
-            dt.Write(DictSenderCombo, userpath + "\\dict-sender-combo.bin");
-        }
+        //private void EnumerateFolders(Folder folder)
+        //{
+        //    foreach (Folder childFolder in folder.Folders)
+        //    {
+        //        try
+        //        {
+        //            // iterate through mails in this folder
+        //            Items mails = childFolder.Items;
+        //            foreach (object mail in childFolder.Items)
+        //            {
+        //                if (mail is MailItem)
+        //                {
+        //                    var mailItem = mail as MailItem;
+        //                    var senderName = mailItem.SenderName;
+        //                    var senderEmailAddress = mailItem.SenderEmailAddress;
+        //                    var senderCombo = senderName + "/" + senderEmailAddress;
+
+        //                    if (senderEmailAddress is null)
+        //                        continue;
+
+        //                    if (DictSenderName.ContainsKey(senderName))
+        //                    {
+        //                        DictSenderName[senderName] = DictSenderName[senderName] + 1;
+        //                    }
+        //                    else
+        //                    {
+        //                        DictSenderName.Add(senderName, 1);
+        //                    }
+        //                    if (DictSenderEmail.ContainsKey(senderEmailAddress))
+        //                    {
+        //                        DictSenderEmail[senderEmailAddress] = DictSenderEmail[senderEmailAddress] + 1;
+        //                    }
+        //                    else
+        //                    {
+        //                        DictSenderEmail.Add(senderEmailAddress, 1);
+        //                    }
+        //                    if (DictSenderCombo.ContainsKey(senderCombo))
+        //                    {
+        //                        DictSenderCombo[senderCombo] = DictSenderCombo[senderCombo] + 1;
+        //                    }
+        //                    else
+        //                    {
+        //                        DictSenderCombo.Add(senderCombo, 1);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        catch (System.Exception ex)
+        //        {
+        //            // throw;
+        //        }
+        //        // Call EnumerateFolders using childFolder.
+        //        EnumerateFolders(childFolder);
+        //    }
+        //    // TODO: nicer user path from modelConfig
+        //    string userpath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+        //    dt.Write(DictSenderName, userpath + "\\dict-sender-name.bin");
+        //    dt.Write(DictSenderEmail, userpath + "\\dict-sender-email.bin");
+        //    dt.Write(DictSenderCombo, userpath + "\\dict-sender-combo.bin");
+        //}
 
         public void CurrentExplorer_Event()
         {
@@ -144,7 +133,7 @@ namespace FinalFrontier
                             if (mailItem.ConversationID != lastConversationID)
                             {
                                 lastConversationID = mailItem.ConversationID;
-                                
+
                                 // 
                                 var scoreResult = scoring.getSummary(mailItem);
                                 if (scoreResult.IsSuspicious)

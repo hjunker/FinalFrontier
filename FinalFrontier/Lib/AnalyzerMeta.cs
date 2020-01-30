@@ -22,12 +22,11 @@ namespace FinalFrontier
             var senderCombo = senderName + "/" + senderEmailAddress;
 
             // Get already known values
-            var dt = new DictionaryTools();
-            string userpath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            var learn = new FinalFrontierLearnLib.Learn();
 
-            Dictionary<string, int> DictSenderName= dt.Read(userpath + "\\dict-sender-name.bin");
-            Dictionary<string, int> DictSenderEmail = dt.Read(userpath + "\\dict-sender-email.bin");
-            Dictionary<string, int> DictSenderCombo = dt.Read(userpath + "\\dict-sender-combo.bin");;
+            Dictionary<string, int> DictSenderName = learn.getDictSenderName();
+            Dictionary<string, int> DictSenderEmail = learn.getDictSenderEmail();
+            Dictionary<string, int> DictSenderCombo = learn.getDictSenderCombo();
 
             var checkMethods = new CheckMethods();
 

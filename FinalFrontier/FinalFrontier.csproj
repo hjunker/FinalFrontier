@@ -292,6 +292,12 @@
     <None Include="Resources\icon_id.png" />
     <Content Include="Resources\icon_link.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FinalFrontierLearnLib\FinalFrontierLearnLib.csproj">
+      <Project>{cfec9a4a-a5ea-46dc-9921-6afdbe7cc040}</Project>
+      <Name>FinalFrontierLearnLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
