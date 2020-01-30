@@ -210,7 +210,6 @@
     <Compile Include="Lib\AnalyzerBody.cs" />
     <Compile Include="Lib\CheckMethods.cs" />
     <Compile Include="Lib\CheckResult.cs" />
-    <Compile Include="DictionaryTools.cs" />
     <Compile Include="Lib\ModelConfiguration.cs" />
     <Compile Include="Lib\MailItemExtensions.cs" />
     <Compile Include="Lib\AnalyzerMeta.cs" />

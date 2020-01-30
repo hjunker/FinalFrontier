@@ -21,7 +21,6 @@ namespace FinalFrontier
         private Dictionary<string, int> DictSenderName = new Dictionary<string, int>();
         private Dictionary<string, int> DictSenderEmail = new Dictionary<string, int>();
         private Dictionary<string, int> DictSenderCombo = new Dictionary<string, int>();
-        DictionaryTools dt = new DictionaryTools();
         private int tvcntr;
         private Scoring scoring = new Scoring();
 
