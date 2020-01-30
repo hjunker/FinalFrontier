@@ -222,9 +222,6 @@
     <Compile Include="View\InfoScreen.xaml.cs">
       <DependentUpon>InfoScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\InfoScreen2.xaml.cs">
-      <DependentUpon>InfoScreen2.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\SettingsScreen.xaml.cs">
       <DependentUpon>SettingsScreen.xaml</DependentUpon>
     </Compile>
@@ -277,10 +274,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="View\InfoScreen.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\InfoScreen2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

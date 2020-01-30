@@ -72,42 +72,49 @@ namespace FinalFrontier
                     {
                         // iterate through mails in this folder
                         Items mails = childFolder.Items;
-                        foreach (MailItem mail in mails)
+                        foreach (object mail in childFolder.Items)
                         {
-                            MailItem thismail = mail as MailItem;
-                            string senderName = thismail.SenderName;
-                            string senderEmailAddress = thismail.SenderEmailAddress;
-                            string senderCombo = senderName + "/" + senderEmailAddress;
-                            //Debug.WriteLine("\""  + senderName + "\" <" + senderEmailAddress + ">");
-                            // if new then add; else update the three Dictionaries
-                            if (DictSenderName.ContainsKey(senderName))
+                            if (mail is MailItem)
                             {
-                                DictSenderName[senderName] = DictSenderName[senderName] + 1;
-                            }
-                            else
-                            {
-                                DictSenderName.Add(senderName, 1);
-                            }
-                            if (DictSenderEmail.ContainsKey(senderEmailAddress))
-                            {
-                                DictSenderEmail[senderEmailAddress] = DictSenderEmail[senderEmailAddress] + 1;
-                            }
-                            else
-                            {
-                                DictSenderEmail.Add(senderEmailAddress, 1);
-                            }
-                            if (DictSenderCombo.ContainsKey(senderCombo))
-                            {
-                                DictSenderCombo[senderCombo] = DictSenderCombo[senderCombo] + 1;
-                            }
-                            else
-                            {
-                                DictSenderCombo.Add(senderCombo, 1);
+                                var mailItem = mail as MailItem;
+                                string senderName = mailItem.SenderName;
+                                string senderEmailAddress = mailItem.SenderEmailAddress;
+                                string senderCombo = senderName + "/" + senderEmailAddress;
+                                //Debug.WriteLine("\""  + senderName + "\" <" + senderEmailAddress + ">");
+                                // if new then add; else update the three Dictionaries
+                                if (DictSenderName.ContainsKey(senderName))
+                                {
+                                    DictSenderName[senderName] = DictSenderName[senderName] + 1;
+                                }
+                                else
+                                {
+                                    DictSenderName.Add(senderName, 1);
+                                }
+                                if (senderEmailAddress is null)
+                                    continue;
+                                if (DictSenderEmail.ContainsKey(senderEmailAddress))
+                                {
+                                    DictSenderEmail[senderEmailAddress] = DictSenderEmail[senderEmailAddress] + 1;
+                                }
+                                else
+                                {
+                                    DictSenderEmail.Add(senderEmailAddress, 1);
+                                }
+                                if (DictSenderCombo.ContainsKey(senderCombo))
+                                {
+                                    DictSenderCombo[senderCombo] = DictSenderCombo[senderCombo] + 1;
+                                }
+                                else
+                                {
+                                    DictSenderCombo.Add(senderCombo, 1);
+                                }
                             }
                         }
                     }
-                    catch (System.Exception)
-                    { }
+                    catch (System.Exception ex)
+                    {
+                        // throw;
+                    }
                     // Call EnumerateFolders using childFolder.
                     EnumerateFolders(childFolder);
                 }

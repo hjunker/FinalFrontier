@@ -142,7 +142,7 @@ namespace FinalFrontier
 
         #endregion
 
-        ~Ribbon1()
+        ~MainRibbon()
         {
             if (Directory.Exists(Path.GetTempPath() + "FinalFrontier"))
             {
