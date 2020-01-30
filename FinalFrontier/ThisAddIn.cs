@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Office.Interop.Outlook;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.IO;
 
 // https://msdn.microsoft.com/en-us/library/cc668191.aspx
 // https://msdn.microsoft.com/en-us/library/microsoft.office.interop.outlook.mailitem_members.aspx
@@ -224,5 +225,16 @@ namespace FinalFrontier
         }
 
         #endregion
+
+        ~ThisAddIn()
+        {
+            if (Directory.Exists(Path.GetTempPath() + "FinalFrontier"))
+            {
+                foreach (var file in Directory.GetFiles(Path.GetTempPath() + "FinalFrontier"))
+                {
+                    File.Delete(file);
+                }
+            }
+        }
     }
 }

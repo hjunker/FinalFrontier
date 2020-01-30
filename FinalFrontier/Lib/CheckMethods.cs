@@ -106,7 +106,11 @@ namespace FinalFrontier
 
             var sha = new SHA256Managed();
             var result = new List<CheckResult>();
-            var tmpPath = Path.GetTempPath() + Path.GetRandomFileName();
+            var tmpPath = Path.GetTempPath() + "FinalFrontier\\";
+
+            if (!Directory.Exists(tmpPath))
+                Directory.CreateDirectory(tmpPath);
+            tmpPath += Path.GetRandomFileName();
 
             try
             {
@@ -117,16 +121,10 @@ namespace FinalFrontier
 
                 if (badhashessha256.Contains(filehashstr))            
                     result.Add(new CheckResult(id, "sha256", filehashstr, -100));
-
-                File.Delete(tmpPath);
             }
             catch (System.Exception)
             {
-                //throw;
-            }
-            finally
-            {
-                //File.Delete(tmpPath);
+                throw;
             }
             return result;
         }
