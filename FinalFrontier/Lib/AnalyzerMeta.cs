@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace FinalFrontier
 {
     public class AnalyzerMeta : AnalyzerBase
@@ -44,6 +45,7 @@ namespace FinalFrontier
             {
                 string receiveDomain = checkMethods.GetReceiveFromString(entry);
                 add(checkMethods.CheckBadTld("Receive-badTLD", receiveDomain));
+                addRange(checkMethods.CheckFreeMailers("Receive-Freemailer", entry));
             }
 
             addRange(CheckSender(senderName, senderEmailAddress, checkMethods.GetSenderSMTPAddress(mailItem)));

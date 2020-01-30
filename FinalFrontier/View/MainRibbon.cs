@@ -11,12 +11,12 @@ using Office = Microsoft.Office.Core;
 namespace FinalFrontier
 {
     [ComVisible(true)]
-    public class Ribbon1 : Office.IRibbonExtensibility
+    public class MainRibbon : Office.IRibbonExtensibility
     {
         private Office.IRibbonUI ribbon;
         private Scoring scoring;
 
-        public Ribbon1(Scoring sc)
+        public MainRibbon(Scoring sc)
         {
             scoring = sc;
 
@@ -33,7 +33,7 @@ namespace FinalFrontier
 
         public string GetCustomUI(string ribbonID)
         {
-            return GetResourceText("FinalFrontier.View.Ribbon1.xml");
+            return GetResourceText("FinalFrontier.View.MainRibbon.xml");
         }
 
         #endregion
@@ -65,9 +65,6 @@ namespace FinalFrontier
 
             // Show the Info
             VMInfoScreen.ShowScore(scoring.getSummary(selObject));
-
-            InfoScreen infoSc = new InfoScreen(scoring.getSummary(selObject), "score");
-            infoSc.Show();
         }
 
         public void OnShowHeaderClick(IRibbonControl control)
@@ -88,12 +85,23 @@ namespace FinalFrontier
 
             // Show the Info
             VMInfoScreen.ShowHeader(scoring.getSummary(selObject));
-
-            InfoScreen infoSc = new InfoScreen(scoring.getSummary(selObject), "header");
-            infoSc.Show();
         }
 
         public void OnShowSettingsClick(IRibbonControl control)
+        {
+            // Show the Settings screen
+            SettingsScreen settingsSc = new SettingsScreen();
+            settingsSc.Show();
+        }
+
+        public void OnShowInfoClick(IRibbonControl control)
+        {
+            // Show the Settings screen
+            SettingsScreen settingsSc = new SettingsScreen();
+            settingsSc.Show();
+        }
+
+        public void OnShowUpdateClick(IRibbonControl control)
         {
             // Show the Settings screen
             SettingsScreen settingsSc = new SettingsScreen();

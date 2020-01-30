@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+
 namespace FinalFrontier
 {
     public abstract class AnalyzerBase

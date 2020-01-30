@@ -6,82 +6,88 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace FinalFrontier
 {
-    public static class VMInfoScreen
+    public class VMInfoScreen
     {
         // Initialize public variables used by the XAML-view
-        public static string ShortInfo { get; private set; }
-        public static string LongInfo { get; private set; }
+        public static string ShortInfo { get { if (scoring.IsSuspicious) return "Warnung!"; else return "Detaillierte Information"; } }
+        public static string LongInfo { get { if (scoring.IsSuspicious) return "Diese Mail könnte schadhaft sein."; else return "FinalFrontier stuft diese Mail nicht als bösartig ein."; } }
 
-        public static string ScoreLabel { get; private set; }
-        public static List<CheckResult> DetailedScoreInfo { get; private set; }
+        public static string ScoreLabel { get { return "Score: " + scoring.Score; } }
+        public static List<CheckResult> DetailedScoreInfo
+        {
+            get
+            {
+                if (scoring.DetailedScoreInfo.Count() > 0)
+                    return scoring.DetailedScoreInfo;
+                else
+                {
+                    noScoreInfo.Clear();
+                    noScoreInfo.Add((new CheckResult("", "E-Mail vermutlich nicht schadhaft.", "Keine IOCs gefunden.", 0)));
+                    return noScoreInfo;
+                }
+            }
+        }
 
-        public static string Header { get; private set; }
+        public static string HeaderLabel { get { return "Header-Informationen"; } }
+        public static string Header { get { return scoring.Header; } }
 
-        // Initialize some instance variables
-        //private Scoring ana;
+        public static string ProblemLabel { get { return "You have a problem?"; } }
+        public static string CloseLabel { get { return "Close"; } }
 
-        //public VMInfoScreen()
+        // Init commands
+        public ICommand ShowScoreCommand { get; private set; }
+        public ICommand ShowHeaderCommand { get; private set; }
+        public ICommand CloseCommand { get; private set; }
+
+        // Initialize local variables
+        private static ModelScoring scoring;
+        private static InfoScreen infoSc;
+
+        private static List<CheckResult> noScoreInfo = new List<CheckResult>();
+
+        public VMInfoScreen()
+        {
+        }
+
+        public static void ShowScore(ModelScoring sc = null)
+        {
+            if (sc != null)
+                scoring = sc;
+
+            Visualize();
+        }
+
+        public static void ShowHeader(ModelScoring sc = null)
+        {
+            if (sc != null)
+                scoring = sc;
+        }
+
+        private static void Visualize()
+        {
+            infoSc = new InfoScreen();
+            infoSc.Show();
+        }
+
+        private void Close(Object sender, RoutedEventArgs e)
+        {
+            infoSc.Close();
+        }
+
+        //public static void Show(string showItem = "")
         //{
-
-        //}
-        
-        //public VMInfoScreen(Scoring ana)
-        //{
-        //    // Get the top-displayed information
-        //    if (ana.IsSuspicious == true)
-        //    {
-        //        ShortInfo = "Warnung!";
-        //        LongInfo = "Diese Mail könnte schadhaft sein.";
-        //    }
+        //    if (showItem.Normalize().Equals("score") || showItem.Equals(""))
+        //        //ShowScore();
+        //        Debug.WriteLine("Test score");
+        //    else if (showItem.Normalize().Equals("header"))
+        //        //ShowHeader();
+        //        Debug.WriteLine("Test header");
         //    else
-        //    {
-        //        ShortInfo = "Detaillierte Informationen";
-        //        LongInfo = "FinalFrontier stuft diese Mail nicht als bösartig ein.";
-        //    }
-
-        //    // Set the score board with detailed list
-        //    ScoreLabel = "Score: " + ana.Score;
-
-        //    if (DetailedScoreInfo.Count() < ana.Result.Count())
-        //        DetailedScoreInfo.AddRange(ana.Result);
-        //    else if (ana.Result.Count() == 0)
-        //        DetailedScoreInfo.Add(new CheckResult("", "E-Mail vermutlich nicht schadhaft.", "Keine IOCs gefunden.", 0));
-
-        //    //Set the header information
-        //    if (Header == null)
-        //        Header = ana.Header;
-        //}
-
-
-
-        public static void Show(string showItem = "")
-        {
-            if (showItem.Normalize().Equals("score") || showItem.Equals(""))
-                //ShowScore();
-                Debug.WriteLine("Test score");
-            else if (showItem.Normalize().Equals("header"))
-                //ShowHeader();
-                Debug.WriteLine("Test header");
-            else
-                throw new ArgumentException("Invalid argument to show. Only use 'score' or 'header' (case-insensitive).", showItem);
-        }
-
-        public static void ShowScore(ModelScoring ana)
-        {
-            //DO
-        }
-
-        public static void ShowHeader(ModelScoring ana)
-        {
-            //DO
-        }
-
-        //private void Close(Object sender, RoutedEventArgs e)
-        //{
-        //    Close();
+        //        throw new ArgumentException("Invalid argument to show. Only use 'score' or 'header' (case-insensitive).", showItem);
         //}
 
         //public void ShowScore(Object sender = null, RoutedEventArgs e = null)

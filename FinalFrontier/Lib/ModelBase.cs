@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace FinalFrontier
 {
-    public abstract class VMBase : INotifyPropertyChanged
+    public abstract class ModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         protected void SetProperty<T> (ref T storage, T value, [CallerMemberName] string property = null)
