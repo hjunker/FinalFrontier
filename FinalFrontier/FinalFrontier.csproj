@@ -29,6 +29,8 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <DefineConstants>VSTO40</DefineConstants>
     <IsWebBootstrapper>False</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <PublishUrl>c:\finalfrontier\</PublishUrl>
     <InstallUrl />
@@ -44,8 +46,6 @@
     <FriendlyName>FinalFrontier</FriendlyName>
     <OfficeApplicationDescription />
     <LoadBehavior>3</LoadBehavior>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
@@ -217,7 +217,8 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Lib\ModelBase.cs" />
+    <Compile Include="ViewModel\RelayCommand.cs" />
+    <Compile Include="ViewModel\VMStaticBase.cs" />
     <Compile Include="ViewModel\VMInfoScreen.cs" />
     <Compile Include="View\InfoScreen.xaml.cs">
       <DependentUpon>InfoScreen.xaml</DependentUpon>

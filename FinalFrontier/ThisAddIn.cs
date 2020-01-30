@@ -22,7 +22,6 @@ namespace FinalFrontier
         private Dictionary<string, int> DictSenderEmail = new Dictionary<string, int>();
         private Dictionary<string, int> DictSenderCombo = new Dictionary<string, int>();
         DictionaryTools dt = new DictionaryTools();
-        private String lastConversationID = "";
         private int tvcntr;
         private Scoring scoring = new Scoring();
 
@@ -129,21 +128,14 @@ namespace FinalFrontier
                     {
                         try
                         {
-                            // this condition should prevent the popup from showing twice
-                            if (mailItem.ConversationID != lastConversationID)
-                            {
-                                lastConversationID = mailItem.ConversationID;
+                            // Show warning or close may open window
+                            var scoreResult = scoring.getSummary(mailItem);
+                            if (scoreResult.IsSuspicious)
+                                VMInfoScreen.ShowScore(scoreResult);
+                            else
+                                VMInfoScreen.Close();
 
-                                // 
-                                var scoreResult = scoring.getSummary(mailItem);
-                                if (scoreResult.IsSuspicious)
-                                {
-                                    // TODO: Only show if Outlook is visible / has starten up
-                                    VMInfoScreen.ShowScore(scoreResult);
-                                }
-
-                                tvcntr++;
-                            }
+                            tvcntr++;
                         }
                         catch (System.Exception ex)
                         {
