@@ -22,12 +22,11 @@ namespace FinalFrontier
             var senderCombo = senderName + "/" + senderEmailAddress;
 
             // Get already known values
-            var dt = new DictionaryTools();
-            string userpath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            var learn = new FinalFrontierLearnLib.Learn();
 
-            Dictionary<string, int> DictSenderName= dt.Read(userpath + "\\dict-sender-name.bin");
-            Dictionary<string, int> DictSenderEmail = dt.Read(userpath + "\\dict-sender-email.bin");
-            Dictionary<string, int> DictSenderCombo = dt.Read(userpath + "\\dict-sender-combo.bin");;
+            Dictionary<string, int> DictSenderName = learn.getDictSenderName();
+            Dictionary<string, int> DictSenderEmail = learn.getDictSenderEmail();
+            Dictionary<string, int> DictSenderCombo = learn.getDictSenderCombo();
 
             var checkMethods = new CheckMethods();
 
@@ -45,7 +44,7 @@ namespace FinalFrontier
             {
                 string receiveDomain = checkMethods.GetReceiveFromString(entry);
                 add(checkMethods.CheckBadTld("Receive-badTLD", receiveDomain));
-                addRange(checkMethods.CheckFreeMailers("Receive-Freemailer", entry));
+                addRange(checkMethods.CheckFreeMailers("Receive-Freemailer", entry, senderEmailAddress));
             }
 
             addRange(CheckSender(senderName, senderEmailAddress, checkMethods.GetSenderSMTPAddress(mailItem)));
@@ -55,7 +54,7 @@ namespace FinalFrontier
             // evaluate history of senderName, senderEmailAddress and their combo
             if (DictSenderName.ContainsKey(senderName))
             {
-                add(new CheckResult("Meta-NameNew", "Der Name (Freitext) des Absenders ist bekannt", senderName, -40));
+                add(new CheckResult("Metadata-NewName", "Der Name (Freitext) des Absenders ist bekannt", senderName, -40));
             }
             else
             {

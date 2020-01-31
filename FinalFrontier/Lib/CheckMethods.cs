@@ -41,7 +41,7 @@ namespace FinalFrontier
             }
             catch (System.Exception)
             {
-                System.Windows.Forms.MessageBox.Show("Could not read configuration file app.config");
+                System.Windows.Forms.MessageBox.Show("Could not read configuration file app.config / " + AppDomain.CurrentDomain.SetupInformation.ConfigurationFile + "\n\nCAUTION: FINALFRONTIER WILL NOT BE FUNCTIONING PROPERLY!!!");
             }
         }
 
@@ -59,15 +59,15 @@ namespace FinalFrontier
             return results;
         }
 
-        public List<CheckResult> CheckFreeMailers(string id, string instr)
+        public List<CheckResult> CheckFreeMailers(string id, string instr, string senderEmailAddress)
         {
             var results = new List<CheckResult>();
 
             foreach (string freemailer in freemailers)
             {
-                if (instr.IndexOf(freemailer) > 0)
+                if ((instr.IndexOf(freemailer) > 0) & (senderEmailAddress.IndexOf(freemailer) < 1))
                 {
-                    results.Add(new CheckResult(id, freemailer, instr, -20));
+                    results.Add(new CheckResult(id, freemailer, instr.Substring(0,50)+"[...]", -20));
                 }
             }
             return results;

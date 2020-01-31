@@ -96,7 +96,8 @@
     <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>FinalFrontier.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
   <!--
     This section defines properties that are set when the "Release" configuration is selected.
@@ -210,7 +211,6 @@
     <Compile Include="Lib\AnalyzerBody.cs" />
     <Compile Include="Lib\CheckMethods.cs" />
     <Compile Include="Lib\CheckResult.cs" />
-    <Compile Include="DictionaryTools.cs" />
     <Compile Include="Lib\ModelConfiguration.cs" />
     <Compile Include="Lib\MailItemExtensions.cs" />
     <Compile Include="Lib\AnalyzerMeta.cs" />
@@ -293,6 +293,12 @@
     <None Include="Resources\icon_id.png" />
     <Content Include="Resources\icon_link.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FinalFrontierLearnLib\FinalFrontierLearnLib.csproj">
+      <Project>{cfec9a4a-a5ea-46dc-9921-6afdbe7cc040}</Project>
+      <Name>FinalFrontierLearnLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -305,7 +311,7 @@
     </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>4B0D3E63D259EBF09F0C9F761213E08472F9C50B</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>001C43A122E7EE761AE9C4A2BC48EB3A9D77BE60</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
