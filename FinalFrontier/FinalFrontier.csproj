@@ -29,6 +29,8 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <DefineConstants>VSTO40</DefineConstants>
     <IsWebBootstrapper>False</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <PublishUrl>c:\finalfrontier\</PublishUrl>
     <InstallUrl />
@@ -44,8 +46,6 @@
     <FriendlyName>FinalFrontier</FriendlyName>
     <OfficeApplicationDescription />
     <LoadBehavior>3</LoadBehavior>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
@@ -96,7 +96,8 @@
     <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>FinalFrontier.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
   <!--
     This section defines properties that are set when the "Release" configuration is selected.
@@ -222,9 +223,6 @@
     <Compile Include="View\InfoScreen.xaml.cs">
       <DependentUpon>InfoScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\InfoScreen2.xaml.cs">
-      <DependentUpon>InfoScreen2.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\SettingsScreen.xaml.cs">
       <DependentUpon>SettingsScreen.xaml</DependentUpon>
     </Compile>
@@ -277,10 +275,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="View\InfoScreen.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\InfoScreen2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

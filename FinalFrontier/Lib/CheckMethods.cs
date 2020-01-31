@@ -59,13 +59,13 @@ namespace FinalFrontier
             return results;
         }
 
-        public List<CheckResult> CheckFreeMailers(string id, string instr)
+        public List<CheckResult> CheckFreeMailers(string id, string instr, string senderEmailAddress)
         {
             var results = new List<CheckResult>();
 
             foreach (string freemailer in freemailers)
             {
-                if (instr.IndexOf(freemailer) > 0)
+                if ((instr.IndexOf(freemailer) > 0) & (senderEmailAddress.IndexOf(freemailer) < 1))
                 {
                     results.Add(new CheckResult(id, freemailer, instr, -20));
                 }

@@ -47,7 +47,8 @@ namespace FinalFrontier
                 */
 
             // LEARN FROM FOLDERS
-            EnumerateFolders(root);
+            // IMPORTANT: DO NOT USE THE FOLLOWING FUNCTION. USE THIS INSTEAD AS A STANDALONE CONSOLE APPLICATION FOR LEARNING: https://github.com/hjunker/FinalFrontier-Learner
+            //EnumerateFolders(root);
 
             /*
             foreach (KeyValuePair<string, int> pair in DictSenderName)

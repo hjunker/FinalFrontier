@@ -45,7 +45,7 @@ namespace FinalFrontier
             {
                 string receiveDomain = checkMethods.GetReceiveFromString(entry);
                 add(checkMethods.CheckBadTld("Receive-badTLD", receiveDomain));
-                addRange(checkMethods.CheckFreeMailers("Receive-Freemailer", entry));
+                addRange(checkMethods.CheckFreeMailers("Receive-Freemailer", entry, senderEmailAddress));
             }
 
             addRange(CheckSender(senderName, senderEmailAddress, checkMethods.GetSenderSMTPAddress(mailItem)));
@@ -55,7 +55,7 @@ namespace FinalFrontier
             // evaluate history of senderName, senderEmailAddress and their combo
             if (DictSenderName.ContainsKey(senderName))
             {
-                add(new CheckResult("Meta-NameNew", "Der Name (Freitext) des Absenders ist bekannt", senderName, -40));
+                add(new CheckResult("Metadata-NewName", "Der Name (Freitext) des Absenders ist bekannt", senderName, -40));
             }
             else
             {
