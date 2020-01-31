@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 //namespace FinalFrontier
 //{
-//    public sealed class ModelConfiguration : ModelBase
+//    public sealed class ModelConfiguration
 //    {
 //        private static ModelConfiguration instance = null;
 

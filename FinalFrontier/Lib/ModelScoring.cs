@@ -4,18 +4,13 @@ using System.Configuration;
 
 namespace FinalFrontier
 {
-    public class ModelScoring : ModelBase
+    public class ModelScoring
     {
         // Initialize public variables with getter, setter
-        public bool IsSuspicious => score <= int.Parse(ConfigurationManager.AppSettings["isSuspiciousScore"]);
-        public int Score { get { return score; } set { SetProperty(ref score, value); } }
-        public List<CheckResult> DetailedScoreInfo { get { return detailedScoreInfo; } set { SetProperty(ref detailedScoreInfo, value); } }
-        public string Header { get { return header; } set { SetProperty(ref header, value); } }
-
-        // Initialize private fields for saving
-        private int score;
-        private List<CheckResult> detailedScoreInfo;
-        private string header;
+        public bool IsSuspicious => Score <= int.Parse(ConfigurationManager.AppSettings["isSuspiciousScore"]);
+        public int Score { get; private set; }
+        public List<CheckResult> DetailedScoreInfo { get; private set; }
+        public string Header { get; private set; }
 
         // Constructor
         public ModelScoring(int sc, List<CheckResult> scoreRes, string head)

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Microsoft.Office.Interop.Outlook;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 
 // https://msdn.microsoft.com/en-us/library/cc668191.aspx
 // https://msdn.microsoft.com/en-us/library/microsoft.office.interop.outlook.mailitem_members.aspx
@@ -19,8 +21,6 @@ namespace FinalFrontier
         private Dictionary<string, int> DictSenderName = new Dictionary<string, int>();
         private Dictionary<string, int> DictSenderEmail = new Dictionary<string, int>();
         private Dictionary<string, int> DictSenderCombo = new Dictionary<string, int>();
-        DictionaryTools dt = new DictionaryTools();
-        private String lastConversationID = "";
         private int tvcntr;
         private Scoring scoring = new Scoring();
 
@@ -47,77 +47,71 @@ namespace FinalFrontier
                 */
 
             // LEARN FROM FOLDERS
-            // IMPORTANT: DO NOT USE THE FOLLOWING FUNCTION. USE THIS INSTEAD AS A STANDALONE CONSOLE APPLICATION FOR LEARNING: https://github.com/hjunker/FinalFrontier-Learner
+            FinalFrontierLearnLib.Learn learn = new FinalFrontierLearnLib.Learn();
+            learn.LearnFolders(Application.Session.DefaultStore.GetRootFolder() as Folder);
             //EnumerateFolders(root);
-
-            /*
-            foreach (KeyValuePair<string, int> pair in DictSenderName)
-            {
-                Debug.WriteLine("{0}, {1}", pair.Key, pair.Value);
-            }
-            */
         }
 
-        private void EnumerateFolders(Folder folder)
-        {
-            Folders childFolders = folder.Folders;
-            if (childFolders.Count > 0)
-            {
-                foreach (Folder childFolder in childFolders)
-                {
-                    // Write the folder path.
-                    Debug.WriteLine(childFolder.FolderPath);
-                    //if (childFolder.FolderPath.EndsWith("Archive"))
-                    try
-                    {
-                        // iterate through mails in this folder
-                        Items mails = childFolder.Items;
-                        foreach (MailItem mail in mails)
-                        {
-                            MailItem thismail = mail as MailItem;
-                            string senderName = thismail.SenderName;
-                            string senderEmailAddress = thismail.SenderEmailAddress;
-                            string senderCombo = senderName + "/" + senderEmailAddress;
-                            //Debug.WriteLine("\""  + senderName + "\" <" + senderEmailAddress + ">");
-                            // if new then add; else update the three Dictionaries
-                            if (DictSenderName.ContainsKey(senderName))
-                            {
-                                DictSenderName[senderName] = DictSenderName[senderName] + 1;
-                            }
-                            else
-                            {
-                                DictSenderName.Add(senderName, 1);
-                            }
-                            if (DictSenderEmail.ContainsKey(senderEmailAddress))
-                            {
-                                DictSenderEmail[senderEmailAddress] = DictSenderEmail[senderEmailAddress] + 1;
-                            }
-                            else
-                            {
-                                DictSenderEmail.Add(senderEmailAddress, 1);
-                            }
-                            if (DictSenderCombo.ContainsKey(senderCombo))
-                            {
-                                DictSenderCombo[senderCombo] = DictSenderCombo[senderCombo] + 1;
-                            }
-                            else
-                            {
-                                DictSenderCombo.Add(senderCombo, 1);
-                            }
-                        }
-                    }
-                    catch (System.Exception)
-                    { }
-                    // Call EnumerateFolders using childFolder.
-                    EnumerateFolders(childFolder);
-                }
-            }
-            // TODO: nicer user path from modelConfig
-            string userpath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            dt.Write(DictSenderName, userpath + "\\dict-sender-name.bin");
-            dt.Write(DictSenderEmail, userpath + "\\dict-sender-email.bin");
-            dt.Write(DictSenderCombo, userpath + "\\dict-sender-combo.bin");
-        }
+        //private void EnumerateFolders(Folder folder)
+        //{
+        //    foreach (Folder childFolder in folder.Folders)
+        //    {
+        //        try
+        //        {
+        //            // iterate through mails in this folder
+        //            Items mails = childFolder.Items;
+        //            foreach (object mail in childFolder.Items)
+        //            {
+        //                if (mail is MailItem)
+        //                {
+        //                    var mailItem = mail as MailItem;
+        //                    var senderName = mailItem.SenderName;
+        //                    var senderEmailAddress = mailItem.SenderEmailAddress;
+        //                    var senderCombo = senderName + "/" + senderEmailAddress;
+
+        //                    if (senderEmailAddress is null)
+        //                        continue;
+
+        //                    if (DictSenderName.ContainsKey(senderName))
+        //                    {
+        //                        DictSenderName[senderName] = DictSenderName[senderName] + 1;
+        //                    }
+        //                    else
+        //                    {
+        //                        DictSenderName.Add(senderName, 1);
+        //                    }
+        //                    if (DictSenderEmail.ContainsKey(senderEmailAddress))
+        //                    {
+        //                        DictSenderEmail[senderEmailAddress] = DictSenderEmail[senderEmailAddress] + 1;
+        //                    }
+        //                    else
+        //                    {
+        //                        DictSenderEmail.Add(senderEmailAddress, 1);
+        //                    }
+        //                    if (DictSenderCombo.ContainsKey(senderCombo))
+        //                    {
+        //                        DictSenderCombo[senderCombo] = DictSenderCombo[senderCombo] + 1;
+        //                    }
+        //                    else
+        //                    {
+        //                        DictSenderCombo.Add(senderCombo, 1);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        catch (System.Exception ex)
+        //        {
+        //            // throw;
+        //        }
+        //        // Call EnumerateFolders using childFolder.
+        //        EnumerateFolders(childFolder);
+        //    }
+        //    // TODO: nicer user path from modelConfig
+        //    string userpath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+        //    dt.Write(DictSenderName, userpath + "\\dict-sender-name.bin");
+        //    dt.Write(DictSenderEmail, userpath + "\\dict-sender-email.bin");
+        //    dt.Write(DictSenderCombo, userpath + "\\dict-sender-combo.bin");
+        //}
 
         public void CurrentExplorer_Event()
         {
@@ -133,21 +127,14 @@ namespace FinalFrontier
                     {
                         try
                         {
-                            // this condition should prevent the popup from showing twice
-                            if (mailItem.ConversationID != lastConversationID)
-                            {
-                                lastConversationID = mailItem.ConversationID;
-                                
-                                // 
-                                var scoreResult = scoring.getSummary(mailItem);
-                                if (scoreResult.IsSuspicious)
-                                {
-                                    // TODO: Only show if Outlook is visible / has starten up
-                                    VMInfoScreen.ShowScore(scoreResult);
-                                }
+                            // Show warning or close may open window
+                            var scoreResult = scoring.getSummary(mailItem);
+                            if (scoreResult.IsSuspicious)
+                                VMInfoScreen.ShowScore(scoreResult);
+                            else
+                                VMInfoScreen.Close();
 
-                                tvcntr++;
-                            }
+                            tvcntr++;
                         }
                         catch (System.Exception ex)
                         {
@@ -222,5 +209,16 @@ namespace FinalFrontier
         }
 
         #endregion
+
+        ~ThisAddIn()
+        {
+            if (Directory.Exists(Path.GetTempPath() + "FinalFrontier"))
+            {
+                foreach (var file in Directory.GetFiles(Path.GetTempPath() + "FinalFrontier"))
+                {
+                    File.Delete(file);
+                }
+            }
+        }
     }
 }

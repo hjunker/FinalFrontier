@@ -19,6 +19,14 @@ namespace FinalFrontier
         public MainRibbon(Scoring sc)
         {
             scoring = sc;
+
+            if (Directory.Exists(Path.GetTempPath() + "FinalFrontier"))
+            {
+                foreach (var file in Directory.GetFiles(Path.GetTempPath() + "FinalFrontier"))
+                {
+                    File.Delete(file);
+                }
+            }
         }
 
         #region IRibbonExtensibility-Member
@@ -102,7 +110,9 @@ namespace FinalFrontier
 
         public void onFFFolderButtonClick(IRibbonControl control)
         {
-            MessageBox.Show("TODO: TRIGGER LEARNING!");
+            FinalFrontierLearnLib.Learn learn = new FinalFrontierLearnLib.Learn();
+            learn.LearnFolder(((Folder)control.Context));
+            //MessageBox.Show("TODO: TRIGGER LEARNING!");
         }
 
         public bool IsVisible(Office.IRibbonControl control)
@@ -116,12 +126,11 @@ namespace FinalFrontier
         private static string GetResourceText(string resourceName)
         {
             Assembly asm = Assembly.GetExecutingAssembly();
-            string[] resourceNames = asm.GetManifestResourceNames();
-            for (int i = 0; i < resourceNames.Length; ++i)
+            foreach(var resourcename in asm.GetManifestResourceNames())
             {
-                if (string.Compare(resourceName, resourceNames[i], StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Compare(resourceName, resourcename, StringComparison.OrdinalIgnoreCase) == 0)
                 {
-                    using (StreamReader resourceReader = new StreamReader(asm.GetManifestResourceStream(resourceNames[i])))
+                    using (StreamReader resourceReader = new StreamReader(asm.GetManifestResourceStream(resourcename)))
                     {
                         if (resourceReader != null)
                         {
@@ -134,5 +143,16 @@ namespace FinalFrontier
         }
 
         #endregion
+
+        ~MainRibbon()
+        {
+            if (Directory.Exists(Path.GetTempPath() + "FinalFrontier"))
+            {
+                foreach (var file in Directory.GetFiles(Path.GetTempPath() + "FinalFrontier"))
+                {
+                    File.Delete(file);
+                }
+            }
+        }
     }
 }
