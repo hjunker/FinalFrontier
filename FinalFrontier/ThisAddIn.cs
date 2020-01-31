@@ -47,8 +47,9 @@ namespace FinalFrontier
                 */
 
             // LEARN FROM FOLDERS
-            FinalFrontierLearnLib.Learn learn = new FinalFrontierLearnLib.Learn();
-            learn.LearnFolders(Application.Session.DefaultStore.GetRootFolder() as Folder);
+            // IMPORTANT: DO NOT USE THE FOLLOWING FUNCTION. USE THIS INSTEAD AS A STANDALONE CONSOLE APPLICATION FOR LEARNING: https://github.com/hjunker/FinalFrontier-Learner
+            //FinalFrontierLearnLib.Learn learn = new FinalFrontierLearnLib.Learn();
+            //learn.LearnFolders(Application.Session.DefaultStore.GetRootFolder() as Folder);
             //EnumerateFolders(root);
         }
 
