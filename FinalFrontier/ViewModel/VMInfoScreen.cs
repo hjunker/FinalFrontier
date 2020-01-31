@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Input;
+
 
 namespace FinalFrontier
 {
@@ -23,6 +18,16 @@ namespace FinalFrontier
         public static void NotifyStaticPropertyChanged(string propertyName)
         {
             StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+
+        // Initialize Event handler for getting actual height and width of objects
+        #region size changed event handler
+
+        private static void sizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Resize(sender, e.NewSize.Height, e.NewSize.Width);
         }
 
         #endregion
@@ -64,16 +69,26 @@ namespace FinalFrontier
         }
 
         // Style information
-        public static int ScoreHeight {
-            get { return scoreHeight;  }
-            private set { scoreHeight = value; NotifyStaticPropertyChanged("ScoreHeight"); }
+        public static double ScoreMinHeight {
+            get { return scoreMinHeight;  }
+            set { scoreMinHeight = value; NotifyStaticPropertyChanged("ScoreMinHeight"); }
         }
-        public static int HeaderHeight
+        public static double ScoreMaxHeight
         {
-            get { return headerHeight; }
-            private set { headerHeight = value; NotifyStaticPropertyChanged("HeaderHeight"); }
+            get { return scoreMaxHeight; }
+            set { scoreMaxHeight = value; NotifyStaticPropertyChanged("ScoreMaxHeight"); }
         }
-        
+        public static double HeaderMinHeight
+        {
+            get { return headerMinHeight; }
+            private set { headerMinHeight = value; NotifyStaticPropertyChanged("HeaderMinHeight"); }
+        }
+        public static double HeaderMaxHeight
+        {
+            get { return headerMaxHeight; }
+            private set { headerMaxHeight = value; NotifyStaticPropertyChanged("HeaderMaxHeight"); }
+        }
+
         #endregion
 
         // Initialize commands
@@ -91,15 +106,17 @@ namespace FinalFrontier
         private static ModelScoring scoring;
 
         private static List<CheckResult> noScoreInfo = new List<CheckResult>();
-        private static int scoreHeight;
-        private static int headerHeight;
+        private static double scoreMinHeight;
+        private static double scoreMaxHeight = 10000;
+        private static double headerMinHeight;
+        private static double headerMaxHeight = 10000;
+        private static double viewMainInfoField;
+        private static double viewScoreHeight;
+        private static double viewHeaderHeight;
+        private static double viewButtonSwitchHeight;
 
         public VMInfoScreen()
         {            
-            // Initialize Observables
-            //detailedScoreInfo = new ObservableCollection<CheckResult>(scoring.DetailedScoreInfo);
-            //DetailedScoreInfoView = new ListCollectionView(detailedScoreInfo);
-            
             // Initialize commands
             ShowScoreCommand = new RelayCommand(ShowScore, null);
             ShowHeaderCommand = new RelayCommand(ShowHeader, null);
@@ -115,11 +132,13 @@ namespace FinalFrontier
             else if (obj != null)
                 throw new ArgumentException("Object must be from type ModelScoring.");
 
-            // Set the visible score
-            ScoreHeight = 100;
-            HeaderHeight = 0;
-
             Visualize();
+
+            // Set the visible score
+            ScoreMaxHeight = 10000;
+            ScoreMinHeight = viewScoreHeight;
+            HeaderMinHeight = 0;
+            HeaderMaxHeight = viewHeaderHeight - viewScoreHeight;
         }
 
         public static void ShowHeader(object obj)
@@ -130,11 +149,13 @@ namespace FinalFrontier
             else if (obj != null)
                 throw new ArgumentException("Object must be from type ModelScoring.");
 
-            // Set the visible header
-            ScoreHeight = 0;
-            HeaderHeight = 100;
-
             Visualize();
+
+            // Set the visible header
+            ScoreMinHeight = 0;
+            ScoreMaxHeight = 0;
+            HeaderMinHeight = viewHeaderHeight;
+            HeaderMaxHeight = viewHeaderHeight;
         }
 
         private static void Visualize()
@@ -150,13 +171,20 @@ namespace FinalFrontier
             if (infoSc == null)
             {
                 infoSc = new InfoScreen { Topmost = true };
+
+                // Eventhandler for sizing
+                infoSc.DScInfoView.SizeChanged += new SizeChangedEventHandler(sizeChanged);
+                infoSc.HeaderInfoView.SizeChanged += new SizeChangedEventHandler(sizeChanged);
+                infoSc.MainInfoField.SizeChanged += new SizeChangedEventHandler(sizeChanged);
+                infoSc.ButtonSwitch.SizeChanged += new SizeChangedEventHandler(sizeChanged);
+
                 infoSc.Show();
             }
             else
             {
                 infoSc.Visibility = Visibility.Visible;
                 infoSc.Focus();
-             }
+            }
         }
 
         public static void Close(Object obj = null)
@@ -164,62 +192,37 @@ namespace FinalFrontier
             infoSc.Visibility = Visibility.Collapsed;
         }
 
-        //public void ShowScore(Object sender = null, RoutedEventArgs e = null)
-        //{
-        //    // Update the heights of the windows
+        private static void Resize(object sender, double height, double width)
+        {
+            // Update view height variables
+            if (sender.ToString().StartsWith("System.Windows.Controls.TextBox"))
+            {
+                viewHeaderHeight = height;
+            }
+            else if (sender.ToString().StartsWith("System.Windows.Controls.ListView"))
+            {
+                viewScoreHeight = height;
+            }
+            else if (sender.ToString().StartsWith("System.Windows.Controls.Button"))
+            {
+                viewButtonSwitchHeight = height;
+            }
+            else if (sender.ToString().StartsWith("System.Windows.Controls.Grid"))
+            {
+                System.Windows.Controls.Grid mainInfo = sender as System.Windows.Controls.Grid;
+                
+                viewMainInfoField = mainInfo.DesiredSize.Height;
+            }
+            else
+                throw new ArgumentException("This window cannot be resized by this function.");
 
+            // Resize them if something is too big
+            if (viewHeaderHeight > viewMainInfoField - 2*viewButtonSwitchHeight)
+                viewHeaderHeight = viewMainInfoField - 2*viewButtonSwitchHeight;
 
-        //    headerHeight = HeaderInfo.ActualHeight;
-        //    HeaderInfo.Height = HeaderInfo.MinHeight;
-
-        //    if (scoreHeight > 0)
-        //        ScoreInfo.Height = scoreHeight;
-        //}
-
-        //private void ShowHeader(Object sender = null, RoutedEventArgs e = null)
-        //{
-        //    // Update the heights of the windows
-
-
-
-        //    scoreHeight = ScoreInfo.ActualHeight;
-        //    ScoreInfo.Height = ScoreInfo.MinHeight;
-
-        //    if (headerHeight > 0)
-        //        HeaderInfo.Height = headerHeight;
-        //}
-
-        //private void WriteInformation()
-        //{
-        //    // Get the top-displayed information
-        //    if (Ana.IsSuspicious == true)
-        //    {
-        //        ShortInfo.Content = "Warnung!";
-        //        LongInfo.Content = "Diese Mail könnte schadhaft sein.";
-        //    }
-        //    else
-        //    {
-        //        ShortInfo.Content = "Detaillierte Informationen";
-        //        LongInfo.Content = "FinalFrontier stuft diese Mail nicht als bösartig ein.";
-        //    }
-
-        //    // Set the score iboard with detailed list
-        //    ScoreLabel.Content = "Score: " + Ana.Score.ToString();
-
-        //    if (scoreList.Items.Count < Ana.Result.Count())
-        //    {
-        //        foreach (CheckResult cr in Ana.Result)
-        //            scoreList.Items.Add(new CheckResult(cr.id, cr.fragment, cr.ioc, cr.score));
-        //    }
-        //    else if (Ana.Result.Count() == 0)
-        //        scoreList.Items.Add(new CheckResult("", "E-Mail vermutlich nicht schadhaft.", "Keine IOCs gefunden.", 0));
-
-
-        //    Header = Ana.Header;
-
-        // Set the header information
-        //if (detailedHeader.Content == null)
-        //    detailedHeader.Content = Ana.Header;
-        //}
+            // Resize Header if the rest is too small
+            //if(viewScoreHeight + 52 < viewMainInfoField) //2 for buttons
+            //    viewHeaderHeight = viewMainInfoField - viewScoreHeight;
+        }
     }
 }
