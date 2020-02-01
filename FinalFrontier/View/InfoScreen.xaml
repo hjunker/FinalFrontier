@@ -5,8 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FinalFrontier"
              mc:Ignorable="d" 
-             Height="450" Width="800"
+             
+             Height="800" Width="800"
              Title="FinalFrontier - Security Info">
+    <!--ResizeMode="CanMinimize"-->
     <Window.Resources>
         <ResourceDictionary>
             <!-- Shared Style -->
@@ -22,45 +24,59 @@
                 <Setter Property="Control.FontWeight" Value="Bold" />
                 <Setter Property="Control.HorizontalContentAlignment" Value="Left" />
                 <Setter Property="Control.FontSize" Value="18" />
-                <Setter Property="Control.Background" Value="#EEEEEE" />
+                <Setter Property="Control.Background" Value="#999999" />
                 <Setter Property="Control.BorderThickness" Value="0" />
+                <Setter Property="Control.Height" Value="26" />
+            </Style>
+            
+            <Style x:Key="HeaderText" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
+                <Setter Property="Control.Background" Value="#EEEEEE" />
+                <Setter Property="IsReadOnly" Value="True" />
+            </Style>
+
+            <Style x:Key="DScoreInfo" >
+                <Setter Property="Control.Background" Value="#EEEEEE" />
+                <Setter Property="Control.FontSize" Value="16" />
+                <Setter Property="Control.BorderThickness" Value="0" />
+                <Setter Property="Control.Foreground" Value="Black" />
+                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
             </Style>
         </ResourceDictionary>
     </Window.Resources>
 
 
-    <Grid DataContext="{StaticResource vm}">
+    <Grid DataContext="{StaticResource vm}" Style="{StaticResource MainFrame}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Margin="5">
+        <StackPanel Name="HeadOfSite">
             <TextBlock Text="{Binding ShortInfo, Mode=OneWay}" Style="{StaticResource h1}" />
             <TextBlock Text="{Binding LongInfo, Mode=OneWay}" Style="{StaticResource h2}" />
         </StackPanel>
 
-        <Grid Grid.Row ="1" Name="MainInfo" Background="#EEEEEE" Margin="5" MinHeight="120">
+        <Grid Name="MainInfoField" Grid.Row ="1" Style="{Binding MainInfoField}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Grid Name="ScoreInfo" MinHeight="26">
+            <Grid Name="ScoreInfo">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <Button Content="{Binding ScoreLabel, Mode=OneWay}" Command="{Binding ShowScoreCommand}" Style="{StaticResource ButtonSwitch}" />
-                <ListView ItemsSource="{Binding DetailedScoreInfo, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Height="{Binding ScoreHeight, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" FontSize="16" Name="scoreList" Background="#EEEEEE" BorderThickness="0" Foreground="Black">
+                <Button Name="ButtonSwitch" Content="{Binding ScoreLabel, Mode=OneWay}" Command="{Binding ShowScoreCommand}" Style="{StaticResource ButtonSwitch}" />
+                <ListView Name="DScInfoView" ItemsSource="{Binding DetailedScoreInfo, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Style="{StaticResource DScoreInfo}" MinHeight="{Binding ScoreMinHeight, UpdateSourceTrigger=PropertyChanged}" MaxHeight="{Binding ScoreMaxHeight, UpdateSourceTrigger=PropertyChanged}">
                     <ListView.Resources>
                         <Style TargetType="GridViewColumnHeader">
                             <Setter Property="Visibility" Value="Collapsed" />
                         </Style>
                     </ListView.Resources>
-
+                    
                     <ListView.View>
                         <GridView>
                             <GridViewColumn DisplayMemberBinding="{Binding score}" />
@@ -72,20 +88,25 @@
                 </ListView>
             </Grid>
 
-            <Grid Name="HeaderInfo" MinHeight="26" Grid.Row="1">
+            <Grid Name="HeaderInfo" Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <Button Content="{Binding HeaderLabel, Mode=OneWay}" Command="{Binding ShowHeaderCommand}" Style="{StaticResource ButtonSwitch}" />
-                <TextBlock Text="{Binding Header, Mode=OneWay}" Grid.Row="1" Height="{Binding HeaderHeight, UpdateSourceTrigger=PropertyChanged}" />
+                <Button Content="{Binding HeaderLabel, Mode=OneTime}" Command="{Binding ShowHeaderCommand}" Style="{StaticResource ButtonSwitch}" BorderThickness="0, 1, 0,0" />
+                <TextBox Name="HeaderInfoView" Text="{Binding Header, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Style="{StaticResource HeaderText}" MinHeight="{Binding HeaderMinHeight, UpdateSourceTrigger=PropertyChanged}" MaxHeight="{Binding HeaderMaxHeight, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </Grid>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5">
-            <Button Content="{Binding ProblemLabel}" Command="{Binding ReportProblemCommand}" />
-            <Button Content="{Binding CloseLabel}" Command="{Binding CloseCommand}" />
-        </StackPanel>
+        <Grid Grid.Row="2" Style="{StaticResource BottomNav}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            
+            <Button Content="{Binding ProblemLabel, Mode=OneTime}" Command="{Binding ReportProblemCommand}" Style="{StaticResource SecondButton}" />
+            <Button Content="{Binding CloseLabel, Mode=OneTime}" Command="{Binding CloseCommand}" Grid.Column="1" Style="{StaticResource MainButton}" />
+        </Grid>
     </Grid>
 </Window>
