@@ -1,6 +1,7 @@
 ﻿using Microsoft.Office.Interop.Outlook;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 
 
@@ -10,6 +11,7 @@ namespace FinalFrontier
     {
         private int score;
         public override int Score { get { return score; } }
+        private List<string> ownaddresses;
 
         public override List<CheckResult> Analyze(object data)
         {
@@ -27,6 +29,16 @@ namespace FinalFrontier
             Dictionary<string, int> DictSenderName = learn.getDictSenderName();
             Dictionary<string, int> DictSenderEmail = learn.getDictSenderEmail();
             Dictionary<string, int> DictSenderCombo = learn.getDictSenderCombo();
+
+            try
+            {
+                ownaddresses = ConfigurationManager.AppSettings["ownaddresses"].Split(',').ToList();
+                ownaddresses.Add(currentUser);
+            }
+            catch (System.Exception)
+            {
+                System.Windows.Forms.MessageBox.Show("Could not read configuration file app.config / " + AppDomain.CurrentDomain.SetupInformation.ConfigurationFile + "\n\nCAUTION: FINALFRONTIER WILL NOT BE FUNCTIONING PROPERLY!!!");
+            }
 
             var checkMethods = new CheckMethods();
 
@@ -157,8 +169,12 @@ namespace FinalFrontier
 
         private CheckResult checkRecipients(string mailAddress, List<string> recipients, List<string> ccRecipients)
         {
-            if (recipients.Contains(mailAddress) || (ccRecipients != null && ccRecipients.Contains(mailAddress)))
-                return null;
+            foreach (string address in ownaddresses)
+            {
+                System.Diagnostics.Debug.WriteLine("checking own mail address: " + address);
+                if (recipients.Contains(address) || (ccRecipients != null && ccRecipients.Contains(address)))
+                    return null;
+            }
 
             return new CheckResult("Address-NotContained", "Emfängermailadresse ist weder in den Empfängern noch im CC", mailAddress, -40);
         }
