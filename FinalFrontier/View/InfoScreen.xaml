@@ -5,8 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FinalFrontier"
              mc:Ignorable="d" 
+             WindowStartupLocation="CenterOwner"
              
-             Height="800" Width="800"
+             Height="800" Width="1000"
              Title="FinalFrontier - Security Info">
     <!--ResizeMode="CanMinimize"-->
     <Window.Resources>
@@ -70,7 +71,7 @@
                 </Grid.RowDefinitions>
 
                 <Button Name="ButtonSwitch" Content="{Binding ScoreLabel, Mode=OneWay}" Command="{Binding ShowScoreCommand}" Style="{StaticResource ButtonSwitch}" />
-                <ListView Name="DScInfoView" ItemsSource="{Binding DetailedScoreInfo, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Style="{StaticResource DScoreInfo}" MinHeight="{Binding ScoreMinHeight, UpdateSourceTrigger=PropertyChanged}" MaxHeight="{Binding ScoreMaxHeight, UpdateSourceTrigger=PropertyChanged}">
+                <ListView Name="DScInfoView" ItemsSource="{Binding DetailedScoreInfo, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Style="{StaticResource DScoreInfo}" MinHeight="{Binding ScoreMinHeight, UpdateSourceTrigger=PropertyChanged}" MaxHeight="{Binding ScoreMaxHeight, UpdateSourceTrigger=PropertyChanged}" Width="Auto">
                     <ListView.Resources>
                         <Style TargetType="GridViewColumnHeader">
                             <Setter Property="Visibility" Value="Collapsed" />

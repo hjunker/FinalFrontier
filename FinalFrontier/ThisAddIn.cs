@@ -14,7 +14,6 @@ using System.Linq;
 
 namespace FinalFrontier
 {
-
     public partial class ThisAddIn
     {
         Explorer currentExplorer = null;
@@ -39,6 +38,9 @@ namespace FinalFrontier
 
             currentExplorer = this.Application.ActiveExplorer();
             currentExplorer.SelectionChange += new ExplorerEvents_10_SelectionChangeEventHandler(CurrentExplorer_Event);
+
+            // Give the explorer to reporting class for later reporting mails
+            ReportMail.Explorer = currentExplorer;
 
             /*
             currentExplorer.ViewSwitch += new Outlook

@@ -9,7 +9,6 @@ namespace FinalFrontier
 {
     public class VMInfoScreen : VMStaticBase
     {
-
         // Method for notifying the view on changes
         #region Static NotifyPropertyChanged
 
@@ -110,6 +109,7 @@ namespace FinalFrontier
         private static double scoreMaxHeight = 10000;
         private static double headerMinHeight;
         private static double headerMaxHeight = 10000;
+        private static bool resizeFields;
         private static double viewMainInfoField;
         private static double viewScoreHeight;
         private static double viewHeaderHeight;
@@ -120,7 +120,7 @@ namespace FinalFrontier
             // Initialize commands
             ShowScoreCommand = new RelayCommand(ShowScore, null);
             ShowHeaderCommand = new RelayCommand(ShowHeader, null);
-            //ReportProblemCommand = new RelayCommand(ReportProblem, null);
+            ReportProblemCommand = new RelayCommand(ReportProblem, null);
             CloseCommand = new RelayCommand(Close, null);
     }
 
@@ -128,14 +128,16 @@ namespace FinalFrontier
         {
             // May write new scoring
             if (obj is ModelScoring)
+            {
                 scoring = obj as ModelScoring;
+            }
             else if (obj != null)
                 throw new ArgumentException("Object must be from type ModelScoring.");
 
             Visualize();
 
             // Set the visible score
-            ScoreMaxHeight = 10000;
+            ScoreMaxHeight = viewScoreHeight;
             ScoreMinHeight = viewScoreHeight;
             HeaderMinHeight = 0;
             HeaderMaxHeight = viewHeaderHeight - viewScoreHeight;
@@ -160,6 +162,8 @@ namespace FinalFrontier
 
         private static void Visualize()
         {
+            // Activate resizing because of new content
+            resizeFields = true;
             // Update the public variables; only for triggering purposes not the actual values
             ShortInfo = "";
             LongInfo = "";
@@ -185,6 +189,14 @@ namespace FinalFrontier
                 infoSc.Visibility = Visibility.Visible;
                 infoSc.Focus();
             }
+            //Deactivate resizing thorug clicking
+            resizeFields = false;
+        }
+
+        public static void ReportProblem(Object obj = null)
+        {
+            ProblemScreen report = new ProblemScreen { Topmost = true };
+            report.Show();
         }
 
         public static void Close(Object obj = null)
@@ -194,35 +206,24 @@ namespace FinalFrontier
 
         private static void Resize(object sender, double height, double width)
         {
+            // Do nothing if resizing not necessary
+            if (!resizeFields)
+                return;
+
             // Update view height variables
             if (sender.ToString().StartsWith("System.Windows.Controls.TextBox"))
-            {
                 viewHeaderHeight = height;
-            }
             else if (sender.ToString().StartsWith("System.Windows.Controls.ListView"))
-            {
                 viewScoreHeight = height;
-            }
             else if (sender.ToString().StartsWith("System.Windows.Controls.Button"))
-            {
                 viewButtonSwitchHeight = height;
-            }
             else if (sender.ToString().StartsWith("System.Windows.Controls.Grid"))
-            {
-                System.Windows.Controls.Grid mainInfo = sender as System.Windows.Controls.Grid;
-                
-                viewMainInfoField = mainInfo.DesiredSize.Height;
-            }
+                viewMainInfoField = (sender as System.Windows.Controls.Grid).DesiredSize.Height;
             else
                 throw new ArgumentException("This window cannot be resized by this function.");
 
             // Resize them if something is too big
-            if (viewHeaderHeight > viewMainInfoField - 2*viewButtonSwitchHeight)
-                viewHeaderHeight = viewMainInfoField - 2*viewButtonSwitchHeight;
-
-            // Resize Header if the rest is too small
-            //if(viewScoreHeight + 52 < viewMainInfoField) //2 for buttons
-            //    viewHeaderHeight = viewMainInfoField - viewScoreHeight;
+            viewHeaderHeight = Math.Min(viewHeaderHeight, viewMainInfoField - 2*viewButtonSwitchHeight);
         }
     }
 }

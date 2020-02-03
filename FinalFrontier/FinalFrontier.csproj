@@ -204,6 +204,8 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="Lib\ModelReportMail.cs" />
+    <Compile Include="Lib\ReportMail.cs" />
     <Compile Include="Lib\Scoring.cs" />
     <Compile Include="Lib\ModelScoring.cs" />
     <Compile Include="Lib\AnalyzerAttachement.cs" />
@@ -218,10 +220,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\RelayCommand.cs" />
+    <Compile Include="ViewModel\VMBase.cs" />
+    <Compile Include="ViewModel\VMProblemScreen.cs" />
     <Compile Include="ViewModel\VMStaticBase.cs" />
     <Compile Include="ViewModel\VMInfoScreen.cs" />
     <Compile Include="View\InfoScreen.xaml.cs">
       <DependentUpon>InfoScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProblemScreen.xaml.cs">
+      <DependentUpon>ProblemScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SettingsScreen.xaml.cs">
       <DependentUpon>SettingsScreen.xaml</DependentUpon>
@@ -278,6 +285,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\ProblemScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\SettingsScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -311,7 +322,7 @@
     </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>001C43A122E7EE761AE9C4A2BC48EB3A9D77BE60</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>4B0D3E63D259EBF09F0C9F761213E08472F9C50B</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

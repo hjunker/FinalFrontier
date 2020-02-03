@@ -47,6 +47,7 @@ namespace FinalFrontier
         }
 
         #endregion
+
         public void OnSecInfoClick(IRibbonControl control)
         {
             MailItem selObject;
