@@ -47,30 +47,20 @@ namespace FinalFrontier
 
         public List<CheckResult> CheckLinkShorteners(string id, string instr)
         {
-            var results = new List<CheckResult>();
+            if (instr == null)
+                return null;
 
-            foreach (string shortener in linkshorteners)
-            {
-                if (instr.IndexOf(shortener) > 0)
-                {
-                    results.Add(new CheckResult(id, shortener, instr, -20));
-                }
-            }
-            return results;
+            return (linkshorteners.Where(shortener => instr.IndexOf(shortener) > 0)
+                .Select(shortener => new CheckResult(id, shortener, instr, -20))).ToList();
         }
 
         public List<CheckResult> CheckFreeMailers(string id, string instr, string senderEmailAddress)
         {
-            var results = new List<CheckResult>();
+            if (instr == null)
+                return null;
 
-            foreach (string freemailer in freemailers)
-            {
-                if ((instr.IndexOf(freemailer) > 0) & (senderEmailAddress.IndexOf(freemailer) < 1))
-                {
-                    results.Add(new CheckResult(id, freemailer, instr.Substring(0,50)+"[...]", -20));
-                }
-            }
-            return results;
+            return (freemailers.Where(freemailer => (instr.IndexOf(freemailer) > 0) & (senderEmailAddress.IndexOf(freemailer) < 1))
+                .Select(freemailer => new CheckResult(id, freemailer, instr.Substring(0, 50) + "[...]", -20))).ToList();
         }
 
         public CheckResult CheckBadTld(string id, string instr)
@@ -83,37 +73,28 @@ namespace FinalFrontier
 
         public List<CheckResult> CheckKeywords(string id, string instr)
         {
+            if (instr == null)
+                return null;
+
             return keywords.Where(x => instr.ToLower().Contains(x))
                 .Select(x => new CheckResult(id, x, instr, -20)).ToList();
         }
 
         public List<CheckResult> CheckDoubleExtensions(string id, string instr)
         {
-            var result = new List<CheckResult>();
-            foreach (string docext in docextensions)
-            {
-                foreach (string exeext in exeextensions)
-                {
-                    if (instr.EndsWith(docext + exeext))
-                    {
-                        result.Add(new CheckResult(id, docext + exeext, instr, -20));
-                    }
-                }
-            }
-            return result;
+            if (instr == null)
+                return null;
+
+            return (docextensions.SelectMany(docext => exeextensions.Where(exeext => instr.EndsWith(docext + exeext))
+                .Select(exeext => new CheckResult(id, docext + exeext, instr, -20)))).ToList();
         }
 
         public List<CheckResult> CheckBadExtensions(string id, string instr)
         {
-            var result = new List<CheckResult>();
-            foreach (string ext in badextensions)
-            {
-                if (instr.EndsWith(ext))
-                {
-                    result.Add(new CheckResult(id, ext, instr, -20));
-                }
-            }
-            return result;
+            if (instr == null)
+                return null;
+
+            return (badextensions.Where(ext => instr.EndsWith(ext)).Select(ext => new CheckResult(id, ext, instr, -20))).ToList();
         }
 
         public List<CheckResult> CheckBadHashes(string id, Attachment testfile)
@@ -149,16 +130,16 @@ namespace FinalFrontier
         public string GetDomainFromMail(string inval)
         {
             if (inval != null && inval.Contains("@"))
-                return inval.Substring(inval.IndexOf("@") + 1);
+                return inval.Substring(inval.IndexOf("@") + 1).ToLower();
             else
                 return "";
          }
 
         public string GetReceiveFromString(string inline)
         {
-            if (inline.Contains("from "))
+            if (inline.ToLower().Contains("from "))
             {
-                int startpos = inline.IndexOf("from ") + 5;
+                int startpos = inline.ToLower().IndexOf("from ") + 5;
                 int endpos = inline.Substring(startpos).IndexOf(" ");
                 return inline.Substring(startpos, endpos);
             }

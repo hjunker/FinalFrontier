@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Office.Interop.Outlook;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 
 // https://msdn.microsoft.com/en-us/library/cc668191.aspx
 // https://msdn.microsoft.com/en-us/library/microsoft.office.interop.outlook.mailitem_members.aspx
