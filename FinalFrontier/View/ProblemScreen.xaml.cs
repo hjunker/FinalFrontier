@@ -8,8 +8,10 @@ namespace FinalFrontier
     /// </summary>
     public partial class ProblemScreen : Window
     {
-        public ProblemScreen()
+        public ModelScoring scoring { get; private set; }
+        public ProblemScreen(ModelScoring sc)
         {
+            scoring = sc;
             InitializeComponent();
         }
     }

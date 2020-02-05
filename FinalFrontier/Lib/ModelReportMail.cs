@@ -11,14 +11,14 @@ namespace FinalFrontier
         // Initialize variables with getter, setter
         public string DetailedText { get; private set; }
         public string Subject { get; private set; }
-        public bool IncludeMeta { get; private set; }
+        public ModelScoring Scoring { get; private set; }
 
         // Constructor
-        public ModelReportMail(string detailText, string subject, bool includeMeta)
+        public ModelReportMail(string detailText, string subject, ModelScoring sc)
         {
             DetailedText = detailText;
             Subject = subject;
-            IncludeMeta = includeMeta;
+            Scoring = sc;
         }
     }
 }

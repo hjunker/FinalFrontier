@@ -38,7 +38,7 @@ namespace FinalFrontier
             currentExplorer.SelectionChange += new ExplorerEvents_10_SelectionChangeEventHandler(CurrentExplorer_Event);
 
             // Give the explorer to reporting class for later reporting mails
-            ReportMail.Explorer = currentExplorer;
+            ReportMail.OutlookApp = this.Application;
 
             /*
             currentExplorer.ViewSwitch += new Outlook

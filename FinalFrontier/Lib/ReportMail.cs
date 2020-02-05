@@ -6,12 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.IO.Compression;
+using System.Xml.Linq;
+using System.IO;
 
 namespace FinalFrontier
 {
     public class ReportMail
     {
-        public static Explorer Explorer { get; set; }
+        public static Application OutlookApp { get; set; }
 
         public ReportMail(ModelReportMail repData, string reportType)
         {
@@ -19,29 +22,44 @@ namespace FinalFrontier
             string reportAddress = ConfigurationManager.AppSettings["reportAddress"];
 
             //// Create new E Mail
-            MailItem mail = (MailItem)Explorer.Application.CreateItem(OlItemType.olMailItem);
+            MailItem mail = (MailItem)OutlookApp.CreateItem(OlItemType.olMailItem);
             mail.To = reportAddress;
             mail.Subject = repData.Subject;
             mail.Body = repData.DetailedText;
 
             // Attach the selected mail and score results if necessary
-            if(reportType.Equals("fp") && repData.IncludeMeta)
-            {
-                // TODO
+            if(repData.Scoring != null)
+            { 
+                // Generate XML with detailed infos
+                XElement scoreDetails = new XElement("ScoreDetails",
+                    (from CheckResult in repData.Scoring.DetailedScoreInfo
+                        select new XElement("Result",
+                            new XElement("Score", CheckResult.score),
+                            new XElement("Id", CheckResult.id),
+                            new XElement("Fragment", CheckResult.fragment),
+                            new XElement("Ioc", CheckResult.ioc))
+                    )
+                );
+                // Get the problematic mail 
+                MailItem attMail = (MailItem)OutlookApp.GetNamespace("MAPI").GetItemFromID(repData.Scoring.MailitemEntryID);
 
-                // Get problematic mail and generate attachements
-                //MailItem selMail = Explorer.S as MailItem;
+                var tmpPath = Path.GetTempPath() + "FinalFrontier\\";
 
+                if (!Directory.Exists(tmpPath))
+                    Directory.CreateDirectory(tmpPath);
+                tmpPath += Path.GetRandomFileName();
+                var tmpPath2 = tmpPath + "1";
+                
+                scoreDetails.Save(tmpPath + ".xml");
+                attMail.SaveAs(tmpPath2);
 
-                //control.Context is Inspector
-                //var item = Control.Context as Inspector;
-                //selObject = item.CurrentItem as MailItem;
-
-
-                //mail.Attachments.Add()
+                // Generate attachements
+                mail.Attachments.Add(tmpPath);
+                mail.Attachments.Add(tmpPath2);
             }
 
             mail.Send();
+
 
             switch (reportType)
             {

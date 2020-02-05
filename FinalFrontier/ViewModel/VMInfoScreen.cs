@@ -104,7 +104,6 @@ namespace FinalFrontier
         private static InfoScreen infoSc;
         private static ModelScoring scoring;
 
-        private static List<CheckResult> noScoreInfo = new List<CheckResult>();
         private static double scoreMinHeight;
         private static double scoreMaxHeight = 10000;
         private static double headerMinHeight;
@@ -195,7 +194,7 @@ namespace FinalFrontier
 
         public static void ReportProblem(Object obj = null)
         {
-            ProblemScreen report = new ProblemScreen { Topmost = true };
+            ProblemScreen report = new ProblemScreen(scoring) { Topmost = true };
             report.Show();
         }
 

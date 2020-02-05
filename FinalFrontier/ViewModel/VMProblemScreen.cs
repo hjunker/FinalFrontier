@@ -71,7 +71,7 @@ namespace FinalFrontier
 
         private string detailedText = "Put the details here.";
         private string subject;
-        private bool includeMail = true;
+        private bool includeMail;
         private Visibility mailReportHeight = Visibility.Collapsed;
         private Visibility bugReportHeight = Visibility.Collapsed;
         private Visibility featureReportHeight = Visibility.Collapsed;
@@ -89,7 +89,8 @@ namespace FinalFrontier
         public void ReportFP(Object obj = null)
         {
             report = "fp";
-            
+
+            IncludeMail = true;
             MailReportHeight = Visibility.Visible;
             BugReportHeight = Visibility.Collapsed;
             FeatureReportHeight = Visibility.Collapsed;
@@ -99,7 +100,8 @@ namespace FinalFrontier
         public void ReportBug(Object obj = null)
         {
             report = "bug";
-            
+
+            IncludeMail = false;
             MailReportHeight = Visibility.Collapsed;
             BugReportHeight = Visibility.Visible;
             FeatureReportHeight = Visibility.Collapsed;
@@ -109,7 +111,8 @@ namespace FinalFrontier
         public void ReportFeature(Object obj = null)
         {
             report = "feature";
-            
+
+            IncludeMail = false;
             MailReportHeight = Visibility.Collapsed;
             BugReportHeight = Visibility.Collapsed;
             FeatureReportHeight = Visibility.Visible;
@@ -118,7 +121,11 @@ namespace FinalFrontier
 
         public void Send(Object obj = null)
         {
-            ReportMail reportMail = new ReportMail(new ModelReportMail(detailedText, subject, includeMail), report);
+            ModelScoring sc = (obj as ProblemScreen).scoring;
+            if (!IncludeMail)
+                sc = null;
+            
+            ReportMail reportMail = new ReportMail(new ModelReportMail(detailedText, subject, sc), report);
             Close(obj);
         }
 

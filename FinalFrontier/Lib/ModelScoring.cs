@@ -11,13 +11,15 @@ namespace FinalFrontier
         public int Score { get; private set; }
         public List<CheckResult> DetailedScoreInfo { get; private set; }
         public string Header { get; private set; }
+        public string MailitemEntryID { get; private set; }
 
         // Constructor
-        public ModelScoring(int sc, List<CheckResult> scoreRes, string head)
+        public ModelScoring(int sc, List<CheckResult> scoreRes, string head, string mailItemEntryID)
         {
             Score = sc;
             DetailedScoreInfo = scoreRes;
             Header = head;
+            MailitemEntryID = mailItemEntryID;
         }
     }
 }

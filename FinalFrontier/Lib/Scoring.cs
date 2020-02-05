@@ -48,7 +48,7 @@ namespace FinalFrontier
             Debug.WriteLine("---END CHECK RESULTS---");
 
             // Write a new model in checked List and return it
-            checkedMails.Add(mailItem.EntryID, new ModelScoring(bodyAnalyse.Score + attachmentAnalyze.Score + metaAnalyze.Score, CheckResults, mailItem.HeaderString()));
+            checkedMails.Add(mailItem.EntryID, new ModelScoring(bodyAnalyse.Score + attachmentAnalyze.Score + metaAnalyze.Score, CheckResults, mailItem.HeaderString(), mailItem.EntryID));
 
             return checkedMails[mailItem.EntryID];
         }
