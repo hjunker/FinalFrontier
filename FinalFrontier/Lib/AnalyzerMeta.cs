@@ -30,6 +30,8 @@ namespace FinalFrontier
             Dictionary<string, int> DictSenderEmail = learn.getDictSenderEmail();
             Dictionary<string, int> DictSenderCombo = learn.getDictSenderCombo();
 
+            
+            // TODO: Get thorug app config 
             try
             {
                 ownaddresses = ConfigurationManager.AppSettings["ownaddresses"].Split(',').ToList();

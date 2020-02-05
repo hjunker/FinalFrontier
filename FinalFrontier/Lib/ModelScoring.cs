@@ -7,7 +7,7 @@ namespace FinalFrontier
     public class ModelScoring
     {
         // Initialize public variables with getter, setter
-        public bool IsSuspicious => Score <= int.Parse(ConfigurationManager.AppSettings["isSuspiciousScore"]);
+        public bool IsSuspicious => Score <= ModelConfiguration.Instance.SuspiciousScore;
         public int Score { get; private set; }
         public List<CheckResult> DetailedScoreInfo { get; private set; }
         public string Header { get; private set; }

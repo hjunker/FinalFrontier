@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using Microsoft.Office.Interop.Outlook;
 using System.IO;
@@ -11,38 +10,11 @@ namespace FinalFrontier
 {
     public class CheckMethods
     {
-        private List<string> linkshorteners;
-        private List<string> badtlds;
-        private List<string> keywords;
-        private List<string> docextensions;
-        private List<string> exeextensions;
-        private List<string> badextensions;
-        private List<string> badhashessha256;
-        private List<string> freemailers;
-        private List<string> whitelist;
-        // Not Used
-        private List<string> lookalikes;
-        private List<string> imgextensions;
+        ModelConfiguration config;
 
-        public CheckMethods() {
-            try
-            {
-                linkshorteners = ConfigurationManager.AppSettings["linkshorteners"].Split(',').ToList();
-                badtlds = ConfigurationManager.AppSettings["badtlds"].Split(',').ToList();
-                keywords = ConfigurationManager.AppSettings["keywords"].Split(',').ToList();
-                docextensions = ConfigurationManager.AppSettings["docextensions"].Split(',').ToList();
-                exeextensions = ConfigurationManager.AppSettings["exeextensions"].Split(',').ToList();
-                badextensions = ConfigurationManager.AppSettings["badextensions"].Split(',').ToList();
-                badhashessha256 = ConfigurationManager.AppSettings["badhashessha256"].Split(',').ToList();
-                freemailers = ConfigurationManager.AppSettings["freemailers"].Split(',').ToList();
-                whitelist = ConfigurationManager.AppSettings["whitelist"].Split(',').ToList();
-                lookalikes = ConfigurationManager.AppSettings["lookalikes"].Split(',').ToList();
-                imgextensions = ConfigurationManager.AppSettings["imgextensions"].Split(',').ToList();
-            }
-            catch (System.Exception)
-            {
-                System.Windows.Forms.MessageBox.Show("Could not read configuration file app.config / " + AppDomain.CurrentDomain.SetupInformation.ConfigurationFile + "\n\nCAUTION: FINALFRONTIER WILL NOT BE FUNCTIONING PROPERLY!!!");
-            }
+        public CheckMethods() 
+        {
+            config = ModelConfiguration.Instance;
         }
 
         public List<CheckResult> CheckLinkShorteners(string id, string instr)
@@ -50,7 +22,7 @@ namespace FinalFrontier
             if (instr == null)
                 return null;
 
-            return (linkshorteners.Where(shortener => instr.IndexOf(shortener) > 0)
+            return (config.LinkShorteners.Where(shortener => instr.IndexOf(shortener) > 0)
                 .Select(shortener => new CheckResult(id, shortener, instr, -20))).ToList();
         }
 
@@ -59,7 +31,7 @@ namespace FinalFrontier
             if (instr == null)
                 return null;
 
-            return (freemailers.Where(freemailer => (instr.IndexOf(freemailer) > 0) & (senderEmailAddress.IndexOf(freemailer) < 1))
+            return (config.Freemailers.Where(freemailer => (instr.IndexOf(freemailer) > 0) & (senderEmailAddress.IndexOf(freemailer) < 1))
                 .Select(freemailer => new CheckResult(id, freemailer, instr.Substring(0, 50) + "[...]", -20))).ToList();
         }
 
@@ -68,7 +40,7 @@ namespace FinalFrontier
             if (instr == null)
                 return null;
 
-            return badtlds.Where(x => instr.EndsWith(x)).Select(y => new CheckResult(id, y, instr, -20)).FirstOrDefault();
+            return config.BadTlds.Where(x => instr.EndsWith(x)).Select(y => new CheckResult(id, y, instr, -20)).FirstOrDefault();
         }
 
         public List<CheckResult> CheckKeywords(string id, string instr)
@@ -76,7 +48,7 @@ namespace FinalFrontier
             if (instr == null)
                 return null;
 
-            return keywords.Where(x => instr.ToLower().Contains(x))
+            return config.Keywords.Where(x => instr.ToLower().Contains(x))
                 .Select(x => new CheckResult(id, x, instr, -20)).ToList();
         }
 
@@ -85,7 +57,7 @@ namespace FinalFrontier
             if (instr == null)
                 return null;
 
-            return (docextensions.SelectMany(docext => exeextensions.Where(exeext => instr.EndsWith(docext + exeext))
+            return (config.DocExtensions.SelectMany(docext => config.ExeExtensions.Where(exeext => instr.EndsWith(docext + exeext))
                 .Select(exeext => new CheckResult(id, docext + exeext, instr, -20)))).ToList();
         }
 
@@ -94,7 +66,7 @@ namespace FinalFrontier
             if (instr == null)
                 return null;
 
-            return (badextensions.Where(ext => instr.EndsWith(ext)).Select(ext => new CheckResult(id, ext, instr, -20))).ToList();
+            return (config.BadExtensions.Where(ext => instr.EndsWith(ext)).Select(ext => new CheckResult(id, ext, instr, -20))).ToList();
         }
 
         public List<CheckResult> CheckBadHashes(string id, Attachment testfile)
@@ -117,7 +89,7 @@ namespace FinalFrontier
                 byte[] filehash = sha.ComputeHash(File.OpenRead(tmpPath));
                 string filehashstr = BitConverter.ToString(filehash).Replace("-", string.Empty);
 
-                if (badhashessha256.Contains(filehashstr))            
+                if (config.BadHashesSha256.Contains(filehashstr))            
                     result.Add(new CheckResult(id, "sha256", filehashstr, -100));
             }
             catch (System.Exception)
@@ -152,7 +124,7 @@ namespace FinalFrontier
             // check for domain in whitelist
             int senderEmailAddressAtPos = senderEmailAddress.IndexOf("@");
             string senderEmailAddressDomainPart = senderEmailAddress.Substring(senderEmailAddressAtPos + 1);
-            if (whitelist.Contains(senderEmailAddressDomainPart) && (senderEmailAddress.IndexOf(senderNameDomainPart) == -1) && !string.IsNullOrEmpty(senderEmailAddress))
+            if (config.Whitelist.Contains(senderEmailAddressDomainPart) && (senderEmailAddress.IndexOf(senderNameDomainPart) == -1) && !string.IsNullOrEmpty(senderEmailAddress))
             {
                 return new CheckResult("Meta-SenderEmailWhitelisted", "Die angezeigte Mailadresse ist in der Whitelist", senderEmailAddress + " / " + senderNameDomainPart, 80);
             }

@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using Microsoft.Office.Interop.Outlook;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.IO.Compression;
 using System.Xml.Linq;
 using System.IO;
+
 
 namespace FinalFrontier
 {
@@ -18,12 +14,9 @@ namespace FinalFrontier
 
         public ReportMail(ModelReportMail repData, string reportType)
         {
-            // Get given data
-            string reportAddress = ConfigurationManager.AppSettings["reportAddress"];
-
             //// Create new E Mail
             MailItem mail = (MailItem)OutlookApp.CreateItem(OlItemType.olMailItem);
-            mail.To = reportAddress;
+            mail.To = ModelConfiguration.Instance.ReportAddress;
             mail.Subject = repData.Subject;
             mail.Body = repData.DetailedText;
 
