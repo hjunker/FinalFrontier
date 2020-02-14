@@ -35,12 +35,17 @@ namespace FinalFrontier
         public List<string> OwnAddresses { get; set; }
         public int SuspiciousScore { get; private set; }
         public string ReportAddress { get; private set; }
+        public string[] BadFodlers { get; private set; }
+        public string LearningPath { get; private set; }
 
         private ModelConfiguration()
         {
             try
             {
                 // Get the directory paths
+                LearningPath = ConfigurationManager.AppSettings["saveLearned"];
+                if (LearningPath == "")
+                    LearningPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\FinalFrontier";
 
                 // Parse lists to be checked
                 LinkShorteners = ConfigurationManager.AppSettings["linkshorteners"].ToLower().Replace(" ", String.Empty).Split(',').ToList();
@@ -56,6 +61,7 @@ namespace FinalFrontier
                 Lookalikes = ConfigurationManager.AppSettings["lookalikes"].ToLower().Replace(" ", String.Empty).Split(',').ToList();
 
                 // Get checking details
+                BadFodlers = ConfigurationManager.AppSettings["notLearnFrom"].ToLower().Replace(" ", String.Empty).Split(',');
                 OwnAddresses = ConfigurationManager.AppSettings["ownaddresses"].ToLower().Replace(" ", String.Empty).Split(',').ToList();
                 ReportAddress = ConfigurationManager.AppSettings["reportAddress"];
                 SuspiciousScore = int.Parse(ConfigurationManager.AppSettings["isSuspiciousScore"]);

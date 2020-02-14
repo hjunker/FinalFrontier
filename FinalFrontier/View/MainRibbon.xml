@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui" onLoad="Ribbon_Load">
+<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui" onLoad="Ribbon_Load" loadImage="GetImage">
 	<ribbon>
 		<tabs>
 		<tab idMso="TabMail">
 			<group id="ContentGroup" label="FinalFrontier">
         <!--TODO: Pictures for pic buttons-->
-				<button id="pictureButton1" label="Security Info" screentip="Text" onAction="OnSecInfoClick" supertip="FinalFrontier Security Info"/>
+				<button id="SecInfoButton" size="large" getImage="GetImages" label="Security Info" screentip="Text" onAction="OnSecInfoClick" supertip="FinalFrontier Security Info"/>
         
-        <button id="pictureButton2" label="Show Header" screentip="Text" onAction="OnShowHeaderClick" supertip="Show Mail Header"/>
+        <button id="ShowHeaderButton" size="large" getImage="GetImages" label="Show Header" screentip="Text" onAction="OnShowHeaderClick" supertip="Show Mail Header"/>
 
-        <menu id="menu1" label="More">
+        <menu id="MenuButton" size="large" getImage="GetImages" label="More">
           <button id="textButton1" label="Settings" screentip="Text" onAction="OnShowSettingsClick" supertip="Customize FinalFrontier"/>
           <button id="textButton2" label="Update" screentip="Text" onAction="OnShowUpdateClick" supertip="Check for updates"/>
           <button id="textButton3" label="FF Info" screentip="Text" onAction="OnShowInfoClick" supertip="Show info about FinalFrontier FinalFrontier"/>

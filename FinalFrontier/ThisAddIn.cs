@@ -14,6 +14,20 @@ namespace FinalFrontier
 {
     public partial class ThisAddIn
     {
+        #region Von VSTO generierter Code
+
+        /// <summary>
+        /// Erforderliche Methode für die Designerunterstützung.
+        /// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
+        /// </summary>
+        private void InternalStartup()
+        {
+            this.Startup += new System.EventHandler(ThisAddIn_Startup);
+            this.Shutdown += new System.EventHandler(ThisAddIn_Shutdown);
+        }
+
+        #endregion
+
         Explorer currentExplorer = null;
         private Dictionary<string, int> DictSenderName = new Dictionary<string, int>();
         private Dictionary<string, int> DictSenderEmail = new Dictionary<string, int>();
@@ -33,6 +47,9 @@ namespace FinalFrontier
             Folder root = Application.Session.DefaultStore.GetRootFolder() as Folder;
 
             // TODO: Welcome screen
+
+            // TODO: Learning
+            //if ()
 
             currentExplorer = this.Application.ActiveExplorer();
             currentExplorer.SelectionChange += new ExplorerEvents_10_SelectionChangeEventHandler(CurrentExplorer_Event);
@@ -196,20 +213,6 @@ namespace FinalFrontier
             // Hinweis: Outlook löst dieses Ereignis nicht mehr aus. Wenn Code vorhanden ist, der 
             //    muss ausgeführt werden, wenn Outlook heruntergefahren wird. Weitere Informationen finden Sie unter https://go.microsoft.com/fwlink/?LinkId=506785.
         }
-
-        #region Von VSTO generierter Code
-
-        /// <summary>
-        /// Erforderliche Methode für die Designerunterstützung.
-        /// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
-        /// </summary>
-        private void InternalStartup()
-        {
-            this.Startup += new System.EventHandler(ThisAddIn_Startup);
-            this.Shutdown += new System.EventHandler(ThisAddIn_Shutdown);
-        }
-
-        #endregion
 
         ~ThisAddIn()
         {

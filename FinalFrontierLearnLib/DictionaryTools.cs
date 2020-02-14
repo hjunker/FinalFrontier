@@ -3,6 +3,7 @@ using System.IO;
 
 namespace FinalFrontierLearnLib
 {
+    // TODO: Catch opening errors 
     public class DictionaryTools
     {
         // https://www.dotnetperls.com/dictionary-binary

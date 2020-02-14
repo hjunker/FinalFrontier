@@ -6,6 +6,7 @@ using System.IO;
 
 namespace FinalFrontierLearnLib
 {
+    // TODO: Simplify GetDict() Functions
     public class Learn
     {
         private Dictionary<string, int> DictSenderName = new Dictionary<string, int>();
@@ -18,13 +19,33 @@ namespace FinalFrontierLearnLib
 
         private string userpath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\FinalFrontier";
 
-        private string[] badfolders = { "Junk", "Unwanted", "Trash", "Spam", "Posteingang", "Inbox" };
+        private string[] badFolders = { "Junk", "Unwanted", "Trash", "Spam", "Posteingang", "Inbox" };
 
+        
+        
         public Learn()
         {
+            // TODO: read the other path if it was changed
+            
             if (!Directory.Exists(userpath))
                 Directory.CreateDirectory(userpath);
         }
+
+        public Learn(string userpath, string[] badFolders)
+        {
+            // TODO: Copy things if path is changed and learn new if folders have changed
+            // TODO: Save the path to a RegEntry(?) if it is not default
+
+            if (this.userpath != userpath)
+                this.userpath = userpath;
+            if (this.badFolders != badFolders)
+                this.badFolders = badFolders;
+
+            if (!Directory.Exists(userpath))
+                Directory.CreateDirectory(userpath);
+
+        }
+
 
         public void GetFolders(Folder folder)
         {
@@ -33,7 +54,6 @@ namespace FinalFrontierLearnLib
             {
                 foreach (Folder childFolder in childFolders)
                 {
-                    //Console.WriteLine(childFolder.FolderPath);
                     FolderList.Add(childFolder.FolderPath);
                     GetFolders(childFolder);
                 }
@@ -44,7 +64,7 @@ namespace FinalFrontierLearnLib
         {
             foreach (Folder childFolder in folder.Folders)
             {
-                if (badfolders.Contains(childFolder.Name))
+                if (badFolders.Contains(childFolder.Name))
                     continue;
                 bool learn = true;
                 if (folderid > 0)
@@ -54,7 +74,7 @@ namespace FinalFrontierLearnLib
                         learn = false;
                         continue;
                     }
-                    foreach (string badfolder in badfolders)
+                    foreach (string badfolder in badFolders)
                     {
                         if (childFolder.FolderPath.Contains(badfolder))
                         {

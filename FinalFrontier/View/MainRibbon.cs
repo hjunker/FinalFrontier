@@ -1,6 +1,7 @@
 ﻿using Microsoft.Office.Core;
 using Microsoft.Office.Interop.Outlook;
 using System;
+using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -47,7 +48,18 @@ namespace FinalFrontier
         }
 
         #endregion
-
+        
+        public Bitmap GetImages(Office.IRibbonControl button)
+        {
+            switch (button.Id)
+            {
+                case "SecInfoButton": return new Bitmap(Properties.Resources.SecInfo);
+                case "ShowHeaderButton": return new Bitmap(Properties.Resources.ShowHeader);
+                case "MenuButton": return new Bitmap(Properties.Resources.Settings);
+                default: return new Bitmap(Properties.Resources.FF_small);
+            }
+        }
+        
         public void OnSecInfoClick(IRibbonControl control)
         {
             MailItem selObject;
