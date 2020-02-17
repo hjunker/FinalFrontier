@@ -23,11 +23,9 @@ Refer to https://github.com/hjunker/FinalFrontier/blob/master/200131-FinalFronti
 English doc is coming soon.
 
 ## Contact, supporting my development, full-fledged & customized versions
-Please refer to Twitter (DM): [@HolgerJunker](https://twitter.com/HolgerJunker) or WWW: [seculancer.de](http://seculancer.de)
+You can send us feedback via GitHub or DM us via Twitter (see top of this page for accounts).
 
-The greatest help is to give feedback to me. Send me your feedback, ask questions or suggest features on GitHub, let me know about additions you have made to config and/or code. THX!
-
-Please also take a look at my other open source projects on GitHub such as [ProcessBouncer](https://github.com/hjunker/ProcessBouncer).
+The greatest help is to give feedback to us. Send us your feedback, ask questions or suggest features on GitHub, let us know about additions you have made to config and/or code. THX!
 
 ## musical credits
 major parts of FinalFrontier were designed and implemented while listening to the great music of Oomph! (@oomphband).
