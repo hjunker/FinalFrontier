@@ -124,7 +124,7 @@ namespace FinalFrontier
         public void onFFFolderButtonClick(IRibbonControl control)
         {
             FinalFrontierLearnLib.Learn learn = new FinalFrontierLearnLib.Learn();
-            learn.LearnFolder(((Folder)control.Context));
+            learn.LearnFolders(((Folder)control.Context));
             //MessageBox.Show("TODO: TRIGGER LEARNING!");
         }
 

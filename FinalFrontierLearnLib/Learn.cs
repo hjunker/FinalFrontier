@@ -9,9 +9,6 @@ namespace FinalFrontierLearnLib
     // TODO: Simplify GetDict() Functions
     public class Learn
     {
-        private Dictionary<string, int> DictSenderName = new Dictionary<string, int>();
-        private Dictionary<string, int> DictSenderEmail = new Dictionary<string, int>();
-        private Dictionary<string, int> DictSenderCombo = new Dictionary<string, int>();
 
         private DictionaryTools dt = new DictionaryTools();
 
@@ -19,10 +16,8 @@ namespace FinalFrontierLearnLib
 
         private string userpath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\FinalFrontier";
 
-        private string[] badFolders = { "Junk", "Unwanted", "Trash", "Spam", "Posteingang", "Inbox" };
+        private string[] badFolders = { "JUNK", "UNWANTED", "TRASH", "SPAM", "POSTEINGANG", "INBOX" };
 
-        
-        
         public Learn()
         {
             // TODO: read the other path if it was changed
@@ -43,9 +38,7 @@ namespace FinalFrontierLearnLib
 
             if (!Directory.Exists(userpath))
                 Directory.CreateDirectory(userpath);
-
         }
-
 
         public void GetFolders(Folder folder)
         {
@@ -62,18 +55,19 @@ namespace FinalFrontierLearnLib
 
         public void LearnFolders(Folder folder, int folderid = -1)
         {
+            LearnFolder(folder);
+
             foreach (Folder childFolder in folder.Folders)
             {
-                if (badFolders.Contains(childFolder.Name))
+                if (badFolders.Contains(childFolder.Name.ToUpper()))
+                    continue;
+                if (childFolder.Name.Contains("This computer only"))
                     continue;
                 bool learn = true;
                 if (folderid > 0)
                 {
                     if (!childFolder.FolderPath.Contains(FolderList[folderid]))
-                    {
-                        learn = false;
                         continue;
-                    }
                     foreach (string badfolder in badFolders)
                     {
                         if (childFolder.FolderPath.Contains(badfolder))
@@ -90,13 +84,14 @@ namespace FinalFrontierLearnLib
 
                 LearnFolders(childFolder, folderid);
             }
-            dt.Write(DictSenderName, userpath + $"\\{folder.Name}-dict-sender-name.bin");
-            dt.Write(DictSenderEmail, userpath + $"\\{folder.Name}-dict-sender-email.bin");
-            dt.Write(DictSenderCombo, userpath + $"\\{folder.Name}-dict-sender-combo.bin");
         }
 
         public void LearnFolder(Folder folder)
         {
+            Dictionary<string, int> DictSenderName = new Dictionary<string, int>();
+            Dictionary<string, int> DictSenderEmail = new Dictionary<string, int>();
+            Dictionary<string, int> DictSenderCombo = new Dictionary<string, int>();
+
             foreach (object mail in folder.Items)
             {
                 try
@@ -120,14 +115,14 @@ namespace FinalFrontierLearnLib
                         else
                             DictSenderCombo.Add(senderCombo, 1);
                     }
-                    dt.Write(DictSenderName, userpath + $"\\{folder.Name}-dict-sender-name.bin");
-                    dt.Write(DictSenderEmail, userpath + $"\\{folder.Name}-dict-sender-email.bin");
-                    dt.Write(DictSenderCombo, userpath + $"\\{folder.Name}-dict-sender-combo.bin");
                 }
                 catch (System.Exception ex)
                 {
                 }
             }
+            dt.Write(DictSenderName, userpath + $"\\{folder.Name}-dict-sender-name.bin");
+            dt.Write(DictSenderEmail, userpath + $"\\{folder.Name}-dict-sender-email.bin");
+            dt.Write(DictSenderCombo, userpath + $"\\{folder.Name}-dict-sender-combo.bin");
         }
 
         public Dictionary<string, int> getDictSenderName()
