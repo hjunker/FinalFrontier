@@ -1,4 +1,5 @@
-﻿using Microsoft.Office.Interop.Outlook;
+﻿using FinalFrontierLearnLib;
+using Microsoft.Office.Interop.Outlook;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,11 +10,20 @@ namespace FinalFrontier
     public class Scoring
     {
         private Dictionary<string, ModelScoring> checkedMails;
+        private AnalyzerBody bodyAnalyse;
+        private AnalyzerMeta metaAnalyze;
+        private AnalyzerAttachement attachmentAnalyze;
+
+        private Learn LearnLib;
 
         // Constructors
         public Scoring()
         {
+            LearnLib = new Learn();
             checkedMails = new Dictionary<string, ModelScoring>();
+            bodyAnalyse = new AnalyzerBody();
+            metaAnalyze = new AnalyzerMeta(LearnLib);
+            attachmentAnalyze = new AnalyzerAttachement();
         }
 
         // Calculating method
@@ -24,10 +34,6 @@ namespace FinalFrontier
                 return checkedMails[mailItem.EntryID];
 
             var CheckResults = new List<CheckResult>();
-
-            AnalyzerBody bodyAnalyse = new AnalyzerBody();
-            AnalyzerAttachement attachmentAnalyze = new AnalyzerAttachement();
-            AnalyzerMeta metaAnalyze = new AnalyzerMeta();
 
             Action<List<CheckResult>> addRange = x =>
             {
@@ -51,6 +57,12 @@ namespace FinalFrontier
             checkedMails.Add(mailItem.EntryID, new ModelScoring(bodyAnalyse.Score + attachmentAnalyze.Score + metaAnalyze.Score, CheckResults, mailItem.HeaderString(), mailItem.EntryID));
 
             return checkedMails[mailItem.EntryID];
+        }
+
+        public Learn getLeanLib()
+        {
+            checkedMails = new Dictionary<string, ModelScoring>();
+            return LearnLib;
         }
     }
 }

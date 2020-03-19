@@ -1,4 +1,5 @@
 ﻿using Microsoft.Office.Interop.Outlook;
+using FinalFrontierLearnLib;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -11,7 +12,14 @@ namespace FinalFrontier
     {
         private int score;
         public override int Score { get { return score; } }
+        
         private List<string> ownaddresses;
+        private Learn learnLib;
+
+        public AnalyzerMeta(Learn tmpLearnLib)
+        {
+            learnLib = tmpLearnLib;
+        }
 
         public override List<CheckResult> Analyze(object data)
         {
@@ -24,12 +32,9 @@ namespace FinalFrontier
             var senderCombo = senderName + "/" + senderEmailAddress;
 
             // Get already known values
-            var learn = new FinalFrontierLearnLib.Learn();
-
-            Dictionary<string, int> DictSenderName = learn.getDictSenderName();
-            Dictionary<string, int> DictSenderEmail = learn.getDictSenderEmail();
-            Dictionary<string, int> DictSenderCombo = learn.getDictSenderCombo();
-
+            Dictionary<string, int> DictSenderName = learnLib.getDictSenderName();
+            Dictionary<string, int> DictSenderEmail = learnLib.getDictSenderEmail();
+            Dictionary<string, int> DictSenderCombo = learnLib.getDictSenderCombo();
             
             // TODO: Get thorug app config 
             try
@@ -116,6 +121,9 @@ namespace FinalFrontier
                     add(new CheckResult("Meta-SuspiciousSender", "Die Mailadresse des Absenders ist fehlerhaft / verdächtig.", senderEmailAddress, -40));
                 }
             }
+
+            if (!learnLib.getMailId().Contains(mailItem.EntryID))
+                learnLib.LearnMail(mailItem, true);
 
             score = results.Sum(x => x.score);
 
