@@ -22,7 +22,7 @@ namespace FinalFrontier.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace FinalFrontier.Properties {
         ///   Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FinalFrontier.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace FinalFrontier.Properties {
         ///   Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FinalFrontier.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Attachement {
+        public static System.Drawing.Bitmap Attachement {
             get {
                 object obj = ResourceManager.GetObject("Attachement", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -73,7 +73,7 @@ namespace FinalFrontier.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Envelope {
+        public static System.Drawing.Bitmap Envelope {
             get {
                 object obj = ResourceManager.GetObject("Envelope", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -83,7 +83,7 @@ namespace FinalFrontier.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap FF_small {
+        public static System.Drawing.Bitmap FF_small {
             get {
                 object obj = ResourceManager.GetObject("FF_small", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -93,7 +93,7 @@ namespace FinalFrontier.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Link {
+        public static System.Drawing.Bitmap Link {
             get {
                 object obj = ResourceManager.GetObject("Link", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -103,7 +103,7 @@ namespace FinalFrontier.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap SecInfo {
+        public static System.Drawing.Bitmap SecInfo {
             get {
                 object obj = ResourceManager.GetObject("SecInfo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -113,7 +113,7 @@ namespace FinalFrontier.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Sender {
+        public static System.Drawing.Bitmap Sender {
             get {
                 object obj = ResourceManager.GetObject("Sender", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -123,7 +123,7 @@ namespace FinalFrontier.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Settings {
+        public static System.Drawing.Bitmap Settings {
             get {
                 object obj = ResourceManager.GetObject("Settings", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -133,10 +133,68 @@ namespace FinalFrontier.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ShowHeader {
+        public static System.Drawing.Bitmap ShowHeader {
             get {
                 object obj = ResourceManager.GetObject("ShowHeader", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die With clicking &quot;Next&quot; you accept our terms of service and disclaimer. Currently we transmit ABSOLUTELY NO DATA. Further information on our website. ähnelt.
+        /// </summary>
+        public static string WELCOMESC_Disclaimer {
+            get {
+                return ResourceManager.GetString("WELCOMESC_Disclaimer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Welcome to FinalFrontier.
+        ///We´ve developed a new method for detecting malware. In addition to the mail item we will analyze the history of your mailboxes to get better results.
+        ///Give it a try!
+        ///
+        ///In the following windows we will help you configure the AddIn and show you some examples. ähnelt.
+        /// </summary>
+        public static string WELCOMESC_Hello {
+            get {
+                return ResourceManager.GetString("WELCOMESC_Hello", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Next ähnelt.
+        /// </summary>
+        public static string WELCOMESC_Next {
+            get {
+                return ResourceManager.GetString("WELCOMESC_Next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Website ähnelt.
+        /// </summary>
+        public static string WELCOMESC_Website {
+            get {
+                return ResourceManager.GetString("WELCOMESC_Website", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Welcome! ähnelt.
+        /// </summary>
+        public static string WELCOMESC_Welcome {
+            get {
+                return ResourceManager.GetString("WELCOMESC_Welcome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die FinalFrontier ähnelt.
+        /// </summary>
+        public static string WELCOMESC_WelcomeSc {
+            get {
+                return ResourceManager.GetString("WELCOMESC_WelcomeSc", resourceCulture);
             }
         }
     }

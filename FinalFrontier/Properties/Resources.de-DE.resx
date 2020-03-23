@@ -117,49 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Attachement" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Attachement.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Envelope" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Envelope.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="FF_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\FF small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Link" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Link.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SecInfo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SecInfo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Sender" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Sender.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ShowHeader" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ShowHeader.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="WELCOMESC_Disclaimer" xml:space="preserve">
-    <value>With clicking "Next" you accept our terms of &#x1F;service and disclaimer. Currently we transmit ABSOLUTELY NO DATA. Further information on our website.</value>
+    <value>Durch Fortfahren akzeptierst du unsere AGB und den Haftungsausschluss. Wir übermitteln KEINE DATEN an uns, deine Privatsphäre liegt uns am Herzen. Weitere Informationen findest du auf unserer Website.</value>
   </data>
   <data name="WELCOMESC_Hello" xml:space="preserve">
-    <value>Welcome to FinalFrontier.
-We´ve developed a new method for detecting malware. In addition to the mail item we will analyze the history of your mailboxes to get better results.
-Give it a try!
+    <value>Herzlich Willkommen bei FinalFrontier.
+Wir haben eine neue Methode entwickelt, um dich vor Schadsoftware zu schützen. Dafür analysieren wir zusätzlich zu der Mail auch die Historie deiner Postfächer, um bessere Ergebnisse zu bekommen.
+Probier es aus!
 
-In the following windows we will help you configure the AddIn and show you some examples.</value>
+Im Folgenden werden wir dich durch die Konfiguration führen und verschiedene Beispiele zeigen.</value>
   </data>
   <data name="WELCOMESC_Next" xml:space="preserve">
-    <value>Next</value>
+    <value>Weiter</value>
   </data>
   <data name="WELCOMESC_Website" xml:space="preserve">
     <value>Website</value>
   </data>
   <data name="WELCOMESC_Welcome" xml:space="preserve">
-    <value>Welcome!</value>
+    <value>Willkommen!</value>
   </data>
   <data name="WELCOMESC_WelcomeSc" xml:space="preserve">
     <value>FinalFrontier</value>

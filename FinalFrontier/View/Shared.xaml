@@ -26,6 +26,12 @@
         <Setter Property="Control.FontSize" Value="20px" />
     </Style>
 
+    <Style x:Key="footnote">
+        <Setter Property="Control.FontSize" Value="12px" />
+        <Setter Property="Control.Foreground" Value="#444444" />
+        <Setter Property="Control.Margin" Value="10" />
+    </Style>
+
     <Style TargetType="TextBox">
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="Control.BorderThickness" Value="0" />

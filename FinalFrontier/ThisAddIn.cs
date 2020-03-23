@@ -3,6 +3,8 @@ using Microsoft.Office.Interop.Outlook;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
+using System.Globalization;
+using System.Threading;
 
 // https://msdn.microsoft.com/en-us/library/cc668191.aspx
 // https://msdn.microsoft.com/en-us/library/microsoft.office.interop.outlook.mailitem_members.aspx
@@ -46,7 +48,9 @@ namespace FinalFrontier
 
             Folder root = Application.Session.DefaultStore.GetRootFolder() as Folder;
 
-            // TODO: Welcome screen
+            //Thread.CurrentThread.CurrentUICulture = new CultureInfo("de-DE");
+            //WelcomeScreen Welcome = new WelcomeScreen();
+            //Welcome.Show();
 
             // TODO: Learning
             //if ()
