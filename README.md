@@ -17,6 +17,7 @@ More features such as machine learning, deeper attachment inspection, etc. are o
 
 ## Installation
 Please note that [FinalFrontier-Learner](https://github.com/hjunker/FinalFrontier-Learner) needs to be used for learning the communication history so that FinalFrontier can function properly.
+Update: The learning mechanism is now also included directly in FinalFrontier.
 
 Please note that in order to use FinalFrontier you might have to install Visual Studio Tools for Office first (https://www.microsoft.com/en-US/download/details.aspx?id=48217).
 
