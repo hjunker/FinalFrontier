@@ -141,11 +141,30 @@ namespace FinalFrontier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die With clicking &quot;Next&quot; you accept our terms of service and disclaimer. Currently we transmit ABSOLUTELY NO DATA. Further information on our website. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Dev Options ähnelt.
+        /// </summary>
+        public static string WELCOMESC_Developer {
+            get {
+                return ResourceManager.GetString("WELCOMESC_Developer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die With clicking &quot;Next&quot; you accept our terms of service and disclaimer. Currently we transmit ABSOLUTELY NO DATA. 
+        ///Further information on our website. ähnelt.
         /// </summary>
         public static string WELCOMESC_Disclaimer {
             get {
                 return ResourceManager.GetString("WELCOMESC_Disclaimer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Finish ähnelt.
+        /// </summary>
+        public static string WELCOMESC_Finish {
+            get {
+                return ResourceManager.GetString("WELCOMESC_Finish", resourceCulture);
             }
         }
         
@@ -163,11 +182,38 @@ namespace FinalFrontier.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter your Mail adresses. ähnelt.
+        /// </summary>
+        public static string WELCOMESC_Mail {
+            get {
+                return ResourceManager.GetString("WELCOMESC_Mail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Add an address ähnelt.
+        /// </summary>
+        public static string WELCOMESC_NewMail {
+            get {
+                return ResourceManager.GetString("WELCOMESC_NewMail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Next ähnelt.
         /// </summary>
         public static string WELCOMESC_Next {
             get {
                 return ResourceManager.GetString("WELCOMESC_Next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Settings ähnelt.
+        /// </summary>
+        public static string WELCOMESC_Settings {
+            get {
+                return ResourceManager.GetString("WELCOMESC_Settings", resourceCulture);
             }
         }
         

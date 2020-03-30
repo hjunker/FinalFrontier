@@ -204,6 +204,7 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="Lib\ModelEMail.cs" />
     <Compile Include="Lib\ModelReportMail.cs" />
     <Compile Include="Lib\ReportMail.cs" />
     <Compile Include="Lib\Scoring.cs" />

@@ -106,7 +106,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             
-            <Button Content="{Binding ProblemLabel, Mode=OneTime}" Command="{Binding ReportProblemCommand}" Style="{StaticResource SecondButton}" />
+            <Button Content="{Binding ProblemLabel, Mode=OneTime}" Command="{Binding ReportProblemCommand}" Style="{StaticResource SecondButton}" HorizontalAlignment="Left"/>
             <Button Content="{Binding CloseLabel, Mode=OneTime}" Command="{Binding CloseCommand}" Grid.Column="1" Style="{StaticResource MainButton}" />
         </Grid>
     </Grid>

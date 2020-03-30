@@ -56,7 +56,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Button Content="{Binding CloseLabel, Mode=OneTime}" Command="{Binding CloseCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=OneProblemScreen}" Style="{StaticResource SecondButton}" IsCancel="True" />
+            <Button Content="{Binding CloseLabel, Mode=OneTime}" Command="{Binding CloseCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=OneProblemScreen}" Style="{StaticResource SecondButton}" IsCancel="True" HorizontalAlignment="Left"/>
             <Button Content="{Binding SendLabel, Mode=OneTime}" Command="{Binding SendCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=OneProblemScreen}" Grid.Column="1" Style="{StaticResource MainButton}" />
         </Grid>
     </Grid>

@@ -48,9 +48,9 @@ namespace FinalFrontier
 
             Folder root = Application.Session.DefaultStore.GetRootFolder() as Folder;
 
-            //Thread.CurrentThread.CurrentUICulture = new CultureInfo("de-DE");
-            //WelcomeScreen Welcome = new WelcomeScreen();
-            //Welcome.Show();
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("de-DE");
+            WelcomeScreen Welcome = new WelcomeScreen();
+            Welcome.Show();
 
             // TODO: Learning
             //if ()

@@ -142,8 +142,15 @@
   <data name="ShowHeader" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ShowHeader.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="WELCOMESC_Developer" xml:space="preserve">
+    <value>Dev Options</value>
+  </data>
   <data name="WELCOMESC_Disclaimer" xml:space="preserve">
-    <value>With clicking "Next" you accept our terms of &#x1F;service and disclaimer. Currently we transmit ABSOLUTELY NO DATA. Further information on our website.</value>
+    <value>With clicking "Next" you accept our terms of &#x1F;service and disclaimer. Currently we transmit ABSOLUTELY NO DATA. 
+Further information on our website.</value>
+  </data>
+  <data name="WELCOMESC_Finish" xml:space="preserve">
+    <value>Finish</value>
   </data>
   <data name="WELCOMESC_Hello" xml:space="preserve">
     <value>Welcome to FinalFrontier.
@@ -152,8 +159,17 @@ Give it a try!
 
 In the following windows we will help you configure the AddIn and show you some examples.</value>
   </data>
+  <data name="WELCOMESC_Mail" xml:space="preserve">
+    <value>Enter your Mail adresses.</value>
+  </data>
+  <data name="WELCOMESC_NewMail" xml:space="preserve">
+    <value>Add an address</value>
+  </data>
   <data name="WELCOMESC_Next" xml:space="preserve">
     <value>Next</value>
+  </data>
+  <data name="WELCOMESC_Settings" xml:space="preserve">
+    <value>Settings</value>
   </data>
   <data name="WELCOMESC_Website" xml:space="preserve">
     <value>Website</value>

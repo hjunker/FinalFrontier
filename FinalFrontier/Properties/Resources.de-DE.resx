@@ -117,8 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="WELCOMESC_Developer" xml:space="preserve">
+    <value>Entwickler</value>
+  </data>
   <data name="WELCOMESC_Disclaimer" xml:space="preserve">
-    <value>Durch Fortfahren akzeptierst du unsere AGB und den Haftungsausschluss. Wir übermitteln KEINE DATEN an uns, deine Privatsphäre liegt uns am Herzen. Weitere Informationen findest du auf unserer Website.</value>
+    <value>Durch Fortfahren akzeptierst du unsere AGB und den Haftungsausschluss. Wir übermitteln KEINE DATEN, deine Privatsphäre liegt uns am Herzen. 
+Weitere Informationen findest du auf unserer Website.</value>
+  </data>
+  <data name="WELCOMESC_Finish" xml:space="preserve">
+    <value>Fertig</value>
   </data>
   <data name="WELCOMESC_Hello" xml:space="preserve">
     <value>Herzlich Willkommen bei FinalFrontier.
@@ -127,8 +134,17 @@ Probier es aus!
 
 Im Folgenden werden wir dich durch die Konfiguration führen und verschiedene Beispiele zeigen.</value>
   </data>
+  <data name="WELCOMESC_Mail" xml:space="preserve">
+    <value>Was sind deine Mailadressen?</value>
+  </data>
+  <data name="WELCOMESC_NewMail" xml:space="preserve">
+    <value>Addresse hinzufügen</value>
+  </data>
   <data name="WELCOMESC_Next" xml:space="preserve">
     <value>Weiter</value>
+  </data>
+  <data name="WELCOMESC_Settings" xml:space="preserve">
+    <value>Einstellungen</value>
   </data>
   <data name="WELCOMESC_Website" xml:space="preserve">
     <value>Website</value>
