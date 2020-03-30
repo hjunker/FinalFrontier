@@ -16,7 +16,6 @@ FinalFrontier uses a wide and constantly growing range of checks to determine wh
 More features such as machine learning, deeper attachment inspection, etc. are on the way.
 
 ## Installation
-Please note that [FinalFrontier-Learner](https://github.com/hjunker/FinalFrontier-Learner) needs to be used for learning the communication history so that FinalFrontier can function properly.
 Update: The learning mechanism is now also included directly in FinalFrontier.
 
 Please note that in order to use FinalFrontier you might have to install Visual Studio Tools for Office first (https://www.microsoft.com/en-US/download/details.aspx?id=48217).
@@ -24,6 +23,12 @@ Please note that in order to use FinalFrontier you might have to install Visual 
 Refer to https://github.com/hjunker/FinalFrontier/blob/master/200131-FinalFrontier-Nutzerdokumentation.pdf [german]
 
 English doc is coming soon.
+
+**Please note** if you run FinalFrontier the first time it is importent to run the **learn process**.
+
+To run the learn process you have to right-click your mail folder and select _FinalFrontier: Learn for mail history_. Depending on the folder size this may take some time.
+
+Alternatively you can trigger the learn process manualy with the [FinalFrontier-Learner](https://github.com/hjunker/FinalFrontier-Learner).
 
 ## Contact, supporting my development, full-fledged & customized versions
 You can send us feedback via GitHub or DM us via Twitter (see top of this page for accounts).

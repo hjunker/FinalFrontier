@@ -262,3 +262,5 @@ __pycache__/
 
 # TemporaryKey
 *_TemporaryKey.pfx
+
+.history/
