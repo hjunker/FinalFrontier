@@ -1,5 +1,8 @@
 # FinalFrontier Outlook Add-In
-FinalFrontier is an Outlook Add-In to detect and prevent (spear-) phishing attacks. It is under active development by [@HolgerJunker](https://twitter.com/HolgerJunker) / https://github.com/hjunker, [@julian_basi](https://twitter.com/julian_basi) / https://github.com/JulianBaSi and https://github.com/sonnenteich
+FinalFrontier is an Outlook Add-In to detect and prevent (spear-) phishing attacks. It is under active development by
+- [@HolgerJunker](https://twitter.com/HolgerJunker),
+- https://github.com/hjunker, [@julian_basi](https://twitter.com/julian_basi) / https://github.com/JulianBaSi and
+- https://github.com/sonnenteich
 
 ## The threat: Emotet & Co
 Emotet has been the major threat for initial compromise. The attack always involves emails with malicious office documents with VBA as attachments or referred to with a link. With emotet using authentic emails for spear phishing, users are overwhelmed with recognizing such attacks.
@@ -24,7 +27,7 @@ Refer to https://github.com/hjunker/FinalFrontier/blob/master/200131-FinalFronti
 
 English doc is coming soon.
 
-**Please note** if you run FinalFrontier the first time it is importent to run the **learn process**.
+**Please note** if you run FinalFrontier the first time it is important to run the **learn process**.
 
 To run the learn process you have to right-click your mail folder and select _FinalFrontier: Learn for mail history_. Depending on the folder size this may take some time.
 
