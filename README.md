@@ -1,7 +1,7 @@
 # FinalFrontier Outlook Add-In
 FinalFrontier is an Outlook Add-In to detect and prevent (spear-) phishing attacks. It is under active development by
-- [@HolgerJunker](https://twitter.com/HolgerJunker),
-- https://github.com/hjunker, [@julian_basi](https://twitter.com/julian_basi) / https://github.com/JulianBaSi and
+- [@HolgerJunker](https://twitter.com/HolgerJunker) / https://github.com/hjunker,
+- [@julian_basi](https://twitter.com/julian_basi) / https://github.com/JulianBaSi and
 - https://github.com/sonnenteich
 
 ## The threat: Emotet & Co
