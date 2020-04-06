@@ -1,11 +1,12 @@
-﻿<Window x:Class="FinalFrontier.WelcomeScreen"
-        x:Name="OneWelcomeScreen"
+﻿<Window
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FinalFrontier"
              xmlns:p="clr-namespace:FinalFrontier.Properties"
+             xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2" x:Class="FinalFrontier.WelcomeScreen"
+        x:Name="OneWelcomeScreen"
              mc:Ignorable="d" 
              Topmost="True"
              WindowStartupLocation="CenterScreen"
@@ -14,6 +15,7 @@
              Title="{x:Static p:Resources.WELCOMESC_WelcomeSc}" 
              Icon="pack://siteoforigin:,,,/Resources/SecInfo.png" >
 
+
     <Window.Resources>
         <ResourceDictionary>
             <!-- Shared Style -->
@@ -21,105 +23,351 @@
                 <ResourceDictionary Source="Shared.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- View Model -->
+            <!-- View Model und Converter -->
             <local:VMWelcomeScreen x:Key="vm" />
 
             <!-- Local Styles -->
-            <Style x:Key="MaiLAddressList" TargetType="ListBox">
-                <Setter Property="Width" Value="Auto" />
-                <Setter Property="Background" Value="{StaticResource lightGrey}" />
-                <Setter Property="BorderThickness" Value="0" />
-                <Setter Property="Margin" Value="10 0" />
-                <Setter Property="Padding" Value="0" />
+           <Storyboard x:Key="mailButton">
+                <DoubleAnimation Duration="0:0:0.600" To="1000" From="{Binding ActualHeight, ElementName=mails}" Storyboard.TargetProperty="MaxHeight" Storyboard.TargetName="mails" />
+                <ThicknessAnimation Duration="0:0:0.300" To="0 10" Storyboard.TargetProperty="Margin" Storyboard.TargetName="learnButton" />
+                <ThicknessAnimation Duration="0:0:0.300" To="0 10" Storyboard.TargetProperty="Margin" Storyboard.TargetName="learnHelpButton" />
+            </Storyboard>
+            <Storyboard x:Key="learnButton">
+                <DoubleAnimation Duration="0:0:0.300" To="0" From="{Binding ActualHeight, ElementName=mails}" Storyboard.TargetProperty="MaxHeight" Storyboard.TargetName="mails" />
+                <ThicknessAnimation Duration="0:0:0.300" To="0 0 0 10" Storyboard.TargetProperty="Margin" Storyboard.TargetName="learnButton" />
+                <ThicknessAnimation Duration="0:0:0.300" To="0 0 0 10" Storyboard.TargetProperty="Margin" Storyboard.TargetName="learnHelpButton" />
+                <DoubleAnimation Duration="0:0:0.600" To="1000" From="{Binding ActualHeight, ElementName=learning}" Storyboard.TargetProperty="MaxHeight" Storyboard.TargetName="learning" />
+            </Storyboard>
 
-                <!--<Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate>
-
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>-->
-            </Style>
-
-            <Style x:Key="ListItem" TargetType="TextBox">
-                <Setter Property="Width" Value="200" />
-                <Setter Property="Height" Value="25" />
-                <Setter Property="Margin" Value="0 5" />
-                <Setter Property="BorderBrush" Value="{StaticResource darkGrey}" />
-                <Setter Property="BorderThickness" Value="0.5" />
-                <Setter Property="Padding" Value="0" />
-
+            <Style x:Key="MailHelpButton" TargetType="{x:Type Button}" BasedOn="{StaticResource GrayHelpButton}">
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding IsCorrectEMail}" Value="False">
+                    <DataTrigger Binding="{Binding HelpMailTextVisibility}" Value="Visible">
                         <DataTrigger.EnterActions>
-                            <BeginStoryboard Storyboard="{StaticResource ListItemFalseInput}" />
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Duration="0:0:0.150" To="#999999" Storyboard.TargetProperty="Background.Color" />
+                                </Storyboard>
+                            </BeginStoryboard>
                         </DataTrigger.EnterActions>
                         <DataTrigger.ExitActions>
-                            <BeginStoryboard Storyboard="{StaticResource ListItemCorrectInput}" />
+                            <BeginStoryboard x:Name="closedHelp">
+                                <Storyboard>
+                                    <ColorAnimation Duration="0:0:0.150" To="#EEEEEE" Storyboard.TargetProperty="Background.Color" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                            <RemoveStoryboard BeginStoryboardName="closedHelp" />
                         </DataTrigger.ExitActions>
                     </DataTrigger>
-                    
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Trigger.EnterActions>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="LearningHelpButton" TargetType="{x:Type Button}" BasedOn="{StaticResource GrayHelpButton}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding HelpLearningTextVisibility}" Value="Visible">
+                        <DataTrigger.EnterActions>
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation To="350" Duration="0:0:0.300" Storyboard.TargetProperty="Width" />
+                                    <ColorAnimation Duration="0:0:0.150" To="#999999" Storyboard.TargetProperty="Background.Color" />
                                 </Storyboard>
                             </BeginStoryboard>
+                        </DataTrigger.EnterActions>
+                        <DataTrigger.ExitActions>
+                            <BeginStoryboard x:Name="closedHelp">
+                                <Storyboard>
+                                    <ColorAnimation Duration="0:0:0.150" To="#EEEEEE" Storyboard.TargetProperty="Background.Color" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                            <RemoveStoryboard BeginStoryboardName="closedHelp" />
+                        </DataTrigger.ExitActions>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding LearningSelectionWarning}" Value="True">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetProperty="Background.Color" To="#FFFF00" Duration="0:0:0.150"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.EnterActions>
+                        <DataTrigger.ExitActions>
+                            <BeginStoryboard x:Name="start">
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetProperty="Background.Color" To="#EEEEEE" Duration="0:0:0.150"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                            <RemoveStoryboard BeginStoryboardName="start" />
+                        </DataTrigger.ExitActions>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="learningComboBox" TargetType="ComboBox" BasedOn="{StaticResource ClassicComboBox}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding LearningSelectionWarning}" Value="True" >
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetProperty="Background.Color" To="#EEEEAA" Duration="0:0:0.150" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.EnterActions>
+                        <DataTrigger.ExitActions>
+                            <BeginStoryboard x:Name="start">
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetProperty="Background.Color" To="#EEEEEE" Duration="0:0:0.150" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                            <RemoveStoryboard BeginStoryboardName="start" />
+                        </DataTrigger.ExitActions>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="NumberTextBox" TargetType="TextBox" BasedOn="{StaticResource ClassicTextBox}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsCorrectInput}" Value="False">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard Storyboard="{StaticResource inListItemFalseInput}" />
+                        </DataTrigger.EnterActions>
+                        <DataTrigger.ExitActions>
+                            <BeginStoryboard Storyboard="{StaticResource outListItemFalseInput}" />
+                        </DataTrigger.ExitActions>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="ListItem" TargetType="{x:Type TextBox}">
+                <Setter Property="MinWidth" Value="200" />
+                <Setter Property="Margin" Value="0 5" />
+                <Setter Property="Height" Value="27" />
+                <Setter Property="BorderBrush" Value="{StaticResource darkGrey}" />
+                <Setter Property="BorderThickness" Value="0.5" />
+                <Setter Property="Padding" Value="2" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="Background" Value="White" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
+                                <DockPanel>
+                                    <Image Source="pack://siteoforigin:,,,/Resources/Sender.png" Height="21px" DockPanel.Dock="Left" Margin="5 0 0 0" />
+                                    <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" Margin="{TemplateBinding Padding}" DockPanel.Dock="Left" />
+                                </DockPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsKeyboardFocused" Value="True">
+                        <Trigger.EnterActions>
+                            <RemoveStoryboard BeginStoryboardName="newTextBox" />
+                            <RemoveStoryboard BeginStoryboardName="outCorrectInput" />
+                            <BeginStoryboard Storyboard="{StaticResource inListItemFocused}" />
                         </Trigger.EnterActions>
                         <Trigger.ExitActions>
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation To="200" Duration="0:0:0.300" Storyboard.TargetProperty="Width" />
-                                </Storyboard>
-                            </BeginStoryboard>
+                            <BeginStoryboard Storyboard="{StaticResource outListItemFocused}" />
                         </Trigger.ExitActions>
                     </Trigger>
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                        <BeginStoryboard Storyboard="{StaticResource newListTextBox}" x:Name="newTextBox" />
+                    </EventTrigger>
+                    <DataTrigger Binding="{Binding IsCorrectEMail}" Value="False">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard Storyboard="{StaticResource inListItemFalseInput}" />
+                        </DataTrigger.EnterActions>
+                        <DataTrigger.ExitActions>
+                            <BeginStoryboard Storyboard="{StaticResource outListItemFalseInput}" />
+                        </DataTrigger.ExitActions>
+                    </DataTrigger>
+                    <MultiDataTrigger x:Name="inputReady">
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=Self}}" Value="False" />
+                            <Condition Binding="{Binding IsKeyboardFocused, RelativeSource={RelativeSource Mode=Self}}" Value="False" />
+                            <Condition Binding="{Binding IsCorrectEMail}" Value="True" />
+                            <Condition Binding="{Binding IsDefaultEMail}" Value="False" />
+                        </MultiDataTrigger.Conditions>
+                        <MultiDataTrigger.EnterActions>
+                            <RemoveStoryboard BeginStoryboardName="newTextBox" />
+                            <BeginStoryboard Storyboard="{StaticResource inListItemCorrectInput}" x:Name="inCorrectInput" />
+                        </MultiDataTrigger.EnterActions>
+                        <MultiDataTrigger.ExitActions>
+                            <RemoveStoryboard BeginStoryboardName="inCorrectInput" />
+                            <BeginStoryboard Storyboard="{StaticResource outListItemCorrectInput}" x:Name="outCorrectInput" />
+                        </MultiDataTrigger.ExitActions>
+                    </MultiDataTrigger>
                 </Style.Triggers>
             </Style>
         </ResourceDictionary>
     </Window.Resources>
 
+
+    <!-- Only X and ? no content from resources -->
     <DockPanel DataContext="{StaticResource vm}" Style="{StaticResource MainFrame}">
 
+        <!-- Headline -->
         <TextBlock Text="{x:Static p:Resources.WELCOMESC_Welcome}" Style="{StaticResource h1}" DockPanel.Dock="Top" />
 
         <!-- Botttom Nav -->
         <DockPanel DockPanel.Dock="Bottom">
-            <Button Content="{Binding SecondButtonText, UpdateSourceTrigger=PropertyChanged}" Command="{Binding SecondCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=OneWelcomeScreen}" DockPanel.Dock="Left" Style="{StaticResource SecondButton}" />
+            <Button Content="{Binding SecondButtonText, UpdateSourceTrigger=PropertyChanged}" Command="{Binding SecondCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=OneWelcomeScreen}" DockPanel.Dock="Left" Style="{StaticResource SecondButton}" Visibility="{Binding SecondButtonVisible, UpdateSourceTrigger=PropertyChanged}" />
             <Button Content="{Binding MainButtonText, UpdateSourceTrigger=PropertyChanged}" Command="{Binding MainCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=OneWelcomeScreen}" DockPanel.Dock="Right" Style="{StaticResource MainButton}" />
         </DockPanel>
 
         <TextBlock Text="{x:Static p:Resources.WELCOMESC_Disclaimer}" Style="{StaticResource Footnote}" DockPanel.Dock="Bottom" Visibility="{Binding InfoVisibility, UpdateSourceTrigger=PropertyChanged}" />
 
+        <!-- Textbock for blocked configuration warning -->
+        <Border Visibility="{Binding NoConfiguration, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource WarningWindow}" DockPanel.Dock="Top">
+            <DockPanel>
+                <TextBlock Text="{x:Static p:Resources.WELCOMESC_WARNING_Blocked}" DockPanel.Dock="Bottom">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource ClassicText}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding WarningTextVisibility}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard Storyboard="{StaticResource inWarningText}" />
+                                    </DataTrigger.EnterActions>
+                                    <DataTrigger.ExitActions>
+                                        <BeginStoryboard Storyboard="{StaticResource outWarningText}" />
+                                    </DataTrigger.ExitActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <Button Command="{Binding ShowWarningCommand}" DockPanel.Dock="Right" Style="{StaticResource WarningButton}" />
+                <TextBlock Text="{x:Static p:Resources.WELCOMESC_WARNING_BlockedHeadline}" Style="{StaticResource h2}" DockPanel.Dock="Left" />
+            </DockPanel>
+        </Border>
+
         <!-- Changing main field in the middle -->
         <Border Style="{StaticResource MainBorder}">
-            <ScrollViewer CanContentScroll="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" > <!-- TODO Make better design-->
-                <Grid Style="{StaticResource MainInfoField}" >
-
+            <ScrollViewer CanContentScroll="True" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Style="{StaticResource ClassicScroll}">
+                <Grid Style="{StaticResource MainInfoField}">
                     <!-- Info Text -->
-                    <DockPanel Visibility="Collapsed">
+                    <DockPanel Visibility="{Binding InfoVisibility, UpdateSourceTrigger=PropertyChanged}">
                         <TextBlock Text="{x:Static p:Resources.WELCOMESC_Hello}" Style="{StaticResource ClassicText}" />
                     </DockPanel>
 
-                    <!-- Config Text -->
-                    <DockPanel Visibility="{Binding ConfigVisibility, UpdateSourceTrigger=PropertyChanged}">
-                        <Button Content="{x:Static p:Resources.WELCOMESC_Mail}" Command="{Binding OpenMailCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=OneWelcomeScreen}" Style="{StaticResource HeadlineButton}" BorderThickness="0" DockPanel.Dock="Top">
-                            <Button.Effect>
-                                <DropShadowEffect BlurRadius="0" Opacity="0" />
-                            </Button.Effect>
-                        </Button>
-                        <ListBox ItemsSource="{Binding MailAddresses, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Top" Style="{StaticResource MaiLAddressList}" >
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBox x:Name="oneMail" Text="{Binding MailAddress, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ListItem}" />
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                        <Button Content="{x:Static p:Resources.WELCOMESC_NewMail}" Command="{Binding AddMailCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=OneWelcomeScreen}" DockPanel.Dock="Top" Style="{StaticResource GrayButton}"/>
 
-                        <Button Content="{x:Static p:Resources.WELCOMESC_Mail}" Command="{Binding OpenWarningsCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=OneWelcomeScreen}" Style="{StaticResource HeadlineButton}" DockPanel.Dock="Top" />
-                        <TextBlock Text="TEST" />
+                    <!-- Config Options -->
+                    <DockPanel Visibility="{Binding ConfigVisibility, UpdateSourceTrigger=PropertyChanged}">
+                        <!-- own Addresses List -->
+                        <!-- Header Buttons -->
+                        <DockPanel HorizontalAlignment="Stretch" DockPanel.Dock="Top">
+                            <Button Command="{Binding OpenHelpCommand, Mode=OneWay}" CommandParameter="Mail" Content="?" Style="{StaticResource MailHelpButton}" DockPanel.Dock="Right" Margin="0 0 0 10" />
+                            <Button x:Name="mailButton" Content="{x:Static p:Resources.WELCOMESC_Mail}" Style="{StaticResource HeadlineButton}" DockPanel.Dock="Left" Margin="0 0 0 10">
+                                <Button.Triggers>
+                                    <EventTrigger RoutedEvent="ButtonBase.Click">
+                                        <BeginStoryboard Storyboard="{StaticResource mailButton}" />
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DockPanel>
+
+        <DockPanel x:Name="mails" HorizontalAlignment="Stretch" DockPanel.Dock="Top">
+            <!-- Help Texts -->
+                            <ScrollViewer DockPanel.Dock="Top" Style="{StaticResource helpText}" Visibility="{Binding HelpMailTextVisibility, UpdateSourceTrigger=PropertyChanged}">
+                                <DockPanel>
+                                    <TextBlock Text="{x:Static p:Resources.WELCOMESC_MAILHELP_WhyHeadline}" Style="{StaticResource h3}" DockPanel.Dock="Top" />
+                                    <TextBlock Text="{x:Static p:Resources.WELCOMESC_MAILHELP_Why}" Style="{StaticResource ClassicText}" DockPanel.Dock="Top" />
+                                    <TextBlock Text="{x:Static p:Resources.WELCOMESC_MAILHELP_WhereHeadline}" Style="{StaticResource h3}" DockPanel.Dock="Top" />
+                                    <TextBlock Text="{x:Static p:Resources.WELCOMESC_MAILHELP_Where}" Style="{StaticResource ClassicText}" DockPanel.Dock="Top" />
+                                    <TextBlock Text="{x:Static p:Resources.WELCOMESC_MAILHELP_NoHeadline}" Style="{StaticResource h3}" DockPanel.Dock="Top" />
+                                    <TextBlock Text="{x:Static p:Resources.WELCOMESC_MAILHELP_No}" Style="{StaticResource ClassicText}" DockPanel.Dock="Top" />
+                                </DockPanel>
+                            </ScrollViewer>
+                            <!-- Addresses list -->
+                            <ListView x:Name="mailList" ItemsSource="{Binding MailAddresses, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Top" Style="{StaticResource List}" ItemContainerStyle="{StaticResource NoListViewItem}" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                <ListView.View>
+                                    <GridView ColumnHeaderContainerStyle="{StaticResource ListHeader}">
+                                        <GridViewColumn>
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button Content="X" Command="{Binding RemoveMailCommand, Mode=OneWay}" DataContext="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DockPanel}}}" CommandParameter="{Binding ElementName=mailList}" Style="{StaticResource CancelButton}" />
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn>
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBox x:Name="oneMail" Text="{Binding MailAddress, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ListItem}" MinWidth="325"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                            <Button Content="{x:Static p:Resources.WELCOMESC_NewMail}" Command="{Binding AddMailCommand, Mode=OneWay}" CommandParameter="{Binding ElementName=OneWelcomeScreen}" DockPanel.Dock="Top" Style="{StaticResource GrayButton}" />
+                        </DockPanel>
+
+                        <!-- Learning Settings -->
+                        <DockPanel HorizontalAlignment="Stretch" DockPanel.Dock="Top" Style="{DynamicResource HeadlineButtonDock}">
+                            <Button x:Name="learnHelpButton" Command="{Binding OpenHelpCommand, Mode=OneWay}" CommandParameter="Learning" Content="?" Style="{StaticResource LearningHelpButton}" DockPanel.Dock="Right" />
+                            <Button x:Name="learnButton" Content="{x:Static p:Resources.WELCOMESC_Learning}" Style="{StaticResource HeadlineButton}" DockPanel.Dock="Top">
+                                <Button.Triggers>
+                                    <EventTrigger RoutedEvent="ButtonBase.Click">
+                                        <BeginStoryboard Storyboard="{StaticResource learnButton}" />
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DockPanel>
+
+
+                        <DockPanel x:Name="learning" HorizontalAlignment="Stretch" DockPanel.Dock="Top">
+                            <!-- Help Texts -->
+            <ScrollViewer DockPanel.Dock="Top" Style="{StaticResource helpText}" Visibility="{Binding HelpLearningTextVisibility, UpdateSourceTrigger=PropertyChanged}">
+                <DockPanel>
+                    <TextBlock Text="{x:Static p:Resources.WELCOMESC_LEARNINGHELP_WhatHeadline}" Style="{StaticResource h3}" DockPanel.Dock="Top" />
+                    <TextBlock Text="{x:Static p:Resources.WELCOMESC_LEARNINGHELP_What}" Style="{StaticResource ClassicText}" DockPanel.Dock="Top" />
+                    <TextBlock Text="{x:Static p:Resources.WELCOMESC_LEARNINGHELP_WhyHeadline}" Style="{StaticResource h3}" DockPanel.Dock="Top" />
+                    <TextBlock Text="{x:Static p:Resources.WELCOMESC_LEARNINGHELP_Why}" Style="{StaticResource ClassicText}" DockPanel.Dock="Top" />
+                    <TextBlock Text="{x:Static p:Resources.WELCOMESC_LEARNINGHELP_OftenHeadline}" Style="{StaticResource h3}" DockPanel.Dock="Top" />
+                    <TextBlock Text="{x:Static p:Resources.WELCOMESC_LEARNINGHELP_Often}" Style="{StaticResource ClassicText}" DockPanel.Dock="Top" />
+                    <TextBlock Text="{x:Static p:Resources.WELCOMESC_LEARNINGHELP_NoHeadline}" Style="{StaticResource h3}" DockPanel.Dock="Top" />
+                    <TextBlock Text="{x:Static p:Resources.WELCOMESC_LEARNINGHELP_No}" Style="{StaticResource ClassicText}" DockPanel.Dock="Top" />
+                    <TextBlock Text="{x:Static p:Resources.WELCOMESC_LEARNINGHELP_FolderHeadline}" Style="{StaticResource h3}" DockPanel.Dock="Top" />
+                    <TextBlock Text="{x:Static p:Resources.WELCOMESC_LEARNINGHELP_Folder}" Style="{StaticResource ClassicText}" DockPanel.Dock="Top" />
+                </DockPanel>
+            </ScrollViewer>
+            <!-- Learnig config -->
+                            <DockPanel HorizontalAlignment="Stretch" DockPanel.Dock="Top" />
+                            <TextBlock Text="{x:Static p:Resources.WELCOMESC_LearningConf}" Style="{StaticResource ClassicText}" DockPanel.Dock="Left" />
+                            <ComboBox DockPanel.Dock="Right" ItemContainerStyle="{StaticResource ClassicComboBoxItem}" Style="{StaticResource learningComboBox}" Template="{DynamicResource ComboBoxTemplate}" SelectedItem="{Binding SelectedLearning, Mode=TwoWay}" ItemsSource="{Binding SelectableLearning, Mode=OneTime}" />
+                        </DockPanel>
+                        <DockPanel HorizontalAlignment="Stretch" DockPanel.Dock="Top" Visibility="{Binding LearningConfTimeInterval, UpdateSourceTrigger=PropertyChanged}">
+                            <DockPanel.Style>
+                                <Style TargetType="DockPanel">
+                                    <Style.Triggers>
+                                        <Trigger Property="Visibility" Value="Visible">
+                                            <Trigger.EnterActions>
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Storyboard.TargetProperty="MaxHeight" To="100" From="0" Duration="0:0:0.150" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </Trigger.EnterActions>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DockPanel.Style>
+                            <TextBlock Text="{x:Static p:Resources.WELCOMESC_LearningConfTime}" Style="{StaticResource ClassicText}" DockPanel.Dock="Left" />
+                            <TextBox Text="{Binding LearningTimeIntervalNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource NumberTextBox}" DockPanel.Dock="Left" Padding="2 5" Height="Auto" />
+                            <TextBlock Text="/" Style="{StaticResource ClassicText}" DockPanel.Dock="Left" />
+                            <ComboBox DockPanel.Dock="Right" ItemContainerStyle="{StaticResource ClassicComboBoxItem}" Style="{StaticResource learningComboBox}" Template="{DynamicResource ComboBoxTemplate}" SelectedItem="{Binding LearningTimeInterval, Mode=TwoWay}" ItemsSource="{Binding SelectableLearningTimeInterval, Mode=OneTime}" />
+                        </DockPanel>
+
+                        <TextBlock Text="{x:Static p:Resources.WELCOMESC_LearningConfFolder}" Style="{StaticResource ClassicText}" DockPanel.Dock="Top" />
+                        <TreeView ItemsSource="{Binding MailFolders.Children}" DockPanel.Dock="Top" Style="{DynamicResource ClassicTreeView}">
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type local:ModelMailFolder}">
+                                    <CheckBox Focusable="True" VerticalAlignment="Center" Content="{Binding FolderName}" IsChecked="{Binding IsChecked}" />
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
+                        <DockPanel HorizontalAlignment="Stretch" DockPanel.Dock="Top">
+                            <TextBlock Text="{x:Static p:Resources.WELCOMESC_LearningConfWarnNiveau}" Style="{StaticResource ClassicText}" DockPanel.Dock="Left" />
+                            <ComboBox DockPanel.Dock="Right" ItemContainerStyle="{StaticResource ClassicComboBoxItem}" Style="{StaticResource ClassicComboBox}" Template="{DynamicResource ComboBoxTemplate}" SelectedItem="{Binding SelectedWarnNiveau, Mode=TwoWay}" ItemsSource="{Binding SelectableWarnNiveau, Mode=OneTime}" />
+                        </DockPanel>
+                        <TextBlock DockPanel.Dock="Top"/>
                     </DockPanel>
 
 

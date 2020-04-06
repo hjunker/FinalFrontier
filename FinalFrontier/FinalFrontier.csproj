@@ -131,6 +131,7 @@
     <Reference Include="Accessibility" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -205,6 +206,7 @@
   -->
   <ItemGroup>
     <Compile Include="Lib\ModelEMail.cs" />
+    <Compile Include="Lib\ModelMailFolder.cs" />
     <Compile Include="Lib\ModelReportMail.cs" />
     <Compile Include="Lib\ReportMail.cs" />
     <Compile Include="Lib\Scoring.cs" />
@@ -231,6 +233,11 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Properties\Resources.en-US.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.en-US1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.en-US.resx</DependentUpon>
@@ -269,7 +276,7 @@
     <EmbeddedResource Include="Properties\Resources.en-US.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
-      <LastGenOutput>Resources.en-US.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.en-US1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config">
       <SubType>Designer</SubType>

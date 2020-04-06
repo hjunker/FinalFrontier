@@ -3,8 +3,8 @@ using Microsoft.Office.Interop.Outlook;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
-using System.Globalization;
 using System.Threading;
+using System;
 
 // https://msdn.microsoft.com/en-us/library/cc668191.aspx
 // https://msdn.microsoft.com/en-us/library/microsoft.office.interop.outlook.mailitem_members.aspx
@@ -31,6 +31,7 @@ namespace FinalFrontier
         #endregion
 
         Explorer currentExplorer = null;
+        private ModelConfiguration config = ModelConfiguration.Instance;
         private Dictionary<string, int> DictSenderName = new Dictionary<string, int>();
         private Dictionary<string, int> DictSenderEmail = new Dictionary<string, int>();
         private Dictionary<string, int> DictSenderCombo = new Dictionary<string, int>();
@@ -44,19 +45,30 @@ namespace FinalFrontier
 
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
+            // Give basic information to config and check first time opened
+            config.SetStartupInformation(this.Application, "en-US");
+
+            // Show welcome screen
+            object seen;
+            config.RegistryKeys.TryGetValue("seenWelcomeScreen", out seen);
+            if ((int)seen == 0) {
+                WelcomeScreen Welcome = new WelcomeScreen();
+                Welcome.Show();
+                config.UpdateRegKeyConfig("seenWelcomeScreen", 1);
+            }
+
             tvcntr = 0;
 
             Folder root = Application.Session.DefaultStore.GetRootFolder() as Folder;
 
-            //Thread.CurrentThread.CurrentUICulture = new CultureInfo("de-DE");
-            //WelcomeScreen Welcome = new WelcomeScreen();
-            //Welcome.Show();
+
 
             // TODO: Learning
             //if ()
 
             currentExplorer = this.Application.ActiveExplorer();
             currentExplorer.SelectionChange += new ExplorerEvents_10_SelectionChangeEventHandler(CurrentExplorer_Event);
+
 
             // Give the explorer to reporting class for later reporting mails
             ReportMail.OutlookApp = this.Application;

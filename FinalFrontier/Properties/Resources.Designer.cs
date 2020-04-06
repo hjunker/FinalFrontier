@@ -182,6 +182,223 @@ namespace FinalFrontier.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Configure the learning. ähnelt.
+        /// </summary>
+        public static string WELCOMESC_Learning {
+            get {
+                return ResourceManager.GetString("WELCOMESC_Learning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die How should we learn? ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LearningConf {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LearningConf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die From which folders should we learn? ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LearningConfFolder {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LearningConfFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Which time interval? ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LearningConfTime {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LearningConfTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Day ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LearningConfTimeDay {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LearningConfTimeDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Month ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LearningConfTimeMonth {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LearningConfTimeMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Week ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LearningConfTimeWeek {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LearningConfTimeWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die High ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LearningConfWarnHigh {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LearningConfWarnHigh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Low ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LearningConfWarnLow {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LearningConfWarnLow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die On which niveau should we warn? ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LearningConfWarnNiveau {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LearningConfWarnNiveau", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Normal ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LearningConfWarnNormal {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LearningConfWarnNormal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The only folder, you should not select is the inbox. Because if  you select this folder, only the messages you receive after the learning process is completed will be analyzed correctly. Your current inbox not getting scanned then. But if you don´t use subfolders as much and leave most of your mailes in the inbox, we can learn from this folder, too.
+        ///The other folders getting different scores. While &quot;Trash&quot; is neutral, mails in &quot;Spam&quot; getting pretty negative values. &quot;Sent&quot; on the other side has positive sco [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LEARNINGHELP_Folder {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LEARNINGHELP_Folder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Which foulders shall I select? ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LEARNINGHELP_FolderHeadline {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LEARNINGHELP_FolderHeadline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Yes, you can use our tool without learning. But it is - especially in the beginning - possible then, that FinalFrontier &quot;detects&quot; malicious mails which are absolutly valid. Therefore we DON´T RECOMMEND this setting.  ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LEARNINGHELP_No {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LEARNINGHELP_No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Is it possible to use FinalFrontier without learning?? ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LEARNINGHELP_NoHeadline {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LEARNINGHELP_NoHeadline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die We recommend the iterative learning with every incoming mail. The only case that you should select &quot;on a regular basis&quot; is if you leave mails in your inbox for a long time. We recommend learning once a week then. ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LEARNINGHELP_Often {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LEARNINGHELP_Often", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die How and how often should this tool learn? ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LEARNINGHELP_OftenHeadline {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LEARNINGHELP_OftenHeadline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die In the process of learning our tool iterates through all your specified mailboxes and folders. Thus we know the individual history of your mailing activities. ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LEARNINGHELP_What {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LEARNINGHELP_What", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die What is &quot;learning&quot;? ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LEARNINGHELP_WhatHeadline {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LEARNINGHELP_WhatHeadline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Jede E-Mail wird betrachtet. Schlüsselinformationen, wie z.B. Sender, Empfänger oder Betreff, werden extrahiert und lokal gespeichert. Dabei bekommen die Eigenschaften verschiedene Bewertungen. Tritt eine Sender-Empfänger-Kombination z.B. häufiger auf, bekommt sie eine bessere Punktzahl. Gleichzeitig bekommen z.B. die Mails im Spam-Ordner eine besonders schlechte Bewertung. Dadurch kennt das Tools bei jedem Nutzer das Mailverhalten und kann anhand dessen genauer den Schadgehalt von neu eintreffenden Mails b [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LEARNINGHELP_Why {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LEARNINGHELP_Why", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die How does the learning work? ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LEARNINGHELP_WhyHeadline {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LEARNINGHELP_WhyHeadline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die From every incoming mail ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LearningIterative {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LearningIterative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Disable learning ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LearningNo {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LearningNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die On a regular basis ähnelt.
+        /// </summary>
+        public static string WELCOMESC_LearningRegulary {
+            get {
+                return ResourceManager.GetString("WELCOMESC_LearningRegulary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Enter your Mail adresses. ähnelt.
         /// </summary>
         public static string WELCOMESC_Mail {
@@ -191,7 +408,62 @@ namespace FinalFrontier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Add an address ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Yes, it is possible. But FinalFrontier´s performance in detecting malware is impaired from that, so we DON´T RECOMMEND leaving this fields blank. ähnelt.
+        /// </summary>
+        public static string WELCOMESC_MAILHELP_No {
+            get {
+                return ResourceManager.GetString("WELCOMESC_MAILHELP_No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Is it possible to enter no addresses? ähnelt.
+        /// </summary>
+        public static string WELCOMESC_MAILHELP_NoHeadline {
+            get {
+                return ResourceManager.GetString("WELCOMESC_MAILHELP_NoHeadline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die On startup of Outlook we get your addresses from your accounts which are configured in Outlook. Please correct them, if they are not correct. If you don´t want one of this addresses to be checked, feel free to delete it. ähnelt.
+        /// </summary>
+        public static string WELCOMESC_MAILHELP_Where {
+            get {
+                return ResourceManager.GetString("WELCOMESC_MAILHELP_Where", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die How do we know the pre-filled addresses? ähnelt.
+        /// </summary>
+        public static string WELCOMESC_MAILHELP_WhereHeadline {
+            get {
+                return ResourceManager.GetString("WELCOMESC_MAILHELP_WhereHeadline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die We analyze your E-Mails with a rating algorithm. To know your addresses is important for calculating the best results possible.
+        ///For example, if an email was sent from one of your Mail addresses, this mail get a higher score. ähnelt.
+        /// </summary>
+        public static string WELCOMESC_MAILHELP_Why {
+            get {
+                return ResourceManager.GetString("WELCOMESC_MAILHELP_Why", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Why should we know your E-Mail addresses? ähnelt.
+        /// </summary>
+        public static string WELCOMESC_MAILHELP_WhyHeadline {
+            get {
+                return ResourceManager.GetString("WELCOMESC_MAILHELP_WhyHeadline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die + Address ähnelt.
         /// </summary>
         public static string WELCOMESC_NewMail {
             get {
@@ -214,6 +486,26 @@ namespace FinalFrontier.Properties {
         public static string WELCOMESC_Settings {
             get {
                 return ResourceManager.GetString("WELCOMESC_Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The configuration is blocked due to your domain settings. Changes you make here will not be saved.
+        ///We show you the configuration anyway, so you can understand FinalFrontier´s mode of operation and you see the current configuration.
+        ///For more details please contact your administrator. ähnelt.
+        /// </summary>
+        public static string WELCOMESC_WARNING_Blocked {
+            get {
+                return ResourceManager.GetString("WELCOMESC_WARNING_Blocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Warning! ähnelt.
+        /// </summary>
+        public static string WELCOMESC_WARNING_BlockedHeadline {
+            get {
+                return ResourceManager.GetString("WELCOMESC_WARNING_BlockedHeadline", resourceCulture);
             }
         }
         

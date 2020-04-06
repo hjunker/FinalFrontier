@@ -14,17 +14,32 @@ namespace FinalFrontier
         }
         private bool isCorrectMail = false;
 
+        public bool IsDefaultEMail
+        {
+            get { return isDefaultEMail; }
+            set { SetProperty(ref isDefaultEMail, value); }
+        }
+        private bool isDefaultEMail = false;
+
         public string MailAddress
         {
             get { return mailAddress; }
             set
             {
                 IsCorrectEMail = IsValidEmail(value) ? true : false;
+                IsDefaultEMail = value == defaultMailAddress ? true : false;
                 SetProperty(ref mailAddress, value);
             }
         }
         string mailAddress;
 
+        static string defaultMailAddress = "example@me.com";
+
+
+        public ModelEMail()
+        {
+            MailAddress = defaultMailAddress;
+        }
         public ModelEMail(string mail)
         {
             MailAddress = mail;

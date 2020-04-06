@@ -2,14 +2,19 @@
                          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- Always used -->
-    <SolidColorBrush x:Key="darkBlue" Color="#003399" /> <!-- NOT CURRENTLY USED IN ALL ANIMATIONS-->
+    <SolidColorBrush x:Key="darkBlue" Color="#003399" /> <!-- NOT CURRENTLY USED IN ALL ANIMATIONS, animaitons in slider and headline button effect and some animations in welcome screen-->
     <SolidColorBrush x:Key="lightBlue" Color="#668cff" />
+    <SolidColorBrush x:Key="middleGrey" Color="#999999" />
     <SolidColorBrush x:Key="darkGrey" Color="#444444" />
     <SolidColorBrush x:Key="lightGrey" Color="#EEEEEE" />
     <SolidColorBrush x:Key="falseInput" Color="#F23F3F" />
+    <SolidColorBrush x:Key="lightYellow" Color="#EEEEAA" />
+
+    <!-- NOT USed in Combobox-->
+    <Path x:Key="Arrow" Data="F1M181.297,177.841L181.205,177.746 181.385,177.563 202.804,156.146 202.804,135.07 178.497,159.373 170.847,167.026 170.666,167.205 163.107,159.653 138.804,135.345 138.804,156.42 160.219,177.841 170.76,188.379 181.297,177.841z" Fill="{StaticResource darkGrey}"  RenderTransformOrigin="0.5,0.5"  Stretch="Uniform" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Height="8" />
 
 
-    <!-- Animations -->
+    <!-- Animations -->  
     <Storyboard x:Key="inMainButton">
         <ColorAnimation Storyboard.TargetProperty="BorderBrush.Color" To="#003399" Duration="0:0:0.150" />
         <ColorAnimation Storyboard.TargetProperty="Foreground.Color" To="#003399" Duration="0:0:0.150" />
@@ -32,16 +37,108 @@
         <DoubleAnimation To="50" Duration="0:0:0.300" Storyboard.TargetProperty="MinWidth" />
     </Storyboard>
 
-    <Storyboard x:Key="ListItemFalseInput">
-        <DoubleAnimation To="350" Duration="0:0:0.300" Storyboard.TargetProperty="Width" />
+    <Storyboard x:Key="inHeadlineButtonDock">
+        <ColorAnimation Duration="0:0:0.150" To="#FF668cff" Storyboard.TargetProperty="(Effect).Color" />
+    </Storyboard>
+
+    <Storyboard x:Key="outHeadlineButtonDock">
+        <ColorAnimation Duration="0:0:0.150" To="#FF444444" Storyboard.TargetProperty="(Effect).Color" />
+    </Storyboard>
+
+    <Storyboard x:Key="inGrayButton">
+        <ColorAnimation To="#999999" Duration="0:0:0.150" Storyboard.TargetProperty="Background.Color" />
+        <ColorAnimation To="#003399" Duration="0:0:0.150" Storyboard.TargetProperty="Foreground.Color" />
+    </Storyboard>
+
+    <Storyboard x:Key="outGrayButton">
+        <ColorAnimation To="#EEEEEE" Duration="0:0:0.150" Storyboard.TargetProperty="Background.Color" />
+        <ColorAnimation To="#668cff" Duration="0:0:0.150" Storyboard.TargetProperty="Foreground.Color" />
+    </Storyboard>
+
+    <Storyboard x:Key="inWarningButton">
+        <ColorAnimation To="#999999" Duration="0:0:0.150" Storyboard.TargetProperty="Background.Color" />
+        <ColorAnimation To="#000000" Duration="0:0:0.150" Storyboard.TargetProperty="Foreground.Color" />
+    </Storyboard>
+
+    <Storyboard x:Key="outWarningButton">
+        <ColorAnimation To="#EEEEAA" Duration="0:0:0.150" Storyboard.TargetProperty="Background.Color" />
+        <ColorAnimation To="#000000" Duration="0:0:0.150" Storyboard.TargetProperty="Foreground.Color" />
+    </Storyboard>
+
+    <Storyboard x:Key="inCancelButton">
+        <ColorAnimation To="#F23F3F" Duration="0:0:0.150" Storyboard.TargetProperty="Foreground.Color" />
+    </Storyboard>
+
+    <Storyboard x:Key="outCancelButton">
+        <ColorAnimation To="#444444" Duration="0:0:0.150" Storyboard.TargetProperty="Foreground.Color" />
+    </Storyboard>
+
+
+    <Storyboard x:Key="inHelpText">
+        <DoubleAnimation Duration="0:0:0.450" To="250" From="0" Storyboard.TargetProperty="MaxHeight" />
+        <DoubleAnimation Duration="0:0:0.300" To="1" From="0" Storyboard.TargetProperty="Opacity" />
+    </Storyboard>
+
+    <Storyboard x:Key="outHelpText">
+        <DoubleAnimation Duration="0:0:0.450" To="0" From="250" Storyboard.TargetProperty="MaxHeight" />
+        <DoubleAnimation Duration="0:0:0.300" To="0" From="1" Storyboard.TargetProperty="Opacity" />
+    </Storyboard>
+
+    <Storyboard x:Key="inWarningText">
+        <DoubleAnimation Storyboard.TargetProperty="MaxHeight" From="0" To="400" Duration="0:0:0.300" />
+        <ThicknessAnimation Storyboard.TargetProperty="Margin" From="10 2.5" To="10" Duration="0:0:0.300" />
+    </Storyboard>
+    
+    <Storyboard x:Key="outWarningText">
+        <DoubleAnimation Storyboard.TargetProperty="MaxHeight" From="400" To="0" Duration="0:0:0.300" />
+        <ThicknessAnimation Storyboard.TargetProperty="Margin" From="10" To="10 2.5" Duration="0:0:0.300" />
+    </Storyboard>
+
+
+    <Storyboard x:Key="newListViewItem">
+        <DoubleAnimation To="37" From="0"  Duration="0:0:0.150" Storyboard.TargetProperty="Height" />
+    </Storyboard>
+
+    <Storyboard x:Key="newListTextBox">
+        <DoubleAnimation Duration="0:0:0.300" To="200" Storyboard.TargetProperty="MinWidth" />
+    </Storyboard>
+
+    <Storyboard x:Key="inListItemFocused">
+        <DoubleAnimation To="325" From="200" Duration="0:0:0.300" Storyboard.TargetProperty="MinWidth" />
+    </Storyboard>
+
+    <Storyboard x:Key="outListItemFocused">
+        <DoubleAnimation To="200" Duration="0:0:0.300" Storyboard.TargetProperty="MinWidth" />
+    </Storyboard>
+
+    <Storyboard x:Key="inListItemFalseInput">
         <ColorAnimation To="#F23F3F" Duration="0:0:0.150"  Storyboard.TargetProperty="BorderBrush.Color" />
         <ThicknessAnimation To="1.5" Duration="0:0:0.150"  Storyboard.TargetProperty="BorderThickness" />
     </Storyboard>
 
-    <Storyboard x:Key="ListItemCorrectInput">
-        <DoubleAnimation To="200" Duration="0:0:0.300" Storyboard.TargetProperty="Width" />
+    <Storyboard x:Key="outListItemFalseInput">
         <ColorAnimation To="#444444" Duration="0:0:0.150"  Storyboard.TargetProperty="BorderBrush.Color" />
         <ThicknessAnimation To="0.5" Duration="0:0:0.150"  Storyboard.TargetProperty="BorderThickness" />
+    </Storyboard>
+
+    <Storyboard x:Key="inListItemCorrectInput">
+        <ColorAnimation To="#EEEEEE" Storyboard.TargetProperty="Background.Color" Duration="0:0:0.150" />
+        <ColorAnimation To="#444444" Duration="0:0:0.150"  Storyboard.TargetProperty="BorderBrush.Color" />
+        <DoubleAnimation To="50" Storyboard.TargetProperty="MinWidth" Duration="0:0:0.300" />
+    </Storyboard>
+
+    <Storyboard x:Key="outListItemCorrectInput">
+        <ColorAnimation To="#FFFFFF" Storyboard.TargetProperty="Background.Color" Duration="0:0:0.150" />
+        <DoubleAnimation To="200" Storyboard.TargetProperty="MinWidth" Duration="0:0:0.300" />
+    </Storyboard>
+
+    
+    <Storyboard x:Key="inTextBox">
+        <ColorAnimation Storyboard.TargetProperty="Background.Color" To="White" Duration="0:0:0.150" />
+    </Storyboard>
+
+    <Storyboard x:Key="outTextBox">
+        <ColorAnimation Storyboard.TargetProperty="Background.Color" To="#EEEEEE" Duration="0:0:0.150" />
     </Storyboard>
 
 
@@ -62,46 +159,227 @@
         <Setter Property="CornerRadius" Value="5" />
     </Style>
 
+    <Style x:Key="WarningWindow" TargetType="Border" BasedOn="{StaticResource MainBorder}">
+        <Setter Property="Background" Value="{StaticResource lightYellow}" />
+        <Setter Property="Margin" Value="0 0 0 15" />
+    </Style>
+
+    <Style x:Key="HeadlineButtonDock" TargetType="DockPanel">
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Direction="90" ShadowDepth="5" Color="#444444" Opacity="0.2"/>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource inHeadlineButtonDock}" />
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard Storyboard="{StaticResource outHeadlineButtonDock}" />
+                </Trigger.ExitActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+    <!-- Scroller -->
+    <Style x:Key="ClassicScroll" TargetType="{x:Type ScrollViewer}">
+        <Setter Property="Background" Value="{StaticResource lightGrey}" />
+    </Style>
     
+    <Style TargetType="{x:Type ScrollBar}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="Width" Value="Auto"/>
+                <Setter Property="Height" Value="16px" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ScrollBar}">
+                            <Border BorderBrush="{StaticResource darkGrey}" BorderThickness="0.5 0 0 0" Background="Transparent">
+                                <Track x:Name="PART_Track">
+                                    <Track.Thumb>
+                                        <Thumb>
+                                            <Thumb.Template>
+                                                <ControlTemplate>
+                                                    <Border x:Name="slider" BorderThickness="3" CornerRadius="3" BorderBrush="{StaticResource middleGrey}" Height="6px" Margin="3">
+                                                        <Thumb />
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Trigger.EnterActions>
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <ColorAnimation Storyboard.TargetName="slider" Storyboard.TargetProperty="BorderBrush.Color" To="#999999" Duration="0:0:0.150" />
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </Trigger.EnterActions>
+                                                            <Trigger.ExitActions>
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <ColorAnimation Storyboard.TargetName="slider" Storyboard.TargetProperty="BorderBrush.Color" To="#4444" Duration="0:0:0.150" />
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </Trigger.ExitActions>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Thumb.Template>
+                                        </Thumb>
+                                    </Track.Thumb>
+                                </Track>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="Width" Value="16px" />
+                <Setter Property="Height" Value="Auto" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ScrollBar}">
+                            <Border BorderBrush="{StaticResource darkGrey}" BorderThickness="0.5 0 0 0" Background="Transparent">
+                                <Track x:Name="PART_Track" IsDirectionReversed="true">
+                                    <Track.Thumb>
+                                        <Thumb>
+                                            <Thumb.Template>
+                                                <ControlTemplate>
+                                                    <Border x:Name="slider" BorderThickness="3" CornerRadius="3" BorderBrush="{StaticResource middleGrey}" Width="6px" Margin="3">
+                                                        <Thumb />
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Trigger.EnterActions>
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <ColorAnimation Storyboard.TargetName="slider" Storyboard.TargetProperty="BorderBrush.Color" To="#999999" Duration="0:0:0.150" />
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </Trigger.EnterActions>
+                                                            <Trigger.ExitActions>
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <ColorAnimation Storyboard.TargetName="slider" Storyboard.TargetProperty="BorderBrush.Color" To="#4444" Duration="0:0:0.150" />
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </Trigger.ExitActions>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Thumb.Template>
+                                        </Thumb>
+                                    </Track.Thumb>
+                                </Track>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+
     <!-- Texts -->
     <Style x:Key="ClassicText" TargetType="TextBlock">
-        <Setter Property="Control.FontSize" Value="16px" />
+        <Setter Property="FontSize" Value="16px" />
         <Setter Property="TextWrapping" Value="Wrap" />
-        <Setter Property="Control.Margin" Value="10" />
+        <Setter Property="Margin" Value="10" />
     </Style>
 
     <Style x:Key="h1" TargetType="TextBlock" BasedOn="{StaticResource ClassicText}">
-        <Setter Property="Control.FontWeight" Value="Bold" />
-        <Setter Property="Control.FontSize" Value="48px" />
-        <Setter Property="Control.Margin" Value="0 0 0 10" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="48px" />
+        <Setter Property="Margin" Value="0 0 0 10" />
     </Style>
 
     <Style x:Key="h2" TargetType="TextBlock" BasedOn="{StaticResource ClassicText}" >
-        <Setter Property="Control.FontSize" Value="20px" />
+        <Setter Property="FontSize" Value="20px" />
+        <Setter Property="Margin" Value="10 0" />
     </Style>
 
     <Style x:Key="h3" TargetType="TextBlock" BasedOn="{StaticResource ClassicText}" >
-        <Setter Property="Control.FontWeight" Value="Bold" />
+        <Setter Property="FontWeight" Value="Bold" />
     </Style>
 
     <Style x:Key="Footnote" TargetType="TextBlock" BasedOn="{StaticResource ClassicText}">
-        <Setter Property="Control.FontSize" Value="10px" />
-        <Setter Property="Control.Foreground" Value="{StaticResource darkGrey}" />
-        <Setter Property="Control.Margin" Value="0 10 0 0" />
+        <Setter Property="FontSize" Value="10px" />
+        <Setter Property="Foreground" Value="{StaticResource darkGrey}" />
+        <Setter Property="Margin" Value="0 10 0 0" />
     </Style>
+
+    <Style x:Key="helpText" TargetType="ScrollViewer">
+        <Setter Property="Opacity" Value="0" />
+        <Setter Property="MaxHeight" Value="0px" />
+        <Setter Property="Margin" Value="0" />
+        <Style.Triggers>
+            <Trigger Property="Visibility" Value="Visible">
+                <Trigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource inHelpText}" />
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard Storyboard="{StaticResource outHelpText}" />
+                </Trigger.ExitActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="ClassicTextBox" TargetType="TextBox">
+        <Setter Property="MinWidth" Value="20" />
+        <Setter Property="Margin" Value="0 5" />
+        <Setter Property="Height" Value="27" />
+        <Setter Property="BorderBrush" Value="{StaticResource darkGrey}" />
+        <Setter Property="BorderThickness" Value="0.5" />
+        <Setter Property="Padding" Value="2" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
+                        <DockPanel>
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" Margin="{TemplateBinding Padding}" DockPanel.Dock="Left" />
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource inTextBox}" />
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard Storyboard="{StaticResource outTextBox}" />
+                </Trigger.ExitActions>
+            </Trigger>
+            <Trigger Property="IsKeyboardFocused" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource inTextBox}" />
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard Storyboard="{StaticResource outTextBox}" />
+                </Trigger.ExitActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
 
     <!-- Buttons -->
     <Style TargetType="Button" x:Key="ClassicButton">
-        <Setter Property="Control.Height" Value="25" />
-        <Setter Property="Control.Width" Value="100" />
-        <Setter Property="Control.FontSize" Value="16" />
-        <Setter Property="Control.Margin" Value="0 10" />
-        <Setter Property="Control.Background" Value="White" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Height" Value="25" />
+        <Setter Property="Width" Value="100" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Margin" Value="0 10" />
+        <Setter Property="Background" Value="White" />
         <Setter Property="BorderBrush" Value="White" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-
         <!-- Overwrite default animations to use own -->
         <Setter Property="Template">
             <Setter.Value>
@@ -114,39 +392,10 @@
         </Setter>
     </Style>
 
-    <Style x:Key="HeadlineButton" TargetType="Button" BasedOn="{StaticResource ClassicButton}">
-        <Setter Property="Control.FontWeight" Value="Bold" />
-        <Setter Property="Control.Background" Value="{StaticResource lightGrey}" />
-        <Setter Property="Foreground" Value="Black" />
-        <Setter Property="Height" Value="35" />
-        <Setter Property="Width" Value="Auto" />
-        <Setter Property="HorizontalContentAlignment" Value="Left" />
-        <Setter Property="BorderThickness" Value="0 1 0 0" />
-        <Setter Property="Control.FontSize" Value="20" />
-        <Setter Property="BorderBrush" Value="{StaticResource darkGrey}" />
-        <Setter Property="Padding" Value="10 0" />
-        <Setter Property="Margin" Value="0" />
-
-        <Setter Property="Effect">
-            <Setter.Value>
-                <DropShadowEffect Direction="90" ShadowDepth="5" Color="#FF444444" Opacity="0.2"/>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    
-    <Style x:Key="GrayButton" TargetType="Button" BasedOn="{StaticResource ClassicButton}">
-        <Setter Property="Foreground" Value="{StaticResource lightBlue}" />
-        <Setter Property="Background" Value="{StaticResource lightGrey}" />
-        <Setter Property="HorizontalAlignment" Value="Left" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Margin" Value="10" />
-    </Style>
-
     <Style x:Key="MainButton" TargetType="Button" BasedOn="{StaticResource ClassicButton}">
         <Setter Property="HorizontalAlignment" Value="Right" />
         <Setter Property="Background" Value="{StaticResource lightBlue}" />
         <Setter Property="Control.Foreground" Value="White" />
-
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Trigger.EnterActions>
@@ -162,7 +411,6 @@
     <Style x:Key="SecondButton" TargetType="Button" BasedOn="{StaticResource ClassicButton}">
         <Setter Property="Control.Foreground" Value="{StaticResource lightBlue}" />
         <Setter Property="Control.Width" Value="Auto" />
-
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
@@ -170,7 +418,6 @@
                 </DataTemplate>
             </Setter.Value>
         </Setter>
-
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Trigger.EnterActions>
@@ -182,8 +429,245 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+    <Style x:Key="HeadlineButton" TargetType="Button" BasedOn="{StaticResource ClassicButton}">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Background" Value="{StaticResource lightGrey}" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Height" Value="35" />
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Padding" Value="10 0" />
+    </Style>
+
+    <Style x:Key="GrayButton" TargetType="Button" BasedOn="{StaticResource ClassicButton}">
+        <Setter Property="Foreground" Value="{StaticResource lightBlue}" />
+        <Setter Property="Background" Value="{StaticResource lightGrey}" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="10" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource inGrayButton}" />
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard Storyboard="{StaticResource outGrayButton}" />
+                </Trigger.ExitActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="GrayHelpButton" TargetType="Button" BasedOn="{StaticResource GrayButton}">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="Margin" Value="0 10" />
+        <Setter Property="Cursor" Value="Help" />
+        <Setter Property="Height" Value="35" />
+        <Setter Property="Width" Value="35" />
+        <Setter Property="FontSize" Value="20" />
+    </Style>
+    
+    <Style x:Key="WarningButton" TargetType="Button" BasedOn="{StaticResource GrayHelpButton}">
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Background" Value="{StaticResource lightYellow}" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Width" Value="30" />
+        <Setter Property="Height" Value="Auto" />
+        <Setter Property="Content" Value="{StaticResource Arrow}" />
+        <Setter Property="RenderTransformOrigin" Value="0.5 0.5" />
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <RotateTransform Angle="180" />
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+        <Trigger Property="IsMouseOver" Value="True">
+            <Trigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource inWarningButton}" />
+                </Trigger.EnterActions>
+            <Trigger.ExitActions>
+                    <BeginStoryboard Storyboard="{StaticResource outWarningButton}" />
+            </Trigger.ExitActions>
+        </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="CancelButton" TargetType="Button" BasedOn="{StaticResource GrayButton}">
+        <Setter Property="Margin" Value="0 5 5 5" />
+        <Setter Property="Foreground" Value="{StaticResource darkGrey}" />
+        <Setter Property="Width" Value="27" />
+        <Setter Property="Height" Value="27" />
+        <Setter Property="FontSize" Value="18" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource inCancelButton}" />
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard Storyboard="{StaticResource outCancelButton}" />
+                </Trigger.ExitActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     
     <!-- Lists -->
+    <Style x:Key="List" TargetType="{x:Type ListView}">
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="{StaticResource lightGrey}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="10 0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListView}">
+                    <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="ListHeader" TargetType="{x:Type GridViewColumnHeader}">
+        <Setter Property="Visibility" Value="Collapsed" />
+    </Style>
+
+    <Style x:Key="NoListViewItem" TargetType="{x:Type ListViewItem}">
+        <!-- for 0 Padding in Cells see command in Code-Behind -->
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                        <GridViewRowPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard Storyboard="{StaticResource newListViewItem}" />
+                        </EventTrigger>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter Property="IsSelected" Value="True"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    
+    <!-- ComboBox Style -->
+    <ControlTemplate x:Key="ComboBoxTemplate" TargetType="{x:Type ComboBox}">
+        <Grid x:Name="templateRoot" SnapsToDevicePixels="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="18"/>
+            </Grid.ColumnDefinitions>
+
+            <Popup x:Name="PART_Popup" AllowsTransparency="True" Grid.ColumnSpan="2" IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="Fade" Placement="Center" Width="{Binding ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType=ComboBox}}">
+                <Border x:Name="DropDownBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="White" CornerRadius="5">
+                    <ScrollViewer x:Name="DropDownScrollViewer">
+                        <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    </ScrollViewer>
+                </Border>
+            </Popup>
+            <ToggleButton x:Name="toggleButton" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                <ToggleButton.Style>
+                    <Style TargetType="{x:Type ToggleButton}">
+                        <Setter Property="OverridesDefaultStyle" Value="True"/>
+                        <Setter Property="IsTabStop" Value="False"/>
+                        <Setter Property="Focusable" Value="False"/>
+                        <Setter Property="ClickMode" Value="Press"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                    <Border x:Name="templateRoot" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True" CornerRadius="5" Background="{TemplateBinding Background}">
+                                        <Path Data="F1M181.297,177.841L181.205,177.746 181.385,177.563 202.804,156.146 202.804,135.07 178.497,159.373 170.847,167.026 170.666,167.205 163.107,159.653 138.804,135.345 138.804,156.42 160.219,177.841 170.76,188.379 181.297,177.841z" Fill="{StaticResource darkGrey}"  RenderTransformOrigin="0.5,0.5"  Stretch="Uniform" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Center" Height="8" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ToggleButton.Style>
+            </ToggleButton>
+            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" Content="{TemplateBinding SelectionBoxItem}" ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}" HorizontalAlignment="Left" IsHitTestVisible="False" Margin="5" VerticalAlignment="Center"/>
+        </Grid>
+    </ControlTemplate>
+
+    <Style x:Key="ClassicComboBoxItem" TargetType="{x:Type ComboBoxItem}">
+
+    </Style>
+
+    <Style x:Key="ClassicComboBox" TargetType="ComboBox">
+        <Setter Property="BorderBrush" Value="{StaticResource darkGrey}" />
+        <Setter Property="BorderThickness" Value="0.5" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Margin" Value="10 1.5" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="{StaticResource lightGrey}" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource inTextBox}" />
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard Storyboard="{StaticResource outTextBox}" />
+                </Trigger.ExitActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    
+    <!-- TreeView -->
+    <Style x:Key="ClassicTreeView" TargetType="{x:Type TreeView}">
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="BorderBrush" Value="{StaticResource darkGrey}"/>
+        <Setter Property="BorderThickness" Value="0.5"/>
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TreeView}">
+                    <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5" SnapsToDevicePixels="true">
+                        <ItemsPresenter Margin="{TemplateBinding Padding}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="VirtualizingPanel.IsVirtualizing" Value="true">
+                <Setter Property="ItemsPanel">
+                    <Setter.Value>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel/>
+                        </ItemsPanelTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+
 
     <!--OLD-->
     <Style x:Key="UserInput" TargetType="TextBox">

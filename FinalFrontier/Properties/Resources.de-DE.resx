@@ -134,17 +134,119 @@ Probier es aus!
 
 Im Folgenden werden wir dich durch die Konfiguration führen und verschiedene Beispiele zeigen.</value>
   </data>
+  <data name="WELCOMESC_Learning" xml:space="preserve">
+    <value>Konfiguriere das Lernen.</value>
+  </data>
+  <data name="WELCOMESC_LearningConf" xml:space="preserve">
+    <value>Wie sollen wir lernen?</value>
+  </data>
+  <data name="WELCOMESC_LearningConfFolder" xml:space="preserve">
+    <value>Aus welchen Ordnern soll gelernt werden?</value>
+  </data>
+  <data name="WELCOMESC_LearningConfTime" xml:space="preserve">
+    <value>Mit welchem Zeitabstand?</value>
+  </data>
+  <data name="WELCOMESC_LearningConfTimeDay" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="WELCOMESC_LearningConfTimeMonth" xml:space="preserve">
+    <value>Monat</value>
+  </data>
+  <data name="WELCOMESC_LearningConfTimeWeek" xml:space="preserve">
+    <value>Woche</value>
+  </data>
+  <data name="WELCOMESC_LearningConfWarnHigh" xml:space="preserve">
+    <value>Hoch</value>
+  </data>
+  <data name="WELCOMESC_LearningConfWarnLow" xml:space="preserve">
+    <value>Niedrig</value>
+  </data>
+  <data name="WELCOMESC_LearningConfWarnNiveau" xml:space="preserve">
+    <value>Wie empfindlich?</value>
+  </data>
+  <data name="WELCOMESC_LearningConfWarnNormal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="WELCOMESC_LEARNINGHELP_Folder" xml:space="preserve">
+    <value>Der einzige Ornder, der nicht ausgewählt werden sollte, ist der Posteingang. Denn wenn der Ordner zum Lernen benutzt wird, so werden erst die mails bewertet, welche nach dem abgeschlossenen Lern-Vorgang ankommen. Alle aktuell im Posteingang befindlichen Mails bekommen eine falsche Bewertung. Wenn du jedoch kaum Ordner verwendest und sich die meisten Mails im Posteingang befinden, dann solltest du diesen trotzdem zum Lernen freigeben.
+Aus den anderen Ordnern kannst du lernen lassen, wie du denkst, dass es sinnvoll ist. "Spam" bekommt dabei eine negative Bewertung, Mails in "Gesendet" eine positive. Die anderen Ordner werden neutral betrachtet.</value>
+  </data>
+  <data name="WELCOMESC_LEARNINGHELP_FolderHeadline" xml:space="preserve">
+    <value>Welche Ordner sollte ich auswählen?</value>
+  </data>
+  <data name="WELCOMESC_LEARNINGHELP_No" xml:space="preserve">
+    <value>Ja, auch eine Nutzung des Tools ohne vorheriges Lernen ist möglich. Dadurch kann es jedoch passieren, dass - besonders am Anfang - sehr viele Mails als potenziell bösartig eingestuft werden, welche es nicht sind. Daher wird diese Einstellung NICHT EMPFOHLEN.</value>
+  </data>
+  <data name="WELCOMESC_LEARNINGHELP_NoHeadline" xml:space="preserve">
+    <value>Funktioniert FinalFrontier auch ohne Lernen?</value>
+  </data>
+  <data name="WELCOMESC_LEARNINGHELP_Often" xml:space="preserve">
+    <value>Wir empfehlen das Lernen mit jeder eintreffenden EMail. Nur, wenn deine Emails lange im Posteingang verweilen, solltest du das Lernen in regelmäßigen Abständen aktivieren. Dann empfehlen wir einmal pro Woche.</value>
+    <comment>Weil "jede eintreffende Mail": erst nach wegsortieren der Mail
+"regelmäßig" auch aus dem Posteingang, alles was schon geöffnet wurde. </comment>
+  </data>
+  <data name="WELCOMESC_LEARNINGHELP_OftenHeadline" xml:space="preserve">
+    <value>Wie und wie häufig sollte das Tool lernen?</value>
+  </data>
+  <data name="WELCOMESC_LEARNINGHELP_What" xml:space="preserve">
+    <value>Beim Lernen iteriert FinalFrontier durch alle Mails der angegebenen Postfächer und Ordner. Dadurch kennt das Tool die Historie der E-Mails.</value>
+  </data>
+  <data name="WELCOMESC_LEARNINGHELP_WhatHeadline" xml:space="preserve">
+    <value>Was ist "Lernen"?</value>
+  </data>
+  <data name="WELCOMESC_LEARNINGHELP_Why" xml:space="preserve">
+    <value>Jede E-Mail wird betrachtet. Schlüsselinformationen, wie z.B. Sender, Empfänger oder Betreff, werden extrahiert und lokal gespeichert. Dabei bekommen die Eigenschaften verschiedene Bewertungen. Tritt eine Sender-Empfänger-Kombination z.B. häufiger auf, bekommt sie eine bessere Punktzahl. Gleichzeitig bekommen z.B. die Mails im Spam-Ordner eine besonders schlechte Bewertung. Dadurch kennt das Tools bei jedem Nutzer das Mailverhalten und kann anhand dessen genauer den Schadgehalt von neu eintreffenden Mails bestimmen.</value>
+  </data>
+  <data name="WELCOMESC_LEARNINGHELP_WhyHeadline" xml:space="preserve">
+    <value>Wie funktioniert das Lernen?</value>
+  </data>
+  <data name="WELCOMESC_LearningIterative" xml:space="preserve">
+    <value>eingehende Mail</value>
+  </data>
+  <data name="WELCOMESC_LearningNo" xml:space="preserve">
+    <value>deaktiviert</value>
+  </data>
+  <data name="WELCOMESC_LearningRegulary" xml:space="preserve">
+    <value>regelmäßige Abstände</value>
+  </data>
   <data name="WELCOMESC_Mail" xml:space="preserve">
     <value>Was sind deine Mailadressen?</value>
   </data>
+  <data name="WELCOMESC_MAILHELP_No" xml:space="preserve">
+    <value>Ja, es ist möglich. Dadurch wird jedoch die Detektionsleistung von FinalFrontier beeinträchtigt. Deshalb ist dieses Vorgehen NICHT EMPFOHLEN.</value>
+  </data>
+  <data name="WELCOMESC_MAILHELP_NoHeadline" xml:space="preserve">
+    <value>Ist es möglich, keine Addressen anzugeben?</value>
+  </data>
+  <data name="WELCOMESC_MAILHELP_Where" xml:space="preserve">
+    <value>Die Addressen werden beim Start von Outlook aus deinen dort hinterlegten Accounts ausgelesen. Falls eine davon nicht korrekt sein sollte, korrigiere diese bitte. Wenn du eine E-Mail nicht mit aufgenommen haben möchtest, kannst du sie gerne löschen.</value>
+  </data>
+  <data name="WELCOMESC_MAILHELP_WhereHeadline" xml:space="preserve">
+    <value>Woher kommen die vorausgefüllten Addressen?</value>
+  </data>
+  <data name="WELCOMESC_MAILHELP_Why" xml:space="preserve">
+    <value>Unsere Analyse der E-Mails basiert auf einem Bewertungsalgorithmus. Um die bestmöglichste Bewertung einer E-Mail gewähren zu können, ist es wichtig, deine Addressen zu kennen.
+Kommt z.B. eine Nachricht von einem Account mit dieser E-Mail, bekommt sie eine bessere Bewertung.</value>
+  </data>
+  <data name="WELCOMESC_MAILHELP_WhyHeadline" xml:space="preserve">
+    <value>Warum sollten wir deine E-Mail Addressen kennen?</value>
+  </data>
   <data name="WELCOMESC_NewMail" xml:space="preserve">
-    <value>Addresse hinzufügen</value>
+    <value>+ Addresse</value>
   </data>
   <data name="WELCOMESC_Next" xml:space="preserve">
     <value>Weiter</value>
   </data>
   <data name="WELCOMESC_Settings" xml:space="preserve">
     <value>Einstellungen</value>
+  </data>
+  <data name="WELCOMESC_WARNING_Blocked" xml:space="preserve">
+    <value>Die Konfiguration ist aufgrund der lokalen Domänen-Einstellungen gesperrt. Änderungen, die du vornimmst, werden nicht gespeichert.
+Damit du die Arbeitsweise von FinalFrontier besser verstehen kannst und dir die aktuellen Einstellungen einmal anschauen kannst, zeigen wir dir die Konfiguration trotzdem.
+Für mehr Details kontaktiere bitte deinen Systemadministrator.</value>
+  </data>
+  <data name="WELCOMESC_WARNING_BlockedHeadline" xml:space="preserve">
+    <value>Warnung!</value>
   </data>
   <data name="WELCOMESC_Website" xml:space="preserve">
     <value>Website</value>
