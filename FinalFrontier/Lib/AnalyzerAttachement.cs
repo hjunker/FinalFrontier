@@ -27,7 +27,7 @@ namespace FinalFrontier
                 }
             };
 
-            if (attachments == null)
+            if (attachments == null || attachments.Count == 0)
                 return null;
 
             foreach (Attachment attachment in attachments)

@@ -122,7 +122,7 @@ namespace FinalFrontier
                 }
             }
 
-            if (!learnLib.getMailId().Contains(mailItem.EntryID))
+            if (!learnLib.getMailId().Contains(mailItem.EntryID) && !mailItem.EntryID.StartsWith("TestId"))
                 learnLib.LearnMail(mailItem, true);
 
             score = results.Sum(x => x.score);

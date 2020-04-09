@@ -356,7 +356,9 @@
     <None Include="Resources\Link.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SecInfo.png" />
+    <None Include="Resources\SecInfo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Sender.png" />

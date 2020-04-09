@@ -84,13 +84,16 @@ namespace FinalFrontier
 
             try
             {
-                testfile.SaveAsFile(tmpPath);
+                if (testfile.Size > 0)
+                {
+                    testfile.SaveAsFile(tmpPath);
 
-                byte[] filehash = sha.ComputeHash(File.OpenRead(tmpPath));
-                string filehashstr = BitConverter.ToString(filehash).Replace("-", string.Empty);
+                    byte[] filehash = sha.ComputeHash(File.OpenRead(tmpPath));
+                    string filehashstr = BitConverter.ToString(filehash).Replace("-", string.Empty);
 
-                if (config.BadHashesSha256.Contains(filehashstr))            
-                    result.Add(new CheckResult(id, "sha256", filehashstr, -100));
+                    if (config.BadHashesSha256.Contains(filehashstr))
+                        result.Add(new CheckResult(id, "sha256", filehashstr, -100));
+                }
             }
             catch (System.Exception)
             {

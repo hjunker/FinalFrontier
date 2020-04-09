@@ -44,7 +44,6 @@ namespace FinalFrontierLearnLib
             return result;
         }
 
-
         public void WriteHashSet(HashSet<string> hashSet, string file)
         {
             if (hashSet.Count == 0)
